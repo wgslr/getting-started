@@ -9,6 +9,7 @@
 
 ### Prerequesites 
 1) All scenarios are prepared as docker images. A linux system with docker 1.9.1 or greater is required to run them. 
+
 2) Depending on the scenarion you might need to create an account on onedata.org.
 
 ### Quickstart Scenarios
