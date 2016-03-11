@@ -36,7 +36,7 @@ Configure Oneprovider yourself and support your space.
 Basic setup: OneZone, Oneprovider and Oneclient
 Configure a complete Onedata deployment. 
 
-##### Scenario 4
+##### Scenario 5
 Complex setup: OneZone, with two single-node Oneproviders and Oneclient
 Configure a complete Onedata deployment with two providers supportign your space.
 
