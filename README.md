@@ -14,6 +14,7 @@ The proper installation of Onedata requirers one or more public ip addresses in 
 - those that does not require public ip addresses, but make it necessary to installation of all Onedata components
 - those that require public ip addresses and allow does not require to install all the components.
 
+All scenarios are designed to work on a single machine running multiple docker containers. A machine with localy installed docker is recomended. If you want to use docker-machine with remote host running docker please read [here](here). 
 
 #### With Public IP
 Scenarios in this section require that machine(s) you deploy Onedata on have public ip addresses in order to properly communicated with onedata.org
@@ -43,7 +44,7 @@ Configure a complete Onedata deployment with two multi-node providers supportign
 
 
 > Zalozenia:
-> User uruchamia to na localhoscie.
+
 
 > This document intends to help users to get started with Onedata.
 > It presents various scenarios of trying out Onedata begining with simple, preconfigured demos; ending with highly advanced multi-cluster setups.
