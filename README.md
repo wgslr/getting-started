@@ -23,25 +23,25 @@ All scenarios are designed to work on a single machine running multiple docker c
 Scenarios in this section require that machine(s) you deploy Onedata on have public ip addresses in order to properly communicated with onedata.org
 
 ##### Scenario 1
-Pre-configured Oneprovider with Oneclient
+Pre-configured Oneprovider with Oneclient.
 Try Onedata hands on in a couple of minutes.
 
 ##### Scenario 2 
-Oneprovider with Oneclient
+Oneprovider with Oneclient.
 Configure Oneprovider yourself and support your space.
 
 #### Without Public IP
 
 ##### Scenario 3
-Basic setup: OneZone, Oneprovider and Oneclient
+Basic setup: OneZone, Oneprovider and Oneclient.
 Configure a complete Onedata deployment. 
 
 ##### Scenario 5
-Complex setup: OneZone, with two single-node Oneproviders and Oneclient
+Complex setup: OneZone, with two single-node Oneproviders and Oneclient.
 Configure a complete Onedata deployment with two providers supportign your space.
 
 ##### Scenario 4
-Complex setup: OneZone, with two multi-node Oneproviders clisters and Oneclient
+Complex setup: OneZone, with two multi-node Oneproviders clisters and Oneclient.
 Configure a complete Onedata deployment with two multi-node providers supportign your space.
 
 
