@@ -1,1 +1,70 @@
+version: '2.0'
+services:
+  oz:
+    image: docker.onedata.org/globalregistry:3.0.0.alpha.2.g69d0e5b
+    restart: always
+    hostname: onedata.org
+    networks:
+      - onedata
 
+  op1.node1.localhost.local:
+    image: docker.onedata.org/oneprovider:3.0.0.aplha.1.gbd15cdb
+    restart: always
+    hostname: op1.node1.localhost.local
+    links:
+      - oz:onedata.org
+    networks:
+      - op1netowrk
+
+  op1.node2.localhost.local:
+    image: docker.onedata.org/oneprovider:3.0.0.aplha.1.gbd15cdb
+    restart: always
+    hostname: op1.node2.localhost.local
+    links:
+      - oz:onedata.org
+    networks:
+      - op1netowrk
+
+  op2.node1.localhost.local:
+    image: docker.onedata.org/oneprovider:3.0.0.aplha.1.gbd15cdb
+    restart: always
+    hostname: op2.node1.localhost.local
+    links:
+      - oz:onedata.org
+    networks:
+      - op2netowrk
+
+  op2.node2.localhost.local:
+    image: docker.onedata.org/oneprovider:3.0.0.aplha.1.gbd15cdb
+    restart: always
+    hostname: op2.node2.localhost.local
+    links:
+      - oz:onedata.or
+    networks:
+      - op2netowrk
+
+networks:
+  onedata:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/24
+          gateway: 172.30.0.1
+          ip_range: 172.30.0.0/30
+  op1netowrk:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.1.0/24
+          gateway: 172.30.1.1
+          ip_range: 172.30.1.0/30
+  op2netowrk:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.2.0/24
+          gateway: 172.30.2.1
+          ip_range: 172.30.2.0/30
