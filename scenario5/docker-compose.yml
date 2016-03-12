@@ -1,4 +1,4 @@
-# to run
+# Example manual run: 
 # OZ_VERSION=3.0.0.alpha2 OP_VERSION=3.0.0.alpha2 CLIENT_VERSION=3.0.0.alpha.16.g616480e NETWORK=172.30 docker-compose up
 version: '2.0'
 
