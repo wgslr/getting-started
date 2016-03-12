@@ -11,6 +11,12 @@
 1. All scenarios are prepared as docker images. A linux system with docker 1.9.1 or greater is required to run them. 
 2. Depending on the scenarion you might need to create an account on onedata.org.
 
+### Repository structure
+
+1. `env` - definitions of enrironment variables used by in docker-compose.yml files
+2. `scenarioX` directories, each containing a `docker-compose.yml`
+3. `client` directory, containing instruction on using onedata client image
+
 ### Quickstart Scenarios
 
 The proper installation of Onedata requirers one or more public ip addresses in order to properly communicate with onedata.org. Following scenarios are divided into two categories:
