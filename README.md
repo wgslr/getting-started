@@ -19,11 +19,16 @@ The proper installation of Onedata requirers one or more public ip addresses in 
 
 All scenarios are designed to work on a single machine running multiple docker containers. A machine with localy installed docker is recomended. If you want to use docker-machine with remote host running docker please read [here](here). 
 
-In order to execute following scenarios please clone the [quickstart repository](https://github.com/onedata/quickstart). Each scenario directory coresponds to one of the described scenarios. In each directory you will find two files: 
-- `run.sh`, which executes the scenario using docker-compose 
-- `docker-compose.yml`, a docker-compose configuration file which specifies the scenario setup.
+In order to execute following scenarios please clone the [quickstart repository](https://github.com/onedata/quickstart). Each scenario directory coresponds to one of the described scenarios. In each directory you will find a `docker-compose.yml`, which is a docker-compose configuration specifying the scenario setup.
+
+In order to run any of the scenarion you need to:
+
+1. Execute `source env`, where `env` is a file located in repository root
+2. Navigate to particular scenario directory and execute `docker-compose up`
 
 In the top directory you will also find a `cleanup.sh` script. That will help you shutdown and remove Onedata containers and images from your system. 
+
+
 
 #### With Public IP
 Scenarios in this section require that machine(s) you deploy Onedata on have public ip addresses in order to properly communicated with onedata.org
