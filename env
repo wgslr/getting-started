@@ -1,0 +1,12 @@
+# Onezone image version
+OZ_VERSION=3.0.0.alpha2
+# Onepanel image version
+OP_VERSION=3.0.0.alpha2
+# Oneclient image version
+CLIENT_VERSION=3.0.0.alpha.16.g616480e
+
+# First 2 octet of networks that will be created for tutorial scenarios
+# in some cases docker internal  network conflicts with host network environment 
+# If you experience any connectivity issues change the second value of the address
+# eg. 172.40
+NETWORK=172.30
