@@ -1,47 +1,60 @@
 version: '2.0'
+
 services:
   oz:
-    image: docker.onedata.org/globalregistry:3.0.0.alpha.2.g69d0e5b
+    image: docker.onedata.org/globalregistry:3.0.0.${OZ_VERSION}
     restart: always
     hostname: onedata.org
     networks:
       - onedata
 
   op1.node1.localhost.local:
-    image: docker.onedata.org/oneprovider:3.0.0.aplha.1.gbd15cdb
+    image: docker.onedata.org/oneprovider:3.0.0.${OP_VERSION}
     restart: always
     hostname: op1.node1.localhost.local
     links:
       - oz:onedata.org
     networks:
-      - op1netowrk
+      - op1network
 
   op1.node2.localhost.local:
-    image: docker.onedata.org/oneprovider:3.0.0.aplha.1.gbd15cdb
+    image: docker.onedata.org/oneprovider:3.0.0.${OP_VERSION}
     restart: always
     hostname: op1.node2.localhost.local
     links:
       - oz:onedata.org
     networks:
-      - op1netowrk
+      - op1network
 
   op2.node1.localhost.local:
-    image: docker.onedata.org/oneprovider:3.0.0.aplha.1.gbd15cdb
+    image: docker.onedata.org/oneprovider:3.0.0.${OP_VERSION}
     restart: always
     hostname: op2.node1.localhost.local
     links:
       - oz:onedata.org
     networks:
-      - op2netowrk
+      - op2network
 
   op2.node2.localhost.local:
-    image: docker.onedata.org/oneprovider:3.0.0.aplha.1.gbd15cdb
+    image: docker.onedata.org/oneprovider:3.0.0.${OP_VERSION}
     restart: always
     hostname: op2.node2.localhost.local
     links:
-      - oz:onedata.or
+      - oz:onedata.org
     networks:
-      - op2netowrk
+      - op2network
+
+  client:
+    hostname: client.localhost.local
+    image: docker.onedata.org/oneclient:3.0.0.alpha.${CLIENT_VERSION}
+    restart: always
+    privileged: true
+    links:
+      - oz
+    environment:
+      - PROVIDER_HOSTNAME=op1.node1.localhost.local
+    networks:
+      - onedata
 
 networks:
   onedata:
@@ -52,7 +65,7 @@ networks:
         - subnet: 172.30.0.0/24
           gateway: 172.30.0.1
           ip_range: 172.30.0.0/30
-  op1netowrk:
+  op1network:
     driver: bridge
     ipam:
       driver: default
@@ -60,7 +73,7 @@ networks:
         - subnet: 172.30.1.0/24
           gateway: 172.30.1.1
           ip_range: 172.30.1.0/30
-  op2netowrk:
+  op2network:
     driver: bridge
     ipam:
       driver: default
