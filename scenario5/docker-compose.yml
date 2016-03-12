@@ -1,3 +1,5 @@
+# to run
+# OZ_VERSION=alpha2 OP_VERSION=alpha2 CLIENT_VERSION=alpha.16.g616480e docker-compose up
 version: '2.0'
 
 services:
@@ -46,7 +48,7 @@ services:
 
   client:
     hostname: client.localhost.local
-    image: docker.onedata.org/oneclient:3.0.0.alpha.${CLIENT_VERSION}
+    image: docker.onedata.org/oneclient:3.0.0.${CLIENT_VERSION}
     restart: always
     privileged: true
     links:
