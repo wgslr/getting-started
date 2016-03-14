@@ -1,1 +1,45 @@
+# Scenario description:
+# Procinfigured local oneprovider installation.
+# OneZone with one, single-node oneprovider.
+#
+# Example manual run: 
+# OZ_VERSION=3.0.0.alpha2 OP_VERSION=3.0.0.alpha2 NETWORK=172.30 docker-compose up
+version: '2.0'
 
+services:
+  oz:
+    #here we need to mount a config file in the OZ container
+    image: docker.onedata.org/globalregistry:${OZ_VERSION}
+    restart: always
+    hostname: onedata.org
+    networks:
+      - onedata
+
+  op1.node1.localhost.local:
+    #here we need to mount a config file in the OP container
+    image: docker.onedata.org/oneprovider:${OP_VERSION}
+    restart: always
+    hostname: op1.node1.localhost.local
+    links:
+      - oz:onedata.org
+    networks:
+      - op1network
+
+networks:
+  onedata:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${NETWORK}.0.0/24
+          gateway: ${NETWORK}.0.1
+          ip_range: ${NETWORK}.0.0/30
+  op1network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${NETWORK}.1.0/24
+          gateway: ${NETWORK}.1.1
+          ip_range: ${NETWORK}.1.0/30
+ 
