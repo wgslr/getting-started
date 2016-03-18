@@ -15,13 +15,13 @@
 
 
 ### Accessing Spaces
-In each scenario you will deploy a Oneprovider which can be used to support your space. If you are not familiar with the concept of Spaces read the (Overview)[] and (Space support)[] sections in the documentation. After supporting you space you will be able to access them using a webinterface or oneclient.
+In each scenario you will deploy a Oneprovider which can be used to support your space. If you are not familiar with the concept of Spaces read the [Overview](a) and [Space support](a) sections in the documentation. After supporting you space you will be able to access them using a webinterface or oneclient.
 
 #### With Webinterface
-Refer to the documentation of [webiterface]() for further instructions.
+Refer to the documentation of [webiterface](a) for further instructions.
 
 #### With Oneclient
-In `oneclient` directory you will find a `oneclient.sh` script that will allow to use oneclient using a docker image just like regular oneclient command. Please refer to (oneclient documentation)[] page.
+In `oneclient` directory you will find a `oneclient.sh` script that will allow to use oneclient using a docker image just like regular oneclient command. Please refer to [oneclient documentation](a) page.
 
 >TODO: Byc moze wspomniec od PROVIDER_HOSTNAME.
 
