@@ -2,7 +2,7 @@
 # Procinfigured local oneprovider installation.
 # OneZone with one, single-node oneprovider.
 #
-# Example manual run: 
+# Example manual run:
 # OZ_VERSION=3.0.0.alpha2 OP_VERSION=3.0.0.alpha2 NETWORK=172.30 docker-compose up
 version: '2.0'
 
@@ -42,4 +42,3 @@ networks:
         - subnet: ${NETWORK}.1.0/24
           gateway: ${NETWORK}.1.1
           ip_range: ${NETWORK}.1.0/30
- 
