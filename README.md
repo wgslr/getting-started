@@ -45,7 +45,7 @@ user: admin
 password: password
 ```
 
-#### Scenarios requiering a public ip
+#### Scenarios Requiering a Public IP
 Scenarios in this section require that machine(s) you deploy Onedata on have public ip addresses in order to properly communicated with onedata.org
 
 ##### Scenario 1
@@ -67,7 +67,7 @@ In order to run it execute `run.sh --scenario 2` command.
 Navigate to `https://172.30.1.1:9443` enter Onepanel credentials and proceed with the installation wizard.
 After finishing the installation navigate to onedata.org, login into your account and support your space using provider you just installed. After that you will be able to manage your space with webinterface via. onedata.org or with oneclient.
 
-#### Without Public IP
+#### Localhost Scenarios
 Scenarios in this section require you to configure your own OneZone. Oneproviders will communicate with local OneZone instead connecting to onedata.org.
 
 ##### Scenario 3
