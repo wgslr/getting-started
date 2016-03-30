@@ -11,12 +11,11 @@ services:
   onezone:
     image: docker.onedata.org/onezone:${ONEZONE_VERSION}
     restart: always
-    hostname: onedata.org
+    command: "bash -c 'sed -i s/onepanel@127.0.0.1/onepanel@`hostname -f`/g /etc/oz_panel/vm.args ; service oz_panel start ; oz_panel_admin --install /root/configs/onezone.yml ; curl -s -u admin:password -X POST http://localhost:8091/pools/default -d memoryQuota=512 ; /root/run.sh'"
+    hostname: node.onedata.org
     volumes:
       - "./configs:/root/configs"
       - "./files:/root/files"
-    networks:
-      - onedata
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEPANEL_BATCH_MODE_CONFIG: "/root/configs/onezone.yml"
@@ -24,33 +23,13 @@ services:
   oneprovider:
     image: docker.onedata.org/oneprovider:${ONEPROVIDER_VERSION}
     restart: always
-    hostname: localhost.localdomain
+    hostname: node.dev.local
     volumes:
       - "./configs:/root/configs"
       - "./files:/root/files"
       - "/mnt/data:/mnt/data"
     links:
       - onezone:onedata.org
-    networks:
-      - oneprovider
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEPANEL_BATCH_MODE_CONFIG: "/root/configs/oneprovider.yml"
-
-networks:
-  onedata:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: ${NETWORK}.0.0/24
-          gateway: ${NETWORK}.0.1
-          ip_range: ${NETWORK}.0.0/30
-  oneprovider:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: ${NETWORK}.1.0/24
-          gateway: ${NETWORK}.1.1
-          ip_range: ${NETWORK}.1.0/30
