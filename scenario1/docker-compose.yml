@@ -3,27 +3,39 @@
 # OneZone with one, single-node oneprovider.
 #
 # Example manual run:
-# OZ_VERSION=3.0.0.alpha2 OP_VERSION=3.0.0.alpha2 NETWORK=172.30 docker-compose up
+# ONEZONE_VERSION=3.0.0.alpha2 ONEPROVIDER_VERSION=3.0.0.alpha2 docker-compose up
+
 version: '2.0'
 
 services:
-  oz:
-    #here we need to mount a config file in the OZ container
-    image: docker.onedata.org/globalregistry:${OZ_VERSION}
+  onezone:
+    image: docker.onedata.org/onezone:${ONEZONE_VERSION}
     restart: always
     hostname: onedata.org
+    volumes:
+      - "./configs:/root/configs"
+      - "./files:/root/files"
     networks:
       - onedata
+    environment:
+      ONEPANEL_BATCH_MODE: "true"
+      ONEPANEL_BATCH_MODE_CONFIG: "/root/configs/onezone.yml"
 
-  op1.node1.localhost.local:
-    #here we need to mount a config file in the OP container
-    image: docker.onedata.org/oneprovider:${OP_VERSION}
+  oneprovider:
+    image: docker.onedata.org/oneprovider:${ONEPROVIDER_VERSION}
     restart: always
-    hostname: op1.node1.localhost.local
+    hostname: localhost.localdomain
+    volumes:
+      - "./configs:/root/configs"
+      - "./files:/root/files"
+      - "/mnt/data:/mnt/data"
     links:
-      - oz:onedata.org
+      - onezone:onedata.org
     networks:
-      - op1network
+      - oneprovider
+    environment:
+      ONEPANEL_BATCH_MODE: "true"
+      ONEPANEL_BATCH_MODE_CONFIG: "/root/configs/oneprovider.yml"
 
 networks:
   onedata:
@@ -34,7 +46,7 @@ networks:
         - subnet: ${NETWORK}.0.0/24
           gateway: ${NETWORK}.0.1
           ip_range: ${NETWORK}.0.0/30
-  op1network:
+  oneprovider:
     driver: bridge
     ipam:
       driver: default
