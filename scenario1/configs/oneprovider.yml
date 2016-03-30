@@ -1,10 +1,10 @@
 # oneprovider configuration that will be used by the container
 
 cluster:
-  domain_name: "localdomain"
+  domain_name: "dev.local"
   nodes:
     node:
-      hostname: "localhost"
+      hostname: "node"
 
   manager:
     default_node: "node"
@@ -30,6 +30,7 @@ cluster:
 oneprovider:
   register: true
   name: "provider"
+  redirection_point: "https://node.dev.local"
   geo_longitude: 19.945
   geo_latitude: 50.0647
 

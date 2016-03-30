@@ -1,10 +1,10 @@
 # onezone configuration that will be used by the container
 
 cluster:
-  domain_name: "org"
+  domain_name: "onedata.org"
   nodes:
     node:
-      hostname: "onedata"
+      hostname: "node"
 
   manager:
     default_node: "node"
