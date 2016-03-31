@@ -6,7 +6,7 @@ export ONEZONE_VERSION=VFS-1804
 # Onepanel image version
 export ONEPROVIDER_VERSION=VFS-1804
 # Oneclient image version
-export CLIENT_VERSION=3.0.0.alpha.16.g616480e
+export ONECLIENT_VERSION=ID-221cf2c6e6
 
 # First 2 octet of networks that will be created for tutorial scenarios
 # in some cases docker internal  network conflicts with host network environment 

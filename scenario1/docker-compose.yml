@@ -11,7 +11,6 @@ services:
   onezone:
     image: docker.onedata.org/onezone:${ONEZONE_VERSION}
     restart: always
-    command: "bash -c 'sed -i s/onepanel@127.0.0.1/onepanel@`hostname -f`/g /etc/oz_panel/vm.args ; service oz_panel start ; oz_panel_admin --install /root/configs/onezone.yml ; curl -s -u admin:password -X POST http://localhost:8091/pools/default -d memoryQuota=512 ; /root/run.sh'"
     hostname: node.onedata.org
     volumes:
       - "./configs:/root/configs"
@@ -33,3 +32,15 @@ services:
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEPANEL_BATCH_MODE_CONFIG: "/root/configs/oneprovider.yml"
+
+  oneclient:
+    image: docker.onedata.org/oneclient:${ONECLIENT_VERSION}
+    privileged: true
+    volumes:
+      - "/mnt/data:/mnt/data"
+    links:
+      - onezone:onedata.org
+      - oneprovider:node.dev.local
+    environment:
+      PROVIDER_HOSTNAME: node.dev.local
+      ONECLIENT_AUTHORIZATION_TOKEN: $ONECLIENT_AUTHORIZATION_TOKEN
