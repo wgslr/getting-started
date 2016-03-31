@@ -16,6 +16,7 @@ services:
   onezone:
     image: docker.onedata.org/onezone:${ONEZONE_VERSION}
     restart: always
+    command: "bash -c 'sed -i s/onepanel@127.0.0.1/onepanel@`hostname -f`/g /etc/oz_panel/vm.args ; service oz_panel start ; oz_panel_admin --install /root/configs/onezone.yml ; curl -s -u admin:password -X POST http://localhost:8091/pools/default -d memoryQuota=512 ; /root/run.sh'"
     hostname: onedata.org
     links:
       - file-server:file-server
@@ -61,6 +62,7 @@ services:
     networks:
       - oneprovider
       - onedata
+
     environment:
       ONEPANEL_BATCH_MODE: 'true'
       ONEPROVIDER_CONFIG: |
@@ -101,9 +103,9 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: ${NETWORK}.0.0/24
-          gateway: ${NETWORK}.0.1
-          ip_range: ${NETWORK}.0.0/30
+        - subnet: ${NETWORK}.100.0/24
+          gateway: ${NETWORK}.100.1
+          ip_range: ${NETWORK}.100.0/30
   oneprovider:
     driver: bridge
     ipam:
