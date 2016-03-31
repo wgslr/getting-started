@@ -16,10 +16,11 @@ services:
   onezone:
     image: docker.onedata.org/onezone:${ONEZONE_VERSION}
     restart: always
-    privileged: true
-    hostname: node1.onedata.org
+    hostname: node.onedata.org
     links:
       - file-server:file-server
+    networks:
+      - onedata
     environment:
       ONEPANEL_BATCH_MODE: 'true'
       ONEZONE_CONFIG: |
@@ -27,7 +28,7 @@ services:
           domain_name: "onedata.org"
           nodes:
             node:
-              hostname: "node1"
+              hostname: "node"
           manager:
             default_node: "node"
             nodes:
@@ -48,48 +49,37 @@ services:
         onezone:
           name: "example"
 
-  node1.oneprovider:
+  oneprovider:
     image: docker.onedata.org/oneprovider:${ONEPROVIDER_VERSION}
     restart: always
-    privileged: true
-    hostname: node1.dev.local
+    hostname: localhost.localdomain
     volumes:
       - "/mnt/data:/mnt/data"
     links:
       - onezone:onedata.org
       - file-server:file-server
+    networks:
+      - oneprovider
+      - onedata
 
-  node2.oneprovider:
-    image: docker.onedata.org/oneprovider:${ONEPROVIDER_VERSION}
-    restart: always
-    privileged: true
-    hostname: node2.dev.local
-    volumes:
-      - "/mnt/data:/mnt/data"
-    links:
-      - onezone:onedata.org
-      - file-server:file-server
-      - node1.oneprovider:node1.dev.local
     environment:
       ONEPANEL_BATCH_MODE: 'true'
       ONEPROVIDER_CONFIG: |
         cluster:
-          domain_name: "dev.local"
+          domain_name: "localdomain"
           nodes:
-            node1:
-              hostname: "node1"
-            node2:
-              hostname: "node2"
+            node:
+              hostname: "localhost"
           manager:
-            default_node: "node2"
+            default_node: "node"
             nodes:
-              - "node2"
+              - "node"
           worker:
             nodes:
-              - "node2"
+              - "node"
           database:
             nodes:
-              - "node1"
+              - "node"
           storage:
             NFS:
               type: "POSIX"
@@ -105,3 +95,21 @@ services:
           geo_latitude: 50.0647
         onezone:
           domain_name: "onedata.org"
+
+networks:
+  onedata:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${NETWORK}.100.0/24
+          gateway: ${NETWORK}.100.1
+          ip_range: ${NETWORK}.100.0/30
+  oneprovider:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${NETWORK}.1.0/24
+          gateway: ${NETWORK}.1.1
+          ip_range: ${NETWORK}.1.0/30

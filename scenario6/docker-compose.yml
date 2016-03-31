@@ -1,6 +1,6 @@
 # Scenario description:
-# Multi-provider, single-node Onedata, local OneZone (no public ip needed).
-# OneZone with two separate oneprovider instances (each in each own private subnetwork), each having one node.
+# Multi-provider, multi-node Onedata, local OneZone (no public ip needed).
+# OneZone with two separate oneprovider instances (each in each own private subnetwork), each having two nodes.
 #
 # Example manual run:
 # OZ_VERSION=3.0.0.alpha2 OP_VERSION=3.0.0.alpha2 CLIENT_VERSION=3.0.0.alpha.16.g616480e NETWORK=172.30 docker-compose up
@@ -23,10 +23,28 @@ services:
     networks:
       - op1network
 
+  op1.node2.localhost.local:
+    image: docker.onedata.org/oneprovider:${OP_VERSION}
+    restart: always
+    hostname: op1.node2.localhost.local
+    links:
+      - oz:onedata.org
+    networks:
+      - op1network
+
   op2.node1.localhost.local:
     image: docker.onedata.org/oneprovider:${OP_VERSION}
     restart: always
     hostname: op2.node1.localhost.local
+    links:
+      - oz:onedata.org
+    networks:
+      - op2network
+
+  op2.node2.localhost.local:
+    image: docker.onedata.org/oneprovider:${OP_VERSION}
+    restart: always
+    hostname: op2.node2.localhost.local
     links:
       - oz:onedata.org
     networks:
