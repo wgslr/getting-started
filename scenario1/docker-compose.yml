@@ -37,9 +37,9 @@ services:
     image: docker.onedata.org/oneclient:${ONECLIENT_VERSION}
     privileged: true
     volumes:
-      - "/mnt/data:/mnt/data"
+      - /tmp/oneclient:/root/.local/share/oneclient
+      - /mnt/oneclient:/mnt/oneclient
     links:
-      - onezone:onedata.org
       - oneprovider:node.dev.local
     environment:
       PROVIDER_HOSTNAME: node.dev.local
