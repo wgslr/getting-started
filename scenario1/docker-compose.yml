@@ -1,6 +1,6 @@
 # Scenario description:
 # Procinfigured local oneprovider installation.
-# OneZone with one, single-node oneprovider.
+# Onezone with one, single-node oneprovider.
 #
 # Example manual run:
 # ONEZONE_VERSION=3.0.0.alpha2 ONEPROVIDER_VERSION=3.0.0.alpha2 docker-compose up
