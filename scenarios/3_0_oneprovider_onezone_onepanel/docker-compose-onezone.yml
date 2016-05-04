@@ -2,5 +2,5 @@ version: '2.0'
 
 services:
   node1.onezone.dev.local:
-    image: onedata/onezone:VFS-1990
+    image: onedata/onezone:3.0.0-beta3
     hostname: node1.onezone.dev.local

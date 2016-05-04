@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.oneprovider.dev.local:
-    image: onedata/oneprovider:VFS-1990
+    image: onedata/oneprovider:3.0.0-beta3
     hostname: node1.oneprovider.dev.local
     volumes: # shared volume required for mulit-node storage access verification
       - /tmp/data:/tmp/data
@@ -14,7 +14,7 @@ services:
       - "9443:9443"
       - "8443:8443"
   node2.oneprovider.dev.local:
-    image: onedata/oneprovider:VFS-1990
+    image: onedata/oneprovider:3.0.0-beta3
     hostname: node2.oneprovider.dev.local
     volumes: # shared volume required for mulit-node storage access verification
       - /tmp/data:/tmp/data
