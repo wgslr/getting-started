@@ -1,7 +1,0 @@
-#/bin/bash
-
-# This script needs to serve to cases
-# 1) connect to local container with oz
-# 2) connect to onedata.org
-
-docker run -it --privileged --entrypoint bash --link oz:onedata.org —-link op e PROVIDER_HOSTNAME=op docker.onedata.org/oneclient:3.0.0.alpha.16.g616480e

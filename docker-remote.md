@@ -7,3 +7,4 @@ In order to acess drocker private network on the remote machine you may use simp
 Since the port forwarding and browsher connection configuration is outside the scope of this documentation we provide few helpfull links:
 - http://askubuntu.com/questions/469582/how-do-i-set-up-a-local-socks-proxy-that-tunnels-traffic-through-ssh
 - https://arliguy.net/2013/06/18/proxy-socks-via-ssh-pour-firefox/
+/Users/orzech/repos/onedata/onedata-getting-started/docker-compose-oneprovider.yml

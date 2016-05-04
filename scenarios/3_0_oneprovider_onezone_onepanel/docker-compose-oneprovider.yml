@@ -1,0 +1,6 @@
+version: '2.0'
+
+services:
+  node1.oneprovider.dev.local:
+    image: onedata/oneprovider:VFS-1990
+    hostname: node1.oneprovider.dev.local
