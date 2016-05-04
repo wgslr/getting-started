@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.oneprovider.dev.local:
-    image: onedata/oneprovider:VFS-1990
+    image: onedata/oneprovider:3.0.0-beta3
     hostname: node1.oneprovider.dev.local
     environment:
       ONEPANEL_BATCH_MODE: "true"
