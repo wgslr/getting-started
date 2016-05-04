@@ -1,0 +1,8 @@
+version: '2.0'
+
+  oneclient:
+    image: docker.onedata.org/oneclient:VFS-1990
+    privileged: true
+    environment:
+      PROVIDER_HOSTNAME: $PROVIDER_HOSTNAME
+      ONECLIENT_AUTHORIZATION_TOKEN: $ONECLIENT_AUTHORIZATION_TOKEN

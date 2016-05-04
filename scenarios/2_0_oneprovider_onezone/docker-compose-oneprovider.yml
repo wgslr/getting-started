@@ -1,0 +1,34 @@
+version: '2.0'
+
+services:
+  node1.oneprovider.dev.local:
+    image: onedata/oneprovider:VFS-1990
+    hostname: node1.oneprovider.dev.local
+    environment:
+      ONEPANEL_BATCH_MODE: "true"
+      ONEPROVIDER_CONFIG: |
+        cluster:
+          domain_name: "oneprovider.dev.local"
+          nodes:
+            node1:
+              hostname: "node1"
+          manager:
+            default_node: "node1"
+            nodes:
+              - "node1"
+          worker:
+            nodes:
+              - "node1"
+          database:
+            nodes:
+              - "node1"
+          storage:
+            NFS:
+              type: "POSIX"
+              mount_point: "/tmp"
+        oneprovider:
+          register: true
+          name: "example"
+          redirection_point: "https://node1.oneprovider.dev.local"
+        onezone:
+          domain_name: "node1.onezone.dev.local"
