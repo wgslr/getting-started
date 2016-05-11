@@ -13,8 +13,5 @@ services:
       - "8876"
       - "8877"
       - "9443"
-    environment:
-      ONEPANEL_BATCH_MODE: "true"
-      ONEPROVIDER_CONFIG: |
-        onezone:
-          domain_name: "node1.onezone.dev.local"
+    extra_hosts:
+      - "node1.onezone.dev.local:${ONEZONE_IP}"

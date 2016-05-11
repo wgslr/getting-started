@@ -10,7 +10,7 @@ die() {
 
 # As the name suggests
 usage() {
-  echo "Usage: ${0##*/}  [-h] [ --onezone  | --oneprovider ] [ -n  | --node ]
+  echo "Usage: ${0##*/}  [-h] [ --onezone  | --oneprovider ] [ --onezone_ip ] [ -n  | --node ]
 
 This script starts Onedata components:
 
@@ -30,6 +30,7 @@ Options:
 main() {
   local n=1
   local service
+  local onezone_ip
 
   while [[ $# > 0 ]]; do
       case $1 in
@@ -45,6 +46,10 @@ main() {
               ;;
           -n|--node)       # specify service name
               n=$2
+              shift
+              ;;
+          --onezone_ip)
+              onezone_ip=$2
               shift
               ;;
           -?*)
@@ -65,7 +70,7 @@ main() {
   echo -e "${RED}IMPORTANT: After each start wait for a message: ${GREEN}Congratulations! ${service} has been successfully started.${RESET}"
   echo -e "${RED}To ensure that the ${service} is completely setup.${RESET}"
 
-  docker-compose -f "docker-compose-${service}.yml" up "node${n}.${service}.dev.local"
+  ONEZONE_IP="$onezone_ip" docker-compose -f "docker-compose-${service}.yml" up "node${n}.${service}.dev.local"
  
   
 }
