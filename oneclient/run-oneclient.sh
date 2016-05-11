@@ -60,7 +60,7 @@ main() {
               exit 1
               ;;
           *)
-              die "no opntion ${flag}"
+              die "no option ${flag}"
               ;;
       esac
       shift
