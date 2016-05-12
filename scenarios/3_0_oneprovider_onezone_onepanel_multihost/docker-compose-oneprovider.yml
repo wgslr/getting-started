@@ -1,9 +1,9 @@
 version: '2.0'
 
 services:
-  node1.oneprovider.dev.local:
+  node1.oneprovider.onedata.example.com:
     image: onedata/oneprovider:3.0.0-beta3
-    hostname: node1.oneprovider.dev.local
+    hostname: node1.oneprovider.onedata.example.com
     ports:
       - "53"
       - "80"
@@ -14,4 +14,4 @@ services:
       - "8877"
       - "9443"
     extra_hosts:
-      - "node1.onezone.dev.local:${ONEZONE_IP}"
+      - "node1.onezone.onedata.example.com:${ONEZONE_IP}"
