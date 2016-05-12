@@ -18,20 +18,20 @@ Example usage:
 ${0##*/} --provider 172.16.0.1 --token '_Us_MYaSD80YgPpcKfVSLP-Mz3TIqmN1q1vb3qFJ'
 or
 export ONECLIENT_AUTHORIZATION_TOKEN='_Us_MYaSD80YgPpcKfVSLP-Mz3TIqmN1q1vb3qFJ'
-${0##*/} --provider 'node1.oneprovider.dev.local'
+${0##*/} --provider 'node1.oneprovider.onedata.example.com'
 
 Options:
   -h, --help       display this help and exit
   -t, --token      authorization token
   -p, --provider   ip or hostname of provider you want to connect to
-                   Default value: 'node1.oneprovider.dev.local'"
+                   Default value: 'node1.oneprovider.onedata.example.com'"
   exit 0
 }
 
 
 main() {
   local token
-  local provider='node1.oneprovider.dev.local'
+  local provider='node1.oneprovider.onedata.example.com'
 
   if [ ! -z "$ONECLIENT_AUTHORIZATION_TOKEN" ]; then
     token=$ONECLIENT_AUTHORIZATION_TOKEN
