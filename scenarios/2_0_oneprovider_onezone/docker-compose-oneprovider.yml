@@ -1,14 +1,14 @@
 version: '2.0'
 
 services:
-  node1.oneprovider.demo.onedata.local:
+  node1.oneprovider.onedata.example.com:
     image: onedata/oneprovider:3.0.0-beta3
-    hostname: node1.oneprovider.demo.onedata.local
+    hostname: node1.oneprovider.onedata.example.com
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEPROVIDER_CONFIG: |
         cluster:
-          domain_name: "oneprovider.demo.onedata.local"
+          domain_name: "oneprovider.onedata.example.com"
           nodes:
             node1:
               hostname: "node1"
@@ -29,6 +29,6 @@ services:
         oneprovider:
           register: true
           name: "example"
-          redirection_point: "https://node1.oneprovider.demo.onedata.local"
+          redirection_point: "https://node1.oneprovider.onedata.example.com"
         onezone:
-          domain_name: "node1.onezone.demo.onedata.local"
+          domain_name: "node1.onezone.onedata.example.com"
