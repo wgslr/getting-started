@@ -23,6 +23,6 @@ services:
             nodes:
               - "node1"
           settings:
-            open_id_auth_config: "https://gist.githubusercontent.com/groundnuty/f05fd4d6d521afd8d9d58f982ffba3c6/raw/5e4c92bd4ea2843aa73640057f17ddbc73504abd/oz_open_id_auth.config"
+            open_id_auth_config: "https://gist.githubusercontent.com/groundnuty/f05fd4d6d521afd8d9d58f982ffba3c6/raw/bd82b51a264fb1405338fcd1df28d94bc76fbaf0/oz_open_id_auth.config"
         onezone:
           name: "example"
