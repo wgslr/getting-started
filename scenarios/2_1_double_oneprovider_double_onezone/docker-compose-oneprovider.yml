@@ -1,24 +1,24 @@
 version: '2.0'
 
 services:
-  node1.oneprovider.dev.local:
+  node1.oneprovider.onedata.example.com:
     image: onedata/oneprovider:3.0.0-beta3
-    hostname: node1.oneprovider.dev.local
+    hostname: node1.oneprovider.onedata.example.com
     volumes: # shared volume required for mulit-node storage access verification
       - /tmp/data:/tmp/data
 
-  node2.oneprovider.dev.local:
+  node2.oneprovider.onedata.example.com:
     image: onedata/oneprovider:3.0.0-beta3
-    hostname: node2.oneprovider.dev.local
+    hostname: node2.oneprovider.onedata.example.com
     volumes: # shared volume required for mulit-node storage access verification
       - /tmp/data:/tmp/data
     depends_on:
-      - node1.oneprovider.dev.local
+      - node1.oneprovider.onedata.example.com
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEPROVIDER_CONFIG: |
         cluster:
-          domain_name: "oneprovider.dev.local"
+          domain_name: "oneprovider.onedata.example.com"
           nodes:
             node1:
               hostname: "node1"
@@ -41,7 +41,7 @@ services:
         oneprovider:
           register: true
           name: "example"
-          redirection_point: "https://node2.oneprovider.dev.local"
+          redirection_point: "https://node2.oneprovider.onedata.example.com"
         onezone:
-          domain_name: "node1.onezone.dev.local"
+          domain_name: "node1.onezone.onedata.example.com"
    
