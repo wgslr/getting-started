@@ -86,7 +86,7 @@ In order for those scenarios to work properly you need to modify your local (pc 
 
 ```
 # Onedata configuration
-<onezone_node_1_ip>      onedata.org # (required by OpenID)
+<onezone_node_1_ip>      onedata.example.com # (required by OpenID)
 <onezone_node_1_ip>      node1.onezone.onedata.example.com
 <oneprovider_node_1_ip>  node1.oneprovider.onedata.example.com
 ```
