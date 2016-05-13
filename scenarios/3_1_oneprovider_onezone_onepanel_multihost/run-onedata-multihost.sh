@@ -21,6 +21,7 @@ will start a second node of oneprovider service.
 Options:
   -h, --help       display this help and exit
   --onezone        starts onezone service
+  --onezone_ip     ip or hostname of onezone service
   --oneprovider    starts oneprovider  service
   -n, --node       a node number to start, default value is 1"
   exit 0
@@ -63,15 +64,7 @@ main() {
       shift
   done
 
-  RED="$(tput setaf 1)"
-  GREEN="$(tput setaf 2)"
-  RESET="$(tput sgr0)"
-  
-  echo -e "${RED}IMPORTANT: After each start wait for a message: ${GREEN}Congratulations! ${service} has been successfully started.${RESET}"
-  echo -e "${RED}To ensure that the ${service} is completely setup.${RESET}"
-
   ONEZONE_IP="$onezone_ip" docker-compose -f "docker-compose-${service}.yml" up "node${n}.${service}.onedata.example.com"
- 
   
 }
 
