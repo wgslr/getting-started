@@ -5,13 +5,13 @@ services:
     image: onedata/oneprovider:3.0.0-beta3
     hostname: localhost.local
     ports:
-      - "53"
-      - "80"
-      - "443"
-      - "5555"
-      - "8443"
-      - "8876"
-      - "8877"
-      - "9443"
+      - "53:53"
+      - "80:80"
+      - "443:443"
+      - "5555:5555"
+      - "8443:8443"
+      - "8876:8876"
+      - "8877:8877"
+      - "9443:9443"
     extra_hosts:
       - "node1.onezone.dev.local:${ONEZONE_IP}"
