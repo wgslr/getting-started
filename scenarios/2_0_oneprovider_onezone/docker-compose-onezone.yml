@@ -1,14 +1,14 @@
 version: '2.0'
 
 services:
-  node1.onezone.dev.local:
+  node1.onezone.onedata.example.com:
     image: onedata/onezone:3.0.0-beta3
-    hostname: node1.onezone.dev.local
+    hostname: node1.onezone.onedata.example.com
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEZONE_CONFIG: |
         cluster:
-          domain_name: "onezone.dev.local"
+          domain_name: "onezone.onedata.example.com"
           nodes:
             node1:
               hostname: "node1"
@@ -23,6 +23,6 @@ services:
             nodes:
               - "node1"
           settings:
-            open_id_auth_config: "https://raw.githubusercontent.com/krzysztof-trzepla/onedata-getting-started/develop/files/oz_open_id_auth.config"
+            open_id_auth_config: "https://gist.githubusercontent.com/groundnuty/f05fd4d6d521afd8d9d58f982ffba3c6/raw/bd82b51a264fb1405338fcd1df28d94bc76fbaf0/oz_open_id_auth.config"
         onezone:
           name: "example"

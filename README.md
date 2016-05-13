@@ -86,9 +86,9 @@ In order for those scenarios to work properly you need to modify your local (pc 
 
 ```
 # Onedata configuration
-<onezone_node_1_ip>      onedata.org # (required by OpenID)
-<onezone_node_1_ip>      node1.onezone.dev.local
-<oneprovider_node_1_ip>  node1.oneprovider.dev.local
+<onezone_node_1_ip>      onedata.example.com # (required by OpenID)
+<onezone_node_1_ip>      node1.onezone.onedata.example.com
+<oneprovider_node_1_ip>  node1.oneprovider.onedata.example.com
 ```
 
 ### Configuring Onezone and Oneprovider with Onepanel
@@ -96,8 +96,8 @@ In order for those scenarios to work properly you need to modify your local (pc 
 Onezone and Oneprovider offer a web based configuration panel Onepanel that can be accessed via: 
 
 ```
-https://node1.onezone.dev.local:9443 # for onezone
-https://node1.oneprovider.dev.local:9443 # for oneprovider
+https://node1.onezone.onedata.example.com:9443 # for onezone
+https://node1.oneprovider.onedata.example.com:9443 # for oneprovider
 ```
 In each scenario the credentials needed to login into Onepanel are:
 
@@ -117,7 +117,7 @@ In `oneclient` directory you will find `run-oneclient.sh` script that will assis
 Example invocation:
 
 ```bash
-./run-oneclient.sh --provider node1.onezone.dev.local --token '_Us_MYaSD80YgPpcKfVSLP-Mz3TIqmN1q1vb3qFJ'
+./run-oneclient.sh --provider node1.onezone.onedata.example.com --token '_Us_MYaSD80YgPpcKfVSLP-Mz3TIqmN1q1vb3qFJ'
 ```
 
 For more information on oneclient refer to Onedata  [documentation](https://onedata.org/documentation).
