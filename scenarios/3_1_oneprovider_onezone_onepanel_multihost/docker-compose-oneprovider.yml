@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.oneprovider.onedata.example.com:
-    image: onedata/oneprovider:3.0.0-beta3
+    image: onedata/oneprovider:3.0.0-beta4
     hostname: localhost.local
     ports:
       - "53:53"

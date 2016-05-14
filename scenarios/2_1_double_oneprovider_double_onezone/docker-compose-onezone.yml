@@ -2,11 +2,11 @@ version: '2.0'
 
 services:
   node1.onezone.onedata.example.com:
-    image: onedata/onezone:3.0.0-beta3
+    image: onedata/onezone:3.0.0-beta4
     hostname: node1.onezone.onedata.example.com
 
   node2.onezone.onedata.example.com:
-    image: onedata/onezone:3.0.0-beta3
+    image: onedata/onezone:3.0.0-beta4
     hostname: node2.onezone.onedata.example.com
     depends_on:
       - node1.onezone.onedata.example.com

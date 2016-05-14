@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.oneprovider.onedata.example.com:
-    image: onedata/oneprovider:3.0.0-beta3
+    image: onedata/oneprovider:3.0.0-beta4
     hostname: node1.oneprovider.onedata.example.com
     volumes: # shared volume required for mulit-node storage access verification
       - /tmp/data:/tmp/data
@@ -14,7 +14,7 @@ services:
       - "9443:9443"
       - "8443:8443"
   node2.oneprovider.onedata.example.com:
-    image: onedata/oneprovider:3.0.0-beta3
+    image: onedata/oneprovider:3.0.0-beta4
     hostname: node2.oneprovider.onedata.example.com
     volumes: # shared volume required for mulit-node storage access verification
       - /tmp/data:/tmp/data
