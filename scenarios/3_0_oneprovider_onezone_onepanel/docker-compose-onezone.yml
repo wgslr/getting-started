@@ -2,9 +2,5 @@ version: '2.0'
 
 services:
   node1.onezone.onedata.example.com:
-    image: onedata/onezone:3.0.0-beta3
-<<<<<<< HEAD
-    hostname: node1.onezone.onedata.example.com
-=======
+    image: onedata/onezone:3.0.0-beta4
     hostname: localhost.local
->>>>>>> f3032897a4aeddd4fa0a843d002757f140ecc9c9
