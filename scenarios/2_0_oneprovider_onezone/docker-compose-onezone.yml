@@ -5,8 +5,8 @@ services:
     image: onedata/onezone:3.0.0-beta4
     hostname: node1.onezone.onedata.example.com
     volumes:
-        - "${ONEZONE_CONFIG_DIR}:/data"
-        - "${AUTH_PATH}:/data/var/lib/oz_worker/auth.config"
+        - "${PWD}/${ONEZONE_CONFIG_DIR}:/data"
+        - "${AUTH_PATH}:/configs/auth.config"
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEZONE_CONFIG: |
@@ -25,5 +25,7 @@ services:
           database:
             nodes:
               - "node1"
-         onezone:
+          settings:
+            open_id_auth_config: "/configs/auth.config"
+        onezone:
           name: "example"
