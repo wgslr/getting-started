@@ -3,10 +3,10 @@
 
 PWD=$(pwd)
 REPO_ROOT="${PWD//getting-started*}getting-started/"
-ONEZONE_CONFIG_DIR="config_onezone/"
-ONEPROVIDER_CONFIG_DIR="config_oneprovider/"
-ONEPROVIDER_DATA_DIR="oneprovider_data/"
-SPACES_DIR="myspaces/"
+ONEZONE_CONFIG_DIR="${PWD}/config_onezone/"
+ONEPROVIDER_CONFIG_DIR="${PWD}/config_oneprovider/"
+ONEPROVIDER_DATA_DIR="${PWD}/oneprovider_data/"
+SPACES_DIR="${PWD}/myspaces/"
 AUTH_CONF="bin/confing/auth.conf"
 AUHT_PATH="${REPO_ROOT}${AUTH_CONF}"
 
@@ -34,7 +34,7 @@ Options:
   --oneprovider           starts oneprovider service
   --oneprovider-data-dir  a directory where provider will store users raw data
   -n, --node              a node number to start, default value is 1
-  --clean                 clean all onezone, oneprivder and oneclient configuration and data files"
+  --clean                 clean all onezone, oneprivder and oneclient configuration and data files - provided all docker containers using them have been shutdown"
   exit 0
 }
 
