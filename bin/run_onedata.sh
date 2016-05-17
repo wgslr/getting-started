@@ -7,8 +7,9 @@ ONEZONE_CONFIG_DIR="${PWD}/config_onezone/"
 ONEPROVIDER_CONFIG_DIR="${PWD}/config_oneprovider/"
 ONEPROVIDER_DATA_DIR="${PWD}/oneprovider_data/"
 SPACES_DIR="${PWD}/myspaces/"
-AUTH_CONF="bin/confing/auth.conf"
+AUTH_CONF="bin/config/auth.conf"
 AUHT_PATH="${REPO_ROOT}${AUTH_CONF}"
+DEBUG=0;
 
 # Error handling.
 # $1 - error string
@@ -36,6 +37,10 @@ Options:
   -n, --node              a node number to start, default value is 1
   --clean                 clean all onezone, oneprivder and oneclient configuration and data files - provided all docker containers using them have been shutdown"
   exit 0
+}
+
+function debug {
+  set -o posix ; set
 }
 
 function clean {
@@ -116,6 +121,9 @@ main() {
           --clean)    
               clean=1
               ;;
+          --debug)
+              DEBUG=1
+              ;;      
           --onezone_ip)
               onezone_ip=$2
               shift
@@ -145,6 +153,12 @@ main() {
   if [[ $service == "oneprovider" ]]; then
     handle_oneprovider $n $compose_file_name $onezone_ip $oneprovider_data_dir 
   fi
+
+  if [[ $clean -eq 1 ]]; then
+    debug
+    exit 0
+  fi
+  
   
 }
 
