@@ -5,13 +5,13 @@ services:
     image: onedata/oneprovider:3.0.0-beta4
     hostname: node1.oneprovider.onedata.example.com
     volumes:
-        - "${ONEPROVIDER_CONFIG_DIR}:/tmp/data"
+        - "${ONEPROVIDER_CONFIG_DIR}:/data"
 
   node2.oneprovider.onedata.example.com:
     image: onedata/oneprovider:3.0.0-beta4
     hostname: node2.oneprovider.onedata.example.com
     volumes:
-        - "${ONEPROVIDER_CONFIG_DIR}:/tmp/data"
+        - "${ONEPROVIDER_CONFIG_DIR}:/data"
     depends_on:
       - node1.oneprovider.onedata.example.com
     environment:

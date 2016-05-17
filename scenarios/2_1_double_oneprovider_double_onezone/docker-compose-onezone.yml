@@ -5,8 +5,8 @@ services:
     image: onedata/onezone:3.0.0-beta4
     hostname: node1.onezone.onedata.example.com
     volumes:
-        - "${ONEZONE_CONFIG_DIR}:/tmp/data"
-        - "${AUTH_PATH}:/tmp/data/var/lib/oz_worker/auth.config"
+        - "${ONEZONE_CONFIG_DIR}:/data"
+        - "${AUTH_PATH}:/data/var/lib/oz_worker/auth.config"
 
   node2.onezone.onedata.example.com:
     image: onedata/onezone:3.0.0-beta4
@@ -15,7 +15,7 @@ services:
       - node1.onezone.onedata.example.com
     volumes:
         - "${ONEZONE_CONFIG_DIR}:/tmp/data"
-        - "${AUTH_PATH}:/tmp/data/var/lib/oz_worker/auth.config"
+        - "${AUTH_PATH}:/data/var/lib/oz_worker/auth.config"
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEZONE_CONFIG: |
@@ -36,7 +36,5 @@ services:
           database:
             nodes:
               - "node2"
-          settings:
-            open_id_auth_config: "https://raw.githubusercontent.com/krzysztof-trzepla/onedata-getting-started/develop/files/oz_open_id_auth.config"
         onezone:
           name: "example"
