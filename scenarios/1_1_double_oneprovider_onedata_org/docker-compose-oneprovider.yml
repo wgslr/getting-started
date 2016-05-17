@@ -4,8 +4,8 @@ services:
   node1.oneprovider.onedata.example.com:
     image: onedata/oneprovider:3.0.0-beta4
     hostname: node1.oneprovider.onedata.example.com
-    volumes: # shared volume required for mulit-node storage access verification
-      - /tmp/data:/tmp/data
+    volumes:
+        - "${ONEPROVIDER_CONFIG_DIR}:/tmp/data"
     ports:
       - "80:80"
       - "443:443"
@@ -16,8 +16,8 @@ services:
   node2.oneprovider.onedata.example.com:
     image: onedata/oneprovider:3.0.0-beta4
     hostname: node2.oneprovider.onedata.example.com
-    volumes: # shared volume required for mulit-node storage access verification
-      - /tmp/data:/tmp/data
+    volumes:
+        - "${ONEPROVIDER_CONFIG_DIR}:/tmp/data"
     ports:
       - "80:80"
       - "443:443"
