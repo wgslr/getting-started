@@ -3,20 +3,20 @@
 This page presents you with few scenarios for quickly and easily getting started with Onedata. 
 Scenarios vary in complexity: beginning with simple, preconfigured demos; ending with highly advanced multi-cluster setups.
 
-:heavy_exclamation_mark:Warning: because of ongoing migration of `onedata.org` scenarios 1.0 and 1.1 are currently not working.
 
-Avilable scenarios:
+Scanarion designed to run on localhost or a single virtual machine:
 
-- :heavy_exclamation_mark: `1.0`: pre-configured oneprovider that connects to onedata.org (public ip required) <br \>
-    `scenarios/1_0_oneprovider_onedata_org/`
-- :heavy_exclamation_mark: `1.1`: double node pre-configured oneprovider that connects to onedata.org (public ip required) <br \>
+- `1.0`: pre-configured oneprovider that connects to onedata.org (public ip required) <br \>
     `scenarios/1_0_oneprovider_onedata_org/`
 - `2.0`: pre-configured oneprovider with pre-configured onezone <br \>
     `scenarios/2_0_oneprovider_onezone/`
-- `2.1`: double pre-configured oneprovider with double pre-configured onezone <br \>
-    `scenarios/2_1_double_oneprovider_double_onezone/`
 - `3.0`: oneprovider with onezone ready to be configured with onepanel <br \>
     `scenarios/3_0_oneprovider_onezone_onepanel/`
+
+Scenarios designed to run on multiple machines:
+
+- `3.1`: oneprovider with onezone on reparate machines, ready to be configured with onepanel <br \>
+    `scenarios/3_1_oneprovider_onezone_onepanel_multihost/`
 
 
 If you are new to onedata please start with scenario 2.0. 

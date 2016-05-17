@@ -4,6 +4,8 @@ services:
   node1.oneprovider.onedata.example.com:
     image: onedata/oneprovider:3.0.0-beta4
     hostname: localhost.local
+    volumes:
+        - "${ONEPROVIDER_CONFIG_DIR}:/tmp/data:"
     ports:
       - "53:53"
       - "80:80"
@@ -14,4 +16,4 @@ services:
       - "8877:8877"
       - "9443:9443"
     extra_hosts:
-      - "node1.onezone.onedata.example.com:${ONEZONE_IP}"
+      - "onedata.org:${ONEZONE_IP}"
