@@ -15,4 +15,4 @@ services:
       - "9443:9443"
     volumes:
         - "${ONEZONE_CONFIG_DIR}:/tmp/data"
-        - "${AUTH_PATH}:/tmp/data/var/lib/oz_worker/auth.config"
+        - "${AUTH_PATH}:/data/var/lib/oz_worker/auth.config"

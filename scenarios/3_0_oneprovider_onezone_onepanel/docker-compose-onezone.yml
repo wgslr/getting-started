@@ -5,5 +5,5 @@ services:
     image: onedata/onezone:3.0.0-beta4
     hostname: localhost.local
     volumes:
-        - "${ONEZONE_CONFIG_DIR}:/tmp/data"
-        - "${AUTH_PATH}:/tmp/data/var/lib/oz_worker/auth.config"
+        - "${ONEZONE_CONFIG_DIR}:/data"
+        - "${AUTH_PATH}:/data/var/lib/oz_worker/auth.config"
