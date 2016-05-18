@@ -6,6 +6,7 @@ services:
     hostname: node1.oneprovider.onedata.example.com
     volumes:
         - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
+        - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEPROVIDER_CONFIG: |
