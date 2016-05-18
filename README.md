@@ -18,14 +18,12 @@ Scenarios designed to run on multiple machines:
 - `3.1`: oneprovider with onezone on reparate machines, ready to be configured with onepanel <br \>
     `scenarios/3_1_oneprovider_onezone_onepanel_multihost/`
 
-
 If you are new to onedata please start with scenario 2.0. 
 
 ## Prerequisites
 
 1. All scenarios are prepared as docker-compose configurations.
 2. Depending on the scenario you might need to create an account on onedata.org.
-
 
 `docker => 1.11` <br \>
 `docker-compose => 1.7`
@@ -44,36 +42,18 @@ Requires a machine with a public ip address and a number of open ports (refer to
 ./run_onedata.sh --oneprovider
 ```
 
-### Scenario 1.1
-
-Requires two machines with a public ip address and a number of open ports (refer to docker-compose configuration files) to communicate with `onedata.org.`
-
-```bash
-./run_onedata.sh --oneprovider -n 1 # On first machine 
-./run_onedata.sh --oneprovider -n 2 # On second machine
-```
-
 ### Scenario 2.0
 
 ```bash
-./run_onedata.sh --onezone -n 1     # In 1st terminal window
-./run_onedata.sh --oneprovider -n 1 # In 2nd terminal window
-```
-
-### Scenario 2.1
-
-```bash
-./run_onedata.sh --onezone -n 1     # In 1st terminal window
-./run_onedata.sh --onezone -n 2     # In 2nd terminal window
-./run_onedata.sh --oneprovider -n 1 # In 3rd terminal window
-./run_onedata.sh --oneprovider -n 2 # In 4th terminal window
+./run_onedata.sh --onezone     # In 1st terminal window
+./run_onedata.sh --oneprovider # In 2nd terminal window
 ```
 
 ### Scenario 3.0
 
 ```bash
-./run_onedata.sh --onezone -n 1     # In 1st terminal window
-./run_onedata.sh --oneprovider -n 1 # In 2nd terminal window
+./run_onedata.sh --onezone      # In 1st terminal window
+./run_onedata.sh --oneprovider  # In 2nd terminal window
 ```
 
 Use Onepanel to configure Onezone and Oneprovider.
@@ -105,6 +85,7 @@ In each scenario the credentials needed to login into Onepanel are:
 user: admin
 password: password
 ```
+
 ## Using Onedata
 In each scenario you will deploy a Oneprovider which can be used to support your space. If you are not familiar with the concept of Spaces read the Overview and Space support sections in the [documentation](https://onedata.org/documentation). After supporting you space you will be able to access them using a web-interface or Oneclient.
 
