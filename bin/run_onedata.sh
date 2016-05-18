@@ -6,7 +6,7 @@ REPO_ROOT="${PWD//getting-started*}getting-started/"
 ONEZONE_CONFIG_DIR="${PWD}/config_onezone/"
 ONEPROVIDER_CONFIG_DIR="${PWD}/config_oneprovider/"
 ONEPROVIDER_DATA_DIR="${PWD}/oneprovider_data/"
-ONEPROVIDER_APP_CONFIG="/bin/config/auth.conf"
+ONEPROVIDER_APP_CONFIG="bin/config/app.conf"
 ONEPROVIDER_APP_CONFIG_PATH="${REPO_ROOT}${ONEPROVIDER_APP_CONFIG}"
 SPACES_DIR="${PWD}/myspaces/"
 AUTH_CONF="bin/config/auth.conf"
@@ -95,7 +95,7 @@ function handle_oneprovider {
 
   batch_mode_check "oneprovider" $compose_file_name
 
-  ONEZONE_IP="$onezone_ip" ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir docker-compose -f $compose_file_name pull
+  ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH=$ONEPROVIDER_APP_CONFIG_PATH ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir docker-compose -f $compose_file_name pull
   if [[ $DEBUG -eq 1 ]]; then
     echo ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH=$ONEPROVIDER_APP_CONFIG_PATH ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir docker-compose -f $compose_file_name up "node${n}.${service}.onedata.example.com"
   else
