@@ -7,3 +7,4 @@ services:
     volumes:
         - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
         - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
+        - "/var/run/docker.sock:/var/run/docker.sock"
