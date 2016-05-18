@@ -58,6 +58,16 @@ Requires a machine with a public ip address and a number of open ports (refer to
 
 Use Onepanel to configure Onezone and Oneprovider.
 
+### Scenario 3.1
+
+```bash
+./run_onedata.sh --onezone      # On first machine
+./run_onedata.sh --oneprovider  # On second machine
+```
+
+Use Onepanel to configure Onezone and Oneprovider.
+
+
 ## Configuration
 
 ### Fixing HTTPS and Open-id authorization
