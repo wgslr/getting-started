@@ -2,11 +2,10 @@ version: '2.0'
 
 services:
   node1.onezone.onedata.example.com:
-    image: onedata/onezone:3.0.0-beta4
+    image: onedata/onezone:VFS-2062
     hostname: node1.onezone.onedata.example.com
     volumes:
-        - "${PWD}/${ONEZONE_CONFIG_DIR}:/data"
-        - "${AUTH_PATH}:/configs/auth.config"
+        - "${AUTH_PATH}:/data/var/lib/oz_worker/auth.config"
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEZONE_CONFIG: |
@@ -25,7 +24,5 @@ services:
           database:
             nodes:
               - "node1"
-          settings:
-            open_id_auth_config: "/configs/auth.config"
         onezone:
           name: "example"
