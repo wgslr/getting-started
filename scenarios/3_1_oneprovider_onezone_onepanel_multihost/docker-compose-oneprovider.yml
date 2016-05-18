@@ -3,7 +3,7 @@ version: '2.0'
 services:
   node1.oneprovider.onedata.example.com:
     image: onedata/oneprovider:VFS-2062
-    hostname: localhost.local
+    hostname: node.localhost.local
     volumes:
         - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
         - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"

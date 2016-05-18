@@ -3,7 +3,7 @@ version: '2.0'
 services:
   node1.onezone.onedata.example.com:
     image: onedata/onezone:VFS-2062
-    hostname: localhost.local
+    hostname: node.localhost.local
     volumes:
         - "${AUTH_PATH}:/volumes/persistency/var/lib/oz_worker/auth.config"
         - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
