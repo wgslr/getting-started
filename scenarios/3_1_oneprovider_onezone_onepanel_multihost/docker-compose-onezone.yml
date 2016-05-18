@@ -4,6 +4,9 @@ services:
   node1.onezone.onedata.example.com:
     image: onedata/onezone:VFS-2062
     hostname: localhost.local
+    volumes:
+        - "${AUTH_PATH}:/data/var/lib/oz_worker/auth.config"
+        - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
     ports:
       - "53:53"
       - "80:80"
@@ -13,5 +16,3 @@ services:
       - "8876:8876"
       - "8877:8877"
       - "9443:9443"
-    volumes:
-        - "${AUTH_PATH}:/data/var/lib/oz_worker/auth.config"

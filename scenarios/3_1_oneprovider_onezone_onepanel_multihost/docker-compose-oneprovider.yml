@@ -5,7 +5,8 @@ services:
     image: onedata/oneprovider:3.0.0-beta4
     hostname: localhost.local
     volumes:
-        - "${ONEPROVIDER_CONFIG_DIR}:/data:"
+        - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
+        - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
     ports:
       - "53:53"
       - "80:80"
