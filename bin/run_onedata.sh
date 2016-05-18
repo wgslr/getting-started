@@ -74,6 +74,7 @@ function handle_onezone {
 
   batch_mode_check "onezone" $compose_file_name
 
+  docker-compose AUTH_PATH=$AUHT_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR docker-compose -f $compose_file_name pull
   if [[ $DEBUG -eq 1 ]]; then
     echo AUTH_PATH=$AUHT_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR docker-compose -f $compose_file_name up "node${n}.${service}.onedata.example.com"
   else 
@@ -92,6 +93,7 @@ function handle_oneprovider {
 
   batch_mode_check "oneprovider" $compose_file_name
 
+  docker-compose ONEZONE_IP="$onezone_ip" ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir docker-compose -f $compose_file_name pull
   if [[ $DEBUG -eq 1 ]]; then
     echo ONEZONE_IP="$onezone_ip" ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir docker-compose -f $compose_file_name up "node${n}.${service}.onedata.example.com"
   else
