@@ -81,7 +81,7 @@ function handle_oneprovider {
   local n=$1
   local compose_file_name=$2
   local onezone_ip=$3
-  local oneprovider_data_dir=$$5
+  local oneprovider_data_dir=$4
  
   mkdir -p $ONEPROVIDER_CONFIG_DIR
   mkdir -p $oneprovider_data_dir
