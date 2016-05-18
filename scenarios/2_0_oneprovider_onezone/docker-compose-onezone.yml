@@ -6,6 +6,7 @@ services:
     hostname: node1.onezone.onedata.example.com
     volumes:
         - "${AUTH_PATH}:/data/var/lib/oz_worker/auth.config"
+        - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEZONE_CONFIG: |

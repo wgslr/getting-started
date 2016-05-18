@@ -6,3 +6,4 @@ services:
     hostname: localhost.local
     volumes:
         - "${AUTH_PATH}:/data/var/lib/oz_worker/auth.config"
+        - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
