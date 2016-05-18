@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.onezone.onedata.example.com:
-    image: onedata/onezone:3.0.0-beta4
+    image: onedata/onezone:VFS-2062
     hostname: localhost.local
     ports:
       - "53:53"
@@ -14,5 +14,4 @@ services:
       - "8877:8877"
       - "9443:9443"
     volumes:
-        - "${ONEZONE_CONFIG_DIR}:/tmp/data"
         - "${AUTH_PATH}:/data/var/lib/oz_worker/auth.config"

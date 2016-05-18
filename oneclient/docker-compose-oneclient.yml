@@ -1,7 +1,8 @@
 version: '2.0'
 
+services:
   oneclient:
-    image: docker.onedata.org/oneclient:VFS-1990
+    image: docker.onedata.org/oneclient:3.0.0-beta4
     privileged: true
     environment:
       PROVIDER_HOSTNAME: $PROVIDER_HOSTNAME

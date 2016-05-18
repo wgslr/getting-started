@@ -2,10 +2,10 @@ version: '2.0'
 
 services:
   node1.oneprovider.onedata.example.com:
-    image: onedata/oneprovider:3.0.0-beta4
+    image: onedata/oneprovider:VFS-2062
     hostname: node1.oneprovider.onedata.example.com
     volumes:
-        - "${ONEPROVIDER_CONFIG_DIR}:/data"
+        - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
     ports:
       - "80:80"
       - "443:443"
@@ -34,7 +34,7 @@ services:
           storage:
             NFS:
               type: "POSIX"
-              mount_point: "/tmp"
+              mount_point: "/volumes/storage"
         oneprovider:
           register: true
           name: "example"
