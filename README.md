@@ -3,19 +3,18 @@
 This page presents you with few scenarios for quickly and easily getting started with Onedata. 
 Scenarios vary in complexity: beginning with simple, preconfigured demos; ending with highly advanced multi-cluster setups.
 
-
 Scanarion designed to run on localhost or a single virtual machine:
 
-- `1.0`: pre-configured oneprovider that connects to onedata.org (public ip required) <br \>
-    `scenarios/1_0_oneprovider_onedata_org/`
-- `2.0`: pre-configured oneprovider with pre-configured onezone <br \>
-    `scenarios/2_0_oneprovider_onezone/`
-- `3.0`: oneprovider with onezone ready to be configured with onepanel <br \>
-    `scenarios/3_0_oneprovider_onezone_onepanel/`
+- [1.0](#s10): pre-configured oneprovider that connects to onedata.org (public ip required) <br \>
+    [scenarios/1_0_oneprovider_onedata_org/]
+- [2.0](#s20): pre-configured oneprovider with pre-configured onezone <br \>
+    [scenarios/2_0_oneprovider_onezone/]
+- [3.0](#s30): oneprovider with onezone ready to be configured with onepanel <br \>
+    [scenarios/3_0_oneprovider_onezone_onepanel/]
 
 Scenarios designed to run on multiple machines:
 
-- `3.1`: oneprovider with onezone on reparate machines, ready to be configured with onepanel <br \>
+- [3.1](#s31): oneprovider with onezone on reparate machines, ready to be configured with onepanel <br \>
     `scenarios/3_1_oneprovider_onezone_onepanel_multihost/`
 
 If you are new to onedata please start with scenario 2.0. 
@@ -33,15 +32,20 @@ If you are new to onedata please start with scenario 2.0.
 For each scenario navigate to a scenario directory and `run_onedata.sh` script from there.
 Onedata services depend on each other. Respect the order of running services and always wait for a message confirming that the service has successfully started.
 
-`run_onedata.sh` runs in a foreground. To run more complex scenarios, you will need multiple terminal widnows.
+`run_onedata.sh` runs in a foreground. To run more complex scenarios, you will need multiple terminal widnows or terminal multiplexers such as [screen](https://www.gnu.org/software/screen/manual/screen.html) or [tmux](https://tmux.github.io/).
+
+<a href="#s10">
 ### Scenario 1.0
 
-Requires a machine with a public ip address and a number of open ports (refer to docker-compose configuration files) to communicate with `onedata.org.`
+In this scenario you will run a single noded pre-configured oneprovider instance that will connect you to [onedata.org] zone.
+
+You will require a machine with a public ip address and a number of open ports (refer to docker-compose configuration files) to communicate with [onedata.org]
 
 ```bash
 ./run_onedata.sh --oneprovider
 ```
 
+<a href="#s20">
 ### Scenario 2.0
 
 ```bash
@@ -49,6 +53,7 @@ Requires a machine with a public ip address and a number of open ports (refer to
 ./run_onedata.sh --oneprovider # In 2nd terminal window
 ```
 
+<a href="#s30">
 ### Scenario 3.0
 
 ```bash
@@ -58,6 +63,7 @@ Requires a machine with a public ip address and a number of open ports (refer to
 
 Use Onepanel to configure Onezone and Oneprovider.
 
+<a href="#s31">
 ### Scenario 3.1
 
 ```bash
@@ -67,9 +73,10 @@ Use Onepanel to configure Onezone and Oneprovider.
 
 Use Onepanel to configure Onezone and Oneprovider.
 
-
+<a href="#configuration">
 ## Configuration
 
+<a href="#etchosts">
 ### Fixing HTTPS and Open-id authorization
 
 In order for those scenarios to work properly you need to modify your local (pc from where you use your web browser) `/etc/hosts` file and append lines:
@@ -81,6 +88,7 @@ In order for those scenarios to work properly you need to modify your local (pc 
 <oneprovider_node_1_ip>  node1.oneprovider.onedata.example.com
 ```
 
+<a href="#onepanel">
 ### Configuring Onezone and Oneprovider with Onepanel
 
 Onezone and Oneprovider offer a web based configuration panel Onepanel that can be accessed via: 
@@ -96,6 +104,7 @@ user: admin
 password: password
 ```
 
+<a href="#using">
 ## Using Onedata
 In each scenario you will deploy a Oneprovider which can be used to support your space. If you are not familiar with the concept of Spaces read the Overview and Space support sections in the [documentation](https://onedata.org/documentation). After supporting you space you will be able to access them using a web-interface or Oneclient.
 

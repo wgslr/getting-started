@@ -107,7 +107,7 @@ main() {
   local oneprovider_data_dir=$ONEPROVIDER_DATA_DIR
   local n=1
   local service
-  local onezone_ip
+  local onezone_ip=""
   local clean=0
 
   while [[ $# > 0 ]]; do
