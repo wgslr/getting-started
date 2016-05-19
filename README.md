@@ -130,7 +130,7 @@ https://<machine with oneprovider>:9443 #
 
 After setup you will need to modify `/etc/hosts` file on your workstation (a computer where our web browsher is running) according to [that](#ecthosts).
 
-Now you will be able to access onedata using:
+Now you will be able to access you onedata installation using:
 ```
 https://onedata.example.com 
 ```
