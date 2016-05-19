@@ -42,4 +42,4 @@ services:
           name: "example"
           redirection_point: "https://node1.oneprovider.onedata.example.com"
         onezone:
-          domain_name: "onedata.org"
+          domain_name: "beta.onedata.org"
