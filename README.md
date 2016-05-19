@@ -215,6 +215,10 @@ https://<oneprovider machine or container ip>:9443
 ### Testing your installation
 TOOD
 
+<a name="cealning"></a>
+### Cleaning your installation
+TODO
+
 <a name="using"></a>
 ## Using Onedata
 
