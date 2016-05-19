@@ -35,7 +35,7 @@ Onedata services depend on each other. Respect the order of running services and
 
 `run_onedata.sh` runs in a foreground. To run more complex scenarios, you will need multiple terminal widnows or terminal multiplexers such as [screen](https://www.gnu.org/software/screen/manual/screen.html) or [tmux](https://tmux.github.io/).
 
-<a href="#s10">
+<a href="#s10"></a>
 ### Scenario 1.0
 
 In this scenario you will run a demo of single noded pre-configured oneprovider instance that will connect your oneprovider to [onedata.org] zone. All the configuration is placed in the `docker-compose-oneprovider.yml` file and oneprovider will be automaticaly installed according to it.
@@ -50,7 +50,7 @@ In order to setup and run your provider you just need to run:
 
 Now that your provider is setup you can login into via web interface using `https://<your virtual machine ip>:9443`. For further instructions on using oneprovider refer to documentation on [onedata.org].
 
-<a href="#s20">
+<a href="#s20"></a>
 ### Scenario 2.0
 
 In this scenario you will run a demo of fully functional isolated onedata installation that will consist of:
@@ -84,7 +84,7 @@ https://<oneprovider docker container ip>:9443 #
 
 into via web interface using  For further instructions refer to documentation on [onedata.org].
 
-<a href="#s30">
+<a href="#s30"></a>
 ### Scenario 2.1
 
 In this scenario you will run a demo of fully functional isolated onedata installation that will consist of:
@@ -106,7 +106,7 @@ https://<onezone docker container ip>:9443 #
 https://<oneprovider docker container ip>:9443 # 
 ```
 
-<a href="#s30">
+<a href="#s30"></a>
 ### Scenario 3.0
 
 In this scenario you will run a demo of fully functional isolated onedata installation that will consist of:
@@ -136,10 +136,10 @@ https://onedata.example.com
 ```
 address.
 
-<a href="#configuration">
+<a href="#configuration"></a>
 ## Configuration Tips
 
-<a href="#ports">
+<a href="#ports"></a>
 ### Opening Ports
 If you want (usually you do) your oneprovider/onezone to communicate with any onedata service that is located outside your localhost, you need to open a number of ports:
 
@@ -156,7 +156,7 @@ If you want (usually you do) your oneprovider/onezone to communicate with any on
 
 and make sure that there are no intermedite firewalls blockign those ports between machines running your onedata services.
 
-<a href="#etchosts">
+<a href="#etchosts"></a>
 ### Fixing HTTPS and Open-id authorization
 
 In order for those scenarios to work properly you need to modify your local (pc from where you use your web browser) `/etc/hosts` file and append lines:
@@ -168,7 +168,7 @@ In order for those scenarios to work properly you need to modify your local (pc 
 <oneprovider_node_1_ip>  node1.oneprovider.onedata.example.com
 ```
 
-<a href="#onepanel">
+<a href="#onepanel"></a>
 ### Configuring Onezone and Oneprovider with Onepanel
 
 Onezone and Oneprovider offer a web based configuration panel Onepanel that can be accessed via: 
@@ -184,7 +184,7 @@ user: admin
 password: password
 ```
 
-<a href="#using">
+<a href="#using"></a>
 ## Using Onedata
 In each scenario you will deploy a Oneprovider which can be used to support your space. If you are not familiar with the concept of Spaces read the Overview and Space support sections in the [documentation](https://onedata.org/documentation). After supporting you space you will be able to access them using a web-interface or Oneclient.
 
