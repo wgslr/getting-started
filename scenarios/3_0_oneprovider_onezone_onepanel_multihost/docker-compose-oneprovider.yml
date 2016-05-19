@@ -11,12 +11,16 @@ services:
         - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
       - "53:53"
-      - "80:80"
+      - "53:53/udp"
       - "443:443"
+      - "80:80"
       - "5555:5555"
+      - "5556:5556"
+      - "6665:6665"
+      - "6666:6666"
       - "8443:8443"
       - "8876:8876"
       - "8877:8877"
       - "9443:9443"
     extra_hosts:
-      - "onedata.org:${ONEZONE_IP}"
+      - "onedata.example.com:${ONEZONE_IP}"
