@@ -9,12 +9,18 @@ services:
         - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
         - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
-      - "80:80"
+      - "53:53"
+      - "53:53/udp"
       - "443:443"
+      - "80:80"
       - "5555:5555"
-      - "53:53"      
-      - "9443:9443"
+      - "5556:5556"
+      - "6665:6665"
+      - "6666:6666"
       - "8443:8443"
+      - "8876:8876"
+      - "8877:8877"
+      - "9443:9443"
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEPROVIDER_CONFIG: |
