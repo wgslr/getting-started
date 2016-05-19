@@ -163,7 +163,7 @@ main() {
   fi
 
   if [[ $service == "oneprovider" ]]; then
-    handle_oneprovider $n $compose_file_name $onezone_ip $oneprovider_data_dir 
+    handle_oneprovider $n $compose_file_name "$onezone_ip" $oneprovider_data_dir 
   fi
 
   if [[ $clean -eq 1 ]]; then
