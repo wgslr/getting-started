@@ -27,6 +27,7 @@ If you are new to Onedata please start with scenario 2.0.
 ## Prerequisites
 
 1. All scenarios are prepared as Docker Compose configurations.
+
     ```
     docker => 1.11
     docker-compose => 1.7
