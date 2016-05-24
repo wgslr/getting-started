@@ -11,27 +11,26 @@ Scenarios are divided into 2 groups:
 ###Entry level scenarios designed to run on `localhost` or a single virtual machine:
 
 - [1.0](#s10): pre-configured Oneprovider that connects to [onedata.org] zone (public ip required) <br \>
-    Scripts: [scenarios/1_0_oneprovider_onedata_org/](scenarios/1_0_oneprovider_onedata_org/)
+    **Sources:** [scenarios/1_0_oneprovider_onedata_org/](scenarios/1_0_oneprovider_onedata_org/)
 - [2.0](#s20): pre-configured Oneprovider with pre-configured Onezone <br \>
-    Scripts: [scenarios/2_0_oneprovider_onezone/](scenarios/2_0_oneprovider_onezone/)
+    **Sources:** [scenarios/2_0_oneprovider_onezone/](scenarios/2_0_oneprovider_onezone/)
 - [2.1](#s21): Oneprovider with Onezone ready to be configured with Onepanel <br \>
-    Scripts: [scenarios/3_0_oneprovider_onezone_onepanel/](scenarios/3_0_oneprovider_onezone_onepanel/)
+    **Sources:** [scenarios/3_0_oneprovider_onezone_onepanel/](scenarios/3_0_oneprovider_onezone_onepanel/)
 
 ###Advanced scenarios designed to run on multiple machines:
 
 - [3.0](#s30): Oneprovider with Onezone on repartee machines, ready to be configured with onepanel <br \>
-    Scripts: [scenarios/3_1_oneprovider_onezone_onepanel_multihost/](scenarios/3_1_oneprovider_onezone_onepanel_multihost/)
+    **Sources:** [scenarios/3_1_oneprovider_onezone_onepanel_multihost/](scenarios/3_1_oneprovider_onezone_onepanel_multihost/)
 
 If you are new to Onedata please start with scenario 2.0. 
 
 ## Prerequisites
 
 1. All scenarios are prepared as Docker Compose configurations.
-```
-docker => 1.11
-docker-compose => 1.7
-```
-
+    ```
+    docker => 1.11
+    docker-compose => 1.7
+    ```
 2. Depending on the scenario, you might need to create an account on [onedata.org].
 
 ## Setup
@@ -68,7 +67,7 @@ For further instructions on using Oneprovider refer to documentation on [onedata
 <a name="s20"></a>
 ### Scenario 2.0
 
-In this scenario you will run a demo of fully functional, isolated Onedata deployment that will consist of:
+In this scenario you will run a demo of a fully functional, isolated Onedata deployment that will consist of:
 - a single node pre-configured Onezone instance
 - a single node pre-configured Oneprovider instance
 both running on a single machine.
@@ -85,7 +84,7 @@ In order to setup and run your Onedata deployment run:
 ./run_onedata.sh --oneprovider # In 2nd terminal window
 ```
 
-Currently, Onedata supports only `OpenID` protocol to authenticate users. In order for authentication to work on an isolated machine, you need to add few entries in `/etc/hosts`. Please refer to this [section](#ecthosts).
+Currently, Onedata supports only **OpenID** protocol to authenticate users. In order for authentication to work on an isolated machine, you need to add few entries in `/etc/hosts`. Please refer to this [section](#ecthosts).
 
 After fixing `/etc/hosts` you can access you Onedata services with specified domain names. Detailed information on accessing and using Onedata services can be found [here](#accessing).
 
@@ -95,6 +94,7 @@ After fixing `/etc/hosts` you can access you Onedata services with specified dom
 In this scenario you will run a demo of fully functional isolated onedata installation that will consist of:
 - a single nodded onezone instance
 - a single nodded oneprovider instance
+
 both running on a single machine.
 
 This scenario is similar to scenario 2.0. You are adviced to try complete scenario 2.0 before continuing. The only difference is that we did not provide example configuration. So after executing those commands:
@@ -106,7 +106,7 @@ This scenario is similar to scenario 2.0. You are adviced to try complete scenar
 
 You will need to use Onedata web administration tool - Onepanel - to setup Onezone and Oneprovider. You can do that by accessing Onepanel as explained [here](#onepanel).
 
-Currently, Onedata supports only `OpenID` protocol to authenticate users. In order for authentication to work on an isolated machine, you need to add few entries in `/etc/hosts`. Please refer to this [section](#ecthosts).
+Currently, Onedata supports only **OpenID** protocol to authenticate users. In order for authentication to work on an isolated machine, you need to add few entries in `/etc/hosts`. Please refer to this [section](#ecthosts).
 
 You will be able to access Onedata services as described [here](#accessing).
 
@@ -114,8 +114,9 @@ You will be able to access Onedata services as described [here](#accessing).
 ### Scenario 3.0
 
 In this scenario you will run a demo of a fully functional isolated onedata deployment that will consist of:
-- a single nodded onezone instance
-- a single nodded oneprovider instance
+- a single node Onezone instance
+- a single node Oneprovider instance
+
 both running on a different machines.
 
 You need to make sure that [those ports](#[ports]) are accessible between those machines.
@@ -138,20 +139,21 @@ After you have both containers running:
 <a name="ports"></a>
 ### Opening Ports
 If you want (usually you do) your Oneprovider/Onezone to communicate with any Onedata service that is located outside your `localhost`, you need to open a number of ports:
-| Port    | Description                         |
-|---------|:-----------------------------------:|
-| 53      | 
-| 53/udp  | 
-| 80      | 
-| 443     | 
-| 5555    | 
-| 5556    | 
-| 6665    | 
-| 6666    | 
-| 8443    | 
-| 8876    | 
-| 8877    | 
-| 9443    | 
+
+ Port    | Description                         
+---------|-------
+ 53      | 
+ 53/udp  | 
+ 80      | 
+ 443     | 
+ 5555    | 
+ 5556    | 
+ 6665    | 
+ 6666    | 
+ 8443    | 
+ 8876    | 
+ 8877    | 
+ 9443    | 
 
 and make sure that there are no intermediate firewalls blocking those ports between machines running your Onedata services.
 
@@ -229,7 +231,7 @@ In each scenario you will deploy a Oneprovider which can be used to support your
 Refer to the documentation of the web interface for further instructions.
 
 #### With Oneclient
-In `oneclient` directory you will find `run-oneclient.sh` script that will assist you in using Oneclient binary as a docker container. 
+In [oneclient](oneclient) directory you will find [run-oneclient.sh](oneclient/run-oneclient.sh) script that will assist you in using Oneclient binary as a docker container. 
 
 Example invocation:
 
