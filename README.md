@@ -1,42 +1,45 @@
 # Onedata Quickstart Scenarios
 
-This page presents you with few scenarios for quickly and easily getting started with Onedata. 
-Scenarios vary in complexity: beginning with simple, preconfigured demos; ending with highly advanced multi-cluster setups.
+This repository contains a few scenarios for quickly and easily getting started with administration and management of Onedata distributed data management platform. If you're new to Onedata please have a look at the introductory information in our [documentation](https://beta.onedata.org/docs/doc/getting_started/what_is_onedata.html).
 
-We plan to add more scenarios in the future, if you can't find a scenario that interests you please visit our support [channel](onedata.org/support).
+Scenarios vary in complexity: beginning with simple, preconfigured demos and ending with highly advanced multi-cluster setups. The scenarios are implemented using preconfigured Docker images, and can be quickly deployed and tested.
+
+We plan to add more scenarios in the future, if you can't find a scenario that addresses your specific requirements or use case please visit our support [channel](onedata.org/support).
 
 Scenarios are divided into 2 groups:
 
-Entry level scenarios designed to run on localhost or a single virtual machine:
+###Entry level scenarios designed to run on `localhost` or a single virtual machine:
 
-- [1.0](#s10): pre-configured oneprovider that connects to onedata.org (public ip required) <br \>
-    [scenarios/1_0_oneprovider_onedata_org/](scenarios/1_0_oneprovider_onedata_org/)
-- [2.0](#s20): pre-configured oneprovider with pre-configured onezone <br \>
-    [scenarios/2_0_oneprovider_onezone/](scenarios/2_0_oneprovider_onezone/)
-- [2.1](#s21): oneprovider with onezone ready to be configured with onepanel <br \>
-    [scenarios/3_0_oneprovider_onezone_onepanel/](scenarios/3_0_oneprovider_onezone_onepanel/)
+- [1.0](#s10): pre-configured Oneprovider that connects to [onedata.org] zone (public ip required) <br \>
+    Scripts: [scenarios/1_0_oneprovider_onedata_org/](scenarios/1_0_oneprovider_onedata_org/)
+- [2.0](#s20): pre-configured Oneprovider with pre-configured Onezone <br \>
+    Scripts: [scenarios/2_0_oneprovider_onezone/](scenarios/2_0_oneprovider_onezone/)
+- [2.1](#s21): Oneprovider with Onezone ready to be configured with Onepanel <br \>
+    Scripts: [scenarios/3_0_oneprovider_onezone_onepanel/](scenarios/3_0_oneprovider_onezone_onepanel/)
 
-Advanced scenarios designed to run on multiple machines:
+###Advanced scenarios designed to run on multiple machines:
 
-- [3.0](#s30): oneprovider with onezone on repartee machines, ready to be configured with onepanel <br \>
-    [scenarios/3_1_oneprovider_onezone_onepanel_multihost/](scenarios/3_1_oneprovider_onezone_onepanel_multihost/)
+- [3.0](#s30): Oneprovider with Onezone on repartee machines, ready to be configured with onepanel <br \>
+    Scripts: [scenarios/3_1_oneprovider_onezone_onepanel_multihost/](scenarios/3_1_oneprovider_onezone_onepanel_multihost/)
 
-If you are new to onedata please start with scenario 2.0. 
+If you are new to Onedata please start with scenario 2.0. 
 
 ## Prerequisites
 
-1. All scenarios are prepared as docker-compose configurations.
-2. Depending on the scenario you might need to create an account on onedata.org.
+1. All scenarios are prepared as Docker Compose configurations.
+```
+docker => 1.11
+docker-compose => 1.7
+```
 
-`docker => 1.11` <br \>
-`docker-compose => 1.7`
+2. Depending on the scenario, you might need to create an account on [onedata.org].
 
 ## Setup
 
-For each scenario navigate to a scenario directory and `run_onedata.sh` script from there.
-Onedata services depend on each other. Respect the order of running services and always wait for a message confirming that the service has successfully started.
+For each scenario navigate to a scenario directory and execute `./run_onedata.sh` script from there.
+Onedata services depend on each other. Maintain the order of starting up services and always wait for a message confirming that the service has successfully started.
 
-`run_onedata.sh` runs in a foreground. To run more complex scenarios, you will need multiple terminal windows or terminal multiplexers such as [screen](https://www.gnu.org/software/screen/manual/screen.html) or [tmux](https://tmux.github.io/).
+`run_onedata.sh` script runs in foreground. To run more complex scenarios, you will need multiple terminal windows or terminal multiplexers such as [screen](https://www.gnu.org/software/screen/manual/screen.html) or [tmux](https://tmux.github.io/).
 
 After completing each scenario, you are encouraged to test your installation according to [these instructions](#testing).
 
@@ -44,48 +47,47 @@ After completing each scenario, you are encouraged to test your installation acc
 <a name="s10"></a>
 ### Scenario 1.0
 
-In this scenario you will run a demo of single nodded pre-configured oneprovider instance that will connect your oneprovider to [onedata.org](onedata.org) zone. All the configuration is placed in the `docker-compose-oneprovider.yml` file and oneprovider will be automatically installed according to it.
+In this scenario you will run a demo of single node pre-configured Oneprovider instance that will register at [onedata.org](onedata.org) zone. All the configuration is stored in the [docker-compose-oneprovider.yml](scenarios/1_0_oneprovider_onedata_org/docker-compose-oneprovider.yml) file and Oneprovider will be automatically installed based on these settings.
 
-You will require a machine with a public ip address and a number of [open ports](#ports) to communicate with [onedata.org](onedata.org).
+You will require a machine with a public IP address and a number of [open ports](#ports) to communicate with [onedata.org](onedata.org).
 
-In order to setup and run your provider you just need to run:
+In order to setup and deploy your Oneprovider simply run:
 
 ```bash
 ./run_onedata.sh --oneprovider
 ```
 
-Now that your provider is setup you can login via web interface using: 
+Now that after Oneprovider is up, you can check it's administration panel at: 
 
 ```
 https://<your virtual machine ip>:9443
 ```
 
-For further instructions on using oneprovider refer to documentation on [onedata.org](onedata.org).
+For further instructions on using Oneprovider refer to documentation on [onedata.org](http://beta.onedata.org).
 
 <a name="s20"></a>
 ### Scenario 2.0
 
-In this scenario you will run a demo of fully functional isolated onedata installation that will consist of:
+In this scenario you will run a demo of fully functional, isolated Onedata deployment that will consist of:
+- a single node pre-configured Onezone instance
+- a single node pre-configured Oneprovider instance
+both running on a single machine.
 
-- a single nodded pre-configured onezone instance
-- a single nodded pre-configured oneprovider instance
+All the configuration is placed in the [docker-compose-oneprovider.yml](scenarios/2_0_oneprovider_onezone/docker-compose-oneprovider.yml) and [docker-compose-onezone.yml](scenarios/2_0_oneprovider_onezone/docker-compose-onezone.yml) files respectively. Oneprovider and Onezone will be automatically installed based on these configuration files.
 
-All the configuration is placed in the `docker-compose-oneprovider.yml` and `docker-compose-onezone.yml` files respectively. Oneprovider and onezone will be automatically installed according to it.
+This scenario assumes that both Docker containers: one with Onezone and the other with Oneprovider will be running on the same machine, thus there is no need for public IP address nor you need to open any ports.
 
-This scenario assumes that both docker containers: one with onezone and the other with oneprovider will be running on the same machine, hence there is no need for public ip address nor you need to open any ports.
+To access those services, you will need to able to reach those containers from Docker's private network. If you run this on your laptop/workstation then its as straightforward as copying a container's address to your web browser. However, if you run them on remote VM you will need to be able to access those ports from your laptop/workstation. We prepared few [suggestions](docker-remote.md) how you can reach them.
 
-To access those services, you will need to able to reach those containers form docker's private network. If you run this on your laptop/workstation then its as straightforward as copying a container's address to your web browser. However, if you run them on remote VM (and you probably do) you will need to be able to access those ports from your laptop/workstation. We prepared few [suggestions](docker-remote.md) how you can reach them.
-
-In order to setup and run your provider you just need to run:
-
+In order to setup and run your Onedata deployment run:
 ```bash
 ./run_onedata.sh --onezone     # In 1st terminal window
 ./run_onedata.sh --oneprovider # In 2nd terminal window
 ```
 
-Onedata uses `OpenID` to authenticate with users. In order to be able to login into onedata you need to add few entries in `/etc/hosts`. Please refer to this [section](#ecthosts).
+Currently, Onedata supports only `OpenID` protocol to authenticate users. In order for authentication to work on an isolated machine, you need to add few entries in `/etc/hosts`. Please refer to this [section](#ecthosts).
 
-After fixing `/etc/hosts` you can access you onedata services with specified domain names. Detailed information on accessing and using onedata services can be found [here](#accessing).
+After fixing `/etc/hosts` you can access you Onedata services with specified domain names. Detailed information on accessing and using Onedata services can be found [here](#accessing).
 
 <a name="s21"></a>
 ### Scenario 2.1
@@ -93,30 +95,32 @@ After fixing `/etc/hosts` you can access you onedata services with specified dom
 In this scenario you will run a demo of fully functional isolated onedata installation that will consist of:
 - a single nodded onezone instance
 - a single nodded oneprovider instance
+both running on a single machine.
 
-This scenario is similar to scenario 2.0. You are advice to try complete scenario 2.0 before continuing. The only difference is that we did not provide example configuration. So after executing those commands:
+This scenario is similar to scenario 2.0. You are adviced to try complete scenario 2.0 before continuing. The only difference is that we did not provide example configuration. So after executing those commands:
 
 ```bash
 ./run_onedata.sh --onezone      # In 1st terminal window
 ./run_onedata.sh --oneprovider  # In 2nd terminal window
 ```
 
-You will need to use Onepanle to setup onezone and oneprovider. You can do that by accessing Onepanle as instructed [here](#onepanel).
+You will need to use Onedata web administration tool - Onepanel - to setup Onezone and Oneprovider. You can do that by accessing Onepanel as explained [here](#onepanel).
 
-After that you need to add `/etc/hosts` entries on your workstation. See detailed [instructions](#etchosts).
+Currently, Onedata supports only `OpenID` protocol to authenticate users. In order for authentication to work on an isolated machine, you need to add few entries in `/etc/hosts`. Please refer to this [section](#ecthosts).
 
-You will be able to access onedata services as described [here](#accessing).
+You will be able to access Onedata services as described [here](#accessing).
 
 <a name="s30"></a>
 ### Scenario 3.0
 
-In this scenario you will run a demo of fully functional isolated onedata installation that will consist of:
+In this scenario you will run a demo of a fully functional isolated onedata deployment that will consist of:
 - a single nodded onezone instance
 - a single nodded oneprovider instance
+both running on a different machines.
 
-However, compared to scenarios 2.*, each service will run on differed machine. You need to make sure that [those ports](#[ports]) are accessible between those machines.
+You need to make sure that [those ports](#[ports]) are accessible between those machines.
 
-To run onezone and oneprovider execute:
+To run Onezone and Oneprovider execute:
 
 ```bash
 ./run_onedata.sh --onezone      # On first machine
@@ -124,42 +128,39 @@ To run onezone and oneprovider execute:
 ```
 
 After you have both containers running:
-
 - setup both services using Onepanel as described [here](#onepanel),
 - add entries to `/etc/hosts` as instructed [here][#etchosts],
-- read about accessing onedata services [here](#accessing). 
-
+- read about accessing Onedata services [here](#accessing). 
 
 <a name="configuration"></a>
 ## Configuration Tips
 
 <a name="ports"></a>
 ### Opening Ports
-If you want (usually you do) your oneprovider/onezone to communicate with any onedata service that is located outside your localhost, you need to open a number of ports:
+If you want (usually you do) your Oneprovider/Onezone to communicate with any Onedata service that is located outside your `localhost`, you need to open a number of ports:
+| Port    | Description                         |
+|---------|:-----------------------------------:|
+| 53      | 
+| 53/udp  | 
+| 80      | 
+| 443     | 
+| 5555    | 
+| 5556    | 
+| 6665    | 
+| 6666    | 
+| 8443    | 
+| 8876    | 
+| 8877    | 
+| 9443    | 
 
-```
-53
-53/udp
-80
-443
-5555
-5556
-6665
-6666
-8443
-8876
-8877
-9443
-```
-
-and make sure that there are no intermediate firewalls blocking those ports between machines running your onedata services.
+and make sure that there are no intermediate firewalls blocking those ports between machines running your Onedata services.
 
 <a name="etchosts"></a>
-### Fixing HTTPS and Open-id authorization
+### Fixing HTTPS and OpenID authorization
 
-Onedata uses *OpenID* to authenticate with users. For there scenarios we prepared and registered OpenID setups for domain `onedata.example.com`. However, if you plan at some point to run onedata in production mode, you will need to register your own domain with OpenID providers. 
+Onedata uses *OpenID* to authenticate with users. For these scenarios we prepared and registered OpenID setups for domain `onedata.example.com`. However, if you plan at some point to run a complete Onedata deployment, independent of [onedata.org], you will need to register your own domain with OpenID providers. 
 
-Because of how OpenID works in order to be able to login into your isolated onedata installation you need to add few entries in `/etc/hosts` file your laptop/workstation (a computer where your web browser is running):
+Because of how OpenID works, in order to be able to login into your isolated Onedata installation you need to add few entries in `/etc/hosts` file your laptop/workstation (a computer where your web browser is running):
 
 ```
 # Onedata configuration
@@ -168,7 +169,7 @@ Because of how OpenID works in order to be able to login into your isolated oned
 <oneprovider_node_1_ip>  node1.oneprovider.onedata.example.com
 ```
 
-Depending on scenario these will be either private addressed of docker containers (where you have more then one onedata service running on a single machine) or addresses of machines where onedata services are running.
+Depending on scenario these will be either private addresses of Docker containers (where you have multiple Onedata services running on a single machine) or addresses of machines where Onedata services are running.
 
 <a name="onepanel"></a>
 ### Configuring Onezone and Oneprovider with Onepanel
@@ -180,7 +181,7 @@ https://<onezone machine or container ip>:9443 # for onezone
 https://<oneprovider machine or container ip>:9443 # for oneprovider
 ```
 
-In each scenario the credentials needed to login into Onepanel are:
+In each scenario, the credentials needed to login into Onepanel are the same:
 
 ```
 user: admin
@@ -189,7 +190,7 @@ password: password
 
 <a name="accessing"></a>
 ### Accessing Onedata Services
-After you have setup onedata you can access (depending on the scenario) you will have access to:
+After you have setup Onedata you can access (depending on the scenario) you will have access to:
 
 Onezone Portal
 
@@ -213,22 +214,22 @@ https://<oneprovider machine or container ip>:9443
 
 <a name="accessing"></a>
 ### Testing your installation
-TOOD
+TODO
 
-<a name="cealning"></a>
+<a name="cleaning"></a>
 ### Cleaning your installation
 TODO
 
 <a name="using"></a>
 ## Using Onedata
 
-In each scenario you will deploy a Oneprovider which can be used to support your space. If you are not familiar with the concept of Spaces read the Overview and Space support sections in the [documentation](https://onedata.org/documentation). After supporting you space you will be able to access them using a web-interface or Oneclient.
+In each scenario you will deploy a Oneprovider which can be used to support your space. If you are not familiar with the concept of Spaces read the Overview and Space support sections in the [documentation](https://onedata.org/documentation). After supporting your space you will be able to access them using a web-interface or Oneclient.
 
-#### With Web-interface
-Refer to the documentation of web-interface for further instructions.
+#### With Web interface
+Refer to the documentation of the web interface for further instructions.
 
 #### With Oneclient
-In `oneclient` directory you will find `run-oneclient.sh` script that will assist you in using oneclient binary as a docker container. 
+In `oneclient` directory you will find `run-oneclient.sh` script that will assist you in using Oneclient binary as a docker container. 
 
 Example invocation:
 
