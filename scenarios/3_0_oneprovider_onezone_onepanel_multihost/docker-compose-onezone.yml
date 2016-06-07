@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.onezone.onedata.example.com:
-    image: onedata/onezone:VFS-2062
+    image: onedata/onezone:3.0.0-beta5
     hostname: node.localhost.local
     volumes:
         - "${AUTH_PATH}:/volumes/persistency/var/lib/oz_worker/auth.config"
@@ -10,9 +10,13 @@ services:
         - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
       - "53:53"
-      - "80:80"
+      - "53:53/udp"
       - "443:443"
+      - "80:80"
       - "5555:5555"
+      - "5556:5556"
+      - "6665:6665"
+      - "6666:6666"
       - "8443:8443"
       - "8876:8876"
       - "8877:8877"
