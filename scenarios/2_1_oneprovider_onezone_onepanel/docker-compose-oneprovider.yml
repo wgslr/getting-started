@@ -2,10 +2,11 @@ version: '2.0'
 
 services:
   node1.oneprovider.onedata.example.com:
-    image: onedata/oneprovider:3.0.0-beta5
-    hostname: node.localhost.local
+    image: onedata/oneprovider:3.0.0-beta6
+    hostname: node1.oneprovider.onedata.example.com
+    external_links:
+      - "node1.onezone.onedata.example.com:onedata.example.com"
     volumes:
         - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
         - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
-        - "${ONEPROVIDER_APP_CONFIG_PATH}:/volumes/persistency/etc/op_worker/app.config"
         - "/var/run/docker.sock:/var/run/docker.sock"

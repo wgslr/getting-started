@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.oneprovider.onedata.example.com:
-    image: onedata/oneprovider:3.0.0-beta5
+    image: onedata/oneprovider:3.0.0-beta6
     hostname: node1.oneprovider.onedata.example.com
     volumes:
         - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
@@ -27,18 +27,18 @@ services:
         cluster:
           domain_name: "oneprovider.onedata.example.com"
           nodes:
-            node1:
+            n1:
               hostname: "node1"
           manager:
-            default_node: "node1"
+            default_node: "n1"
             nodes:
-              - "node1"
+              - "n1"
           worker:
             nodes:
-              - "node1"
+              - "n1"
           database:
             nodes:
-              - "node1"
+              - "n1"
           storage:
             NFS:
               type: "POSIX"
@@ -46,6 +46,8 @@ services:
         oneprovider:
           register: true
           name: "example"
-          redirection_point: "https://node1.oneprovider.onedata.example.com"
+          redirection_point: "https://90.147.170.174" # Change to IP or hostname of your machine!
+          geo_latitude: 50.068968
+          geo_longitude: 19.909444
         onezone:
           domain_name: "beta.onedata.org"

@@ -2,30 +2,32 @@ version: '2.0'
 
 services:
   node1.oneprovider.onedata.example.com:
-    image: onedata/oneprovider:3.0.0-beta5
+    image: onedata/oneprovider:3.0.0-beta6
     hostname: node1.oneprovider.onedata.example.com
     volumes:
-        - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
-        - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
-        - "/var/run/docker.sock:/var/run/docker.sock"
+      - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
+      - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    external_links:
+      - "node1.onezone.onedata.example.com:onedata.example.com"  
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEPROVIDER_CONFIG: |
         cluster:
           domain_name: "oneprovider.onedata.example.com"
           nodes:
-            node1:
+            n1:
               hostname: "node1"
           manager:
-            default_node: "node1"
+            default_node: "n1"
             nodes:
-              - "node1"
+              - "n1"
           worker:
             nodes:
-              - "node1"
+              - "n1"
           database:
             nodes:
-              - "node1"
+              - "n1"
           storage:
             NFS:
               type: "POSIX"
@@ -34,5 +36,7 @@ services:
           register: true
           name: "example"
           redirection_point: "https://node1.oneprovider.onedata.example.com"
+          geo_latitude: 50.068968
+          geo_longitude: 19.909444
         onezone:
-          domain_name: "node1.onezone.onedata.example.com"
+          domain_name: "onedata.example.com"
