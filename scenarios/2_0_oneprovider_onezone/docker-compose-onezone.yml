@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.onezone.onedata.example.com:
-    image: onedata/onezone:3.0.0-beta5
+    image: onedata/onezone:3.0.0-beta6
     hostname: node1.onezone.onedata.example.com
     volumes:
         - "${AUTH_PATH}:/volumes/persistency/var/lib/oz_worker/auth.config"
@@ -14,17 +14,28 @@ services:
         cluster:
           domain_name: "onezone.onedata.example.com"
           nodes:
-            node1:
+            n1:
               hostname: "node1"
           manager:
-            default_node: "node1"
+            default_node: "n1"
             nodes:
-              - "node1"
+              - "n1"
           worker:
             nodes:
-              - "node1"
+              - "n1"
           database:
             nodes:
-              - "node1"
+              - "n1"
         onezone:
           name: "example"
+        onepanel:
+          users:
+            "admin1":
+              password: "password"
+              role: "admin"
+            "admin2":
+              password: "password"
+              role: "admin"
+            "user1":
+              password: "password"
+              role: "regular"
