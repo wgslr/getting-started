@@ -123,7 +123,7 @@ main() {
               service="oneprovider"
               ;;
           --oneprovider-data-dir)       
-              service=$2
+              oneprovider_data_dir=$2
               shift
               ;;
           -n|--node)    
