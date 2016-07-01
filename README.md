@@ -143,18 +143,17 @@ If you want (usually you do) your Oneprovider/Onezone to communicate with any On
 
  Port    | Description                         
 ---------|-------
- 53      | 
- 53/udp  | 
- 80      | 
- 443     | 
- 5555    | 
- 5556    | 
- 6665    | 
- 6666    | 
- 8443    | 
- 8876    | 
- 8877    | 
- 9443    | 
+ 53      | dns
+ 53/udp  | dns
+ 80      | http web access
+ 443     | https web access
+ 5555    | oneclient
+ 5556    | intra-provider communication
+ 6665-6666    | rtransfer protocol
+ 7443 | metadata zone to provider transfer
+ 8443    | REST (CDMI + custom API)
+ 8876-8877   | gateway for rtransfera protocol
+ 9443    | onepanel web interfacr
 
 and make sure that there are no intermediate firewalls blocking those ports between machines running your Onedata services.
 
