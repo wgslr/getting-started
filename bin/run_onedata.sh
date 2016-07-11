@@ -13,12 +13,23 @@ AUTH_CONF="bin/config/auth.conf"
 AUHT_PATH="${REPO_ROOT}${AUTH_CONF}"
 DEBUG=0;
 
+docker_compose_sh="docker-compose"
+
 # Error handling.
 # $1 - error string
 die() {
   echo "${0##*/}: error: $*" >&2
   exit 1
 }
+
+print_docker_compose_file() {
+  local compose_file_name=$1
+  echo "The docker compose file with substituted variables be used:
+  BEGINING===="
+  echo "cat <<< \"$(cat $compose_file_name) \"" | bash 
+  echo "====END"
+}
+
 
 # As the name suggests
 usage() {
@@ -71,17 +82,18 @@ function batch_mode_check {
 function handle_onezone {
   local n=$1
   local compose_file_name=$2
-  
+  local docker_compose_sh_local
   mkdir -p $ONEZONE_CONFIG_DIR
 
-  batch_mode_check "onezone" $compose_file_name
-
-  AUTH_PATH=$AUHT_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR docker-compose -f $compose_file_name pull
+  docker_compose_sh_local="AUTH_PATH=$AUHT_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR ${docker_compose_sh}"
   if [[ $DEBUG -eq 1 ]]; then
-    echo AUTH_PATH=$AUHT_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR docker-compose -f $compose_file_name up "node${n}.${service}.onedata.example.com"
-  else 
-    AUTH_PATH=$AUHT_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR docker-compose -f $compose_file_name up "node${n}.${service}.onedata.example.com"
+    docker_compose_sh_local="echo ${docker_compose_sh_local}"
+    print_docker_compose_file $compose_file_name
   fi
+  
+  batch_mode_check "onezone" $compose_file_name
+  $docker_compose_sh_local -f $compose_file_name pull  
+  $docker_compose_sh_local -f $compose_file_name up "node${n}.${service}.onedata.example.com"
 } 
 
 function handle_oneprovider {
@@ -89,18 +101,21 @@ function handle_oneprovider {
   local compose_file_name=$2
   local onezone_ip=$3
   local oneprovider_data_dir=$4
- 
+  local docker_compose_sh_local
+
   mkdir -p $ONEPROVIDER_CONFIG_DIR
   mkdir -p $oneprovider_data_dir
 
   batch_mode_check "oneprovider" $compose_file_name
 
-  ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH=$ONEPROVIDER_APP_CONFIG_PATH ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir docker-compose -f $compose_file_name pull
+  docker_compose_sh_local="ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH=$ONEPROVIDER_APP_CONFIG_PATH ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir ${docker_compose_sh}"
   if [[ $DEBUG -eq 1 ]]; then
-    echo ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH=$ONEPROVIDER_APP_CONFIG_PATH ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir docker-compose -f $compose_file_name up "node${n}.${service}.onedata.example.com"
-  else
-    ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH=$ONEPROVIDER_APP_CONFIG_PATH ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir docker-compose -f $compose_file_name up "node${n}.${service}.onedata.example.com"
+    docker_compose_sh_local="echo ${docker_compose_sh_local}"
+    print_docker_compose_file $compose_file_name
   fi
+
+  $docker_compose_sh_local -f $compose_file_name pull
+  $docker_compose_sh_local -f $compose_file_name up "node${n}.${service}.onedata.example.com"
 } 
 
 main() {
