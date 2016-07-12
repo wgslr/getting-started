@@ -8,7 +8,7 @@ ONEPROVIDER_APP_CONFIG="bin/config/app.config"
 ONEPROVIDER_APP_CONFIG_PATH="${REPO_ROOT}${ONEPROVIDER_APP_CONFIG}"
 SPACES_DIR="${PWD}/myspaces/"
 AUTH_CONF="bin/config/auth.conf"
-AUHT_PATH="${REPO_ROOT}${AUTH_CONF}"
+AUTH_PATH="${REPO_ROOT}${AUTH_CONF}"
 DEBUG=0;
 
 docker_compose_sh="docker-compose"
@@ -23,12 +23,12 @@ die() {
 print_docker_compose_file() {
   local compose_file_name=$1
   echo "The docker compose file with substituted variables be used:
-  BEGINING===="
+BEGINING===="
 
   # http://mywiki.wooledge.org/TemplateFiles
   LC_COLLATE=C
   while read -r; do
-    while [[ $REPLY =~ "\$(([a-zA-Z_][a-zA-Z_0-9]*)|\{([a-zA-Z_][a-zA-Z_0-9]*)\})(.*)" ]]; do
+    while [[ $REPLY =~ \$(([a-zA-Z_][a-zA-Z_0-9]*)|\{([a-zA-Z_][a-zA-Z_0-9]*)\})(.*) ]]; do
       if [[ -z ${BASH_REMATCH[3]} ]]; then   # found $var
         printf %s "${REPLY%"$BASH_REMATCH"}${!BASH_REMATCH[2]}"
       else # found ${var}
@@ -97,12 +97,12 @@ handle_onezone() {
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo AUTH_PATH=$AUHT_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR ${docker_compose_sh} $@
+      echo AUTH_PATH=$AUTH_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR ${docker_compose_sh} $@
     }
     print_docker_compose_file $compose_file_name
   else 
     docker_compose_sh_local() {
-      AUTH_PATH=$AUHT_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR ${docker_compose_sh} $@
+      AUTH_PATH=$AUTH_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR ${docker_compose_sh} $@
     }
   fi
   
