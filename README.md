@@ -221,7 +221,17 @@ https://<oneprovider machine or container ip>:9443
 
 <a name="accessing"></a>
 ### Testing your installation
-TODO
+The basic test of your installatin involves:
+
+1. [loging into Onezone](https://beta.onedata.org/docs/doc/getting_started/user_onedata_101.html)
+2. getting Space Support token for your home space 
+3. loging into Oneprovider managment interface, see [accessing onedata services](#accessing)
+4. using a token to support your home space, see [space support](https://beta.onedata.org/docs/doc/administering_onedata/provider_space_support.html)
+5. accessing your space in Onezone
+6. uploading a file to your space
+
+For more detailed description on, how to performs those steps please refer to official [documentation](https://beta.onedata.org/docs/index.html).
+
 
 <a name="cleaning"></a>
 ### Cleaning your installation
