@@ -92,7 +92,7 @@ function handle_onezone {
   fi
   
   batch_mode_check "onezone" $compose_file_name
-  $docker_compose_sh_local -f $compose_file_name pull  
+  "$docker_compose_sh_local -f $compose_file_name pull"
   $docker_compose_sh_local -f $compose_file_name up "node${n}.${service}.onedata.example.com"
 } 
 
@@ -101,21 +101,26 @@ function handle_oneprovider {
   local compose_file_name=$2
   local onezone_ip=$3
   local oneprovider_data_dir=$4
-  local docker_compose_sh_local
 
   mkdir -p $ONEPROVIDER_CONFIG_DIR
   mkdir -p $oneprovider_data_dir
 
   batch_mode_check "oneprovider" $compose_file_name
 
-  docker_compose_sh_local="ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH=$ONEPROVIDER_APP_CONFIG_PATH ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir ${docker_compose_sh}"
   if [[ $DEBUG -eq 1 ]]; then
+    docker_compose_sh_local() {
+      echo ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH=$ONEPROVIDER_APP_CONFIG_PATH ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir ${docker_compose_sh} $@
+    }
     docker_compose_sh_local="echo ${docker_compose_sh_local}"
     print_docker_compose_file $compose_file_name
+  else
+    docker_compose_sh_local() {
+      ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH=$ONEPROVIDER_APP_CONFIG_PATH ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir ${docker_compose_sh} $@
+    }
   fi
 
-  $docker_compose_sh_local -f $compose_file_name pull
-  $docker_compose_sh_local -f $compose_file_name up "node${n}.${service}.onedata.example.com"
+  docker_compose_sh_local -f $compose_file_name pull
+  docker_compose_sh_local -f $compose_file_name up "node${n}.${service}.onedata.example.com"
 } 
 
 main() {
