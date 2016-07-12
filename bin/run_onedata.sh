@@ -1,7 +1,5 @@
 #!/bin/bash
-# POSIX
 
-PWD=$(pwd)
 REPO_ROOT="${PWD//getting-started*}getting-started/"
 ONEZONE_CONFIG_DIR="${PWD}/config_onezone/"
 ONEPROVIDER_CONFIG_DIR="${PWD}/config_oneprovider/"
@@ -26,10 +24,22 @@ print_docker_compose_file() {
   local compose_file_name=$1
   echo "The docker compose file with substituted variables be used:
   BEGINING===="
-  echo "cat <<< \"$(cat $compose_file_name) \"" | bash 
+
+  # http://mywiki.wooledge.org/TemplateFiles
+  LC_COLLATE=C
+  while read -r; do
+    while [[ $REPLY =~ "\$(([a-zA-Z_][a-zA-Z_0-9]*)|\{([a-zA-Z_][a-zA-Z_0-9]*)\})(.*)" ]]; do
+      if [[ -z ${BASH_REMATCH[3]} ]]; then   # found $var
+        printf %s "${REPLY%"$BASH_REMATCH"}${!BASH_REMATCH[2]}"
+      else # found ${var}
+        printf %s "${REPLY%"$BASH_REMATCH"}${!BASH_REMATCH[3]}"
+      fi
+      REPLY=${BASH_REMATCH[4]}
+    done
+    printf "%s\n" "$REPLY"
+  done < "$compose_file_name"
   echo "====END"
 }
-
 
 # As the name suggests
 usage() {
@@ -52,18 +62,18 @@ Options:
   exit 0
 }
 
-function debug {
+debug() {
   set -o posix ; set
 }
 
-function clean {
+clean() {
   rm -rf $ONEZONE_CONFIG_DIR
   rm -rf $ONEPROVIDER_CONFIG_DIR
   rm -rf $ONEPROVIDER_DATA_DIR
   rm -rf $SPACES_DIR
 }
 
-function batch_mode_check {
+batch_mode_check() {
   local service=$1
   local compose_file_name=$2
 
@@ -79,7 +89,7 @@ function batch_mode_check {
   fi
 }
 
-function handle_onezone {
+handle_onezone() {
   local n=$1
   local compose_file_name=$2
   mkdir -p $ONEZONE_CONFIG_DIR
@@ -101,7 +111,7 @@ function handle_onezone {
   docker_compose_sh_local -f $compose_file_name up "node${n}.${service}.onedata.example.com"
 } 
 
-function handle_oneprovider {
+handle_oneprovider() {
   local n=$1
   local compose_file_name=$2
   local onezone_ip=$3
