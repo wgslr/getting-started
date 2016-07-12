@@ -68,6 +68,7 @@ Now that after Oneprovider is up, you can check it's administration panel at:
 https://<your virtual machine ip>:9443
 ```
 
+Now you can test you installation by following [these](#testing) instructions.
 For further instructions on using Oneprovider refer to documentation on [onedata.org](https://beta.onedata.org).
 
 <a name="s20"></a>
@@ -219,7 +220,7 @@ https://node1.oneprovider.onedata.example.com:9443 # OR
 https://<oneprovider machine or container ip>:9443
 ```
 
-<a name="accessing"></a>
+<a name="testing"></a>
 ### Testing your installation
 The basic test of your installatin involves:
 
