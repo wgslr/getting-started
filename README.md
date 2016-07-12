@@ -51,6 +51,11 @@ In this scenario you will run a demo of single node pre-configured Oneprovider i
 
 You will require a machine with a public IP address and a number of [open ports](#ports) to communicate with [onedata.org](https://beta.onedata.org).
 
+You need to replace a line in [docker-compose-oneprovider.yml](scenarios/1_0_oneprovider_onedata_org/docker-compose-oneprovider.yml) with public IP of your machine or hostname so that Onezone at [onedata.org](https://beta.onedata.org) knows how to reach your provider:
+```
+redirection_point: "https://90.147.170.174" # Change to IP or hostname of your machine!
+```
+
 In order to setup and deploy your Oneprovider simply run:
 
 ```bash
