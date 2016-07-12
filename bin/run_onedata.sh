@@ -82,18 +82,23 @@ function batch_mode_check {
 function handle_onezone {
   local n=$1
   local compose_file_name=$2
-  local docker_compose_sh_local
   mkdir -p $ONEZONE_CONFIG_DIR
 
-  docker_compose_sh_local="AUTH_PATH=$AUHT_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR ${docker_compose_sh}"
+
   if [[ $DEBUG -eq 1 ]]; then
-    docker_compose_sh_local="echo ${docker_compose_sh_local}"
+    docker_compose_sh_local() {
+      echo AUTH_PATH=$AUHT_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR ${docker_compose_sh} $@
+    }
     print_docker_compose_file $compose_file_name
+  else 
+    docker_compose_sh_local() {
+      AUTH_PATH=$AUHT_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR ${docker_compose_sh} $@
+    }
   fi
   
   batch_mode_check "onezone" $compose_file_name
-  "$docker_compose_sh_local -f $compose_file_name pull"
-  $docker_compose_sh_local -f $compose_file_name up "node${n}.${service}.onedata.example.com"
+  docker_compose_sh_local -f $compose_file_name pull
+  docker_compose_sh_local -f $compose_file_name up "node${n}.${service}.onedata.example.com"
 } 
 
 function handle_oneprovider {
@@ -105,7 +110,7 @@ function handle_oneprovider {
   mkdir -p $ONEPROVIDER_CONFIG_DIR
   mkdir -p $oneprovider_data_dir
 
-  batch_mode_check "oneprovider" $compose_file_name
+
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
@@ -119,6 +124,7 @@ function handle_oneprovider {
     }
   fi
 
+  batch_mode_check "oneprovider" $compose_file_name
   docker_compose_sh_local -f $compose_file_name pull
   docker_compose_sh_local -f $compose_file_name up "node${n}.${service}.onedata.example.com"
 } 
