@@ -30,9 +30,9 @@ BEGINING===="
   while read -r; do
     while [[ $REPLY =~ \$(([a-zA-Z_][a-zA-Z_0-9]*)|\{([a-zA-Z_][a-zA-Z_0-9]*)\})(.*) ]]; do
       if [[ -z ${BASH_REMATCH[3]} ]]; then   # found $var
-        printf %s "${REPLY%"$BASH_REMATCH"}${!BASH_REMATCH[2]}"
+        printf %s "${REPLY%"${BASH_REMATCH[0]}"}${!BASH_REMATCH[2]}"
       else # found ${var}
-        printf %s "${REPLY%"$BASH_REMATCH"}${!BASH_REMATCH[3]}"
+        printf %s "${REPLY%"${BASH_REMATCH[0]}"}${!BASH_REMATCH[3]}"
       fi
       REPLY=${BASH_REMATCH[4]}
     done
@@ -67,17 +67,17 @@ debug() {
 }
 
 clean() {
-  rm -rf $ONEZONE_CONFIG_DIR
-  rm -rf $ONEPROVIDER_CONFIG_DIR
-  rm -rf $ONEPROVIDER_DATA_DIR
-  rm -rf $SPACES_DIR
+  rm -rf "$ONEZONE_CONFIG_DIR"
+  rm -rf "$ONEPROVIDER_CONFIG_DIR"
+  rm -rf "$ONEPROVIDER_DATA_DIR"
+  rm -rf "$SPACES_DIR"
 }
 
 batch_mode_check() {
   local service=$1
   local compose_file_name=$2
 
-  grep 'ONEPANEL_BATCH_MODE: "true"' $compose_file_name > /dev/null
+  grep 'ONEPANEL_BATCH_MODE: "true"' "$compose_file_name" > /dev/null
   if [[ $? -eq 0 ]] ; then
 
     RED="$(tput setaf 1)"
@@ -92,23 +92,23 @@ batch_mode_check() {
 handle_onezone() {
   local n=$1
   local compose_file_name=$2
-  mkdir -p $ONEZONE_CONFIG_DIR
+  mkdir -p "$ONEZONE_CONFIG_DIR"
 
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo AUTH_PATH=$AUTH_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR ${docker_compose_sh} $@
+      echo AUTH_PATH="$AUTH_PATH" ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh} "$@"
     }
-    print_docker_compose_file $compose_file_name
+    print_docker_compose_file "$compose_file_name"
   else 
     docker_compose_sh_local() {
-      AUTH_PATH=$AUTH_PATH ONEZONE_CONFIG_DIR=$ONEZONE_CONFIG_DIR ${docker_compose_sh} $@
+      AUTH_PATH=$AUTH_PATH ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh} "$@"
     }
   fi
   
-  batch_mode_check "onezone" $compose_file_name
-  docker_compose_sh_local -f $compose_file_name pull
-  docker_compose_sh_local -f $compose_file_name up "node${n}.${service}.onedata.example.com"
+  batch_mode_check "onezone" "$compose_file_name"
+  docker_compose_sh_local -f "$compose_file_name" pull
+  docker_compose_sh_local -f "$compose_file_name" up "node${n}.${service}.onedata.example.com"
 } 
 
 handle_oneprovider() {
@@ -117,26 +117,26 @@ handle_oneprovider() {
   local onezone_ip=$3
   local oneprovider_data_dir=$4
 
-  mkdir -p $ONEPROVIDER_CONFIG_DIR
-  mkdir -p $oneprovider_data_dir
+  mkdir -p "$ONEPROVIDER_CONFIG_DIR"
+  mkdir -p "$oneprovider_data_dir"
 
 
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH=$ONEPROVIDER_APP_CONFIG_PATH ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir ${docker_compose_sh} $@
+      echo ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH="$ONEPROVIDER_APP_CONFIG_PATH" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR " ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" "${docker_compose_sh}" "$@"
     }
     docker_compose_sh_local="echo ${docker_compose_sh_local}"
-    print_docker_compose_file $compose_file_name
+    print_docker_compose_file "$compose_file_name"
   else
     docker_compose_sh_local() {
-      ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH=$ONEPROVIDER_APP_CONFIG_PATH ONEPROVIDER_CONFIG_DIR=$ONEPROVIDER_CONFIG_DIR  ONEPROVIDER_DATA_DIR=$oneprovider_data_dir ${docker_compose_sh} $@
+      ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH="$ONEPROVIDER_APP_CONFIG_PATH" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR"  ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" "${docker_compose_sh}" "$@"
     }
   fi
 
-  batch_mode_check "oneprovider" $compose_file_name
-  docker_compose_sh_local -f $compose_file_name pull
-  docker_compose_sh_local -f $compose_file_name up "node${n}.${service}.onedata.example.com"
+  batch_mode_check "oneprovider" "$compose_file_name"
+  docker_compose_sh_local -f "$compose_file_name" pull
+  docker_compose_sh_local -f "$compose_file_name" up "node${n}.${service}.onedata.example.com"
 } 
 
 main() {
@@ -146,7 +146,7 @@ main() {
   local onezone_ip=""
   local clean=0
 
-  while [[ $# > 0 ]]; do
+  while (( $# )); do
       case $1 in
           -h|-\?|--help)   # Call a "usage" function to display a synopsis, then exit.
               usage
@@ -181,7 +181,7 @@ main() {
               exit 1
               ;;
           *)
-              die "no option ${flag}"
+              die "no option $1"
               ;;
       esac
       shift
@@ -195,11 +195,11 @@ main() {
   local compose_file_name="docker-compose-${service}.yml"
 
   if [[ $service == "onezone" ]]; then
-    handle_onezone $n $compose_file_name
+    handle_onezone "$n" "$compose_file_name"
   fi
 
   if [[ $service == "oneprovider" ]]; then
-    handle_oneprovider $n $compose_file_name "$onezone_ip" $oneprovider_data_dir 
+    handle_oneprovider "$n" "$compose_file_name" "$onezone_ip" "$oneprovider_data_dir"
   fi
 
   if [[ $clean -eq 1 ]]; then
@@ -210,7 +210,7 @@ main() {
   
 }
 
-if [ $# -lt 1 ]; then
+if (( $# )); then
     usage
 fi
 
