@@ -234,9 +234,52 @@ The basic test of your installatin involves:
 For more detailed description on, how to performs those steps please refer to official [documentation](https://beta.onedata.org/docs/index.html).
 
 
+<a name="customize"></a>
+### Customizing your installation
+
+#### Customizing data and config directories locations
+In all scenarios Onezoe and Oneprovier services typicaly have two docker volumes exported mounted to host filesystem.
+
+- `/volumes/persistency` - where configuration is stored
+- `/volumes/storage` - where Oneprovider stores users' data
+
+Aboce directorries are present in docker container and are by default mounted under paths:
+- `./config_onezone` for Onezone configuration 
+- `./config_oneprovider`for Oneprovider configuration 
+- `./oneprovider_data` for Oneprovider users' data 
+
+You can modify them directly in docker-compose files. For Oneprovider data direstory we provider a special falg (`--data-dir`) in `onedata_run.sh` command. Example
+
+```
+onedata_run.sh  --oneprovider --data-dir /mnt/data # where /mnt/data is a directory you want to store users' data on your VM or physical server
+```
+
+#### Customizing domain of your service
+In all scenarios and well as in internals of `onedata_run.sh` script we use a domain `onedata.example.com`. If you would like to change it, you do not need to modify the `docker-compose-*.yml` files.
+
+Ignore the fact that Onezone and Oneprovider are started using domain `onedata.example.com`. After they are started edit the /etc/hosts file on your VM to map IP of the docker container where Oneprovider or Onezone are running to the domain of your choosing. Example
+
+```
+# $ cat /etc/host
+127.0.0.1	localhost
+<ip_of_onezone_container> onezone.ki.agh.edu.pl
+```
+
+Next you need to pair the VM ip address with domain name `onezone.ki.agh.edu.pl`. That's all. 
+
 <a name="cleaning"></a>
 ### Cleaning your installation
-TODO
+Onezone and Oneprovider use mount two docker volumes on the host machine. In order to clear your installation (eg. after faild atempt to start the service) you need to remove all contant of those volumes. If you did not alter `docker-compose-*.yml` files this can be done with:
+
+```
+sudo run_onedata.sh --clean # Docker changes ownership of mounted directories to root, that's why you need sudo or run it as a root. 
+```
+
+Also make sure that you have no dandling Onedata containers in your Docker Engine. You can check that using:
+
+```
+docker ps -a
+```
 
 <a name="using"></a>
 ## Using Onedata
