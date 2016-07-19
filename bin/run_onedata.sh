@@ -211,7 +211,7 @@ main() {
 }
 
 if (( $# )); then
-    usage
+  main "$@"
+else
+  usage
 fi
-
-main "$@"
