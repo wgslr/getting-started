@@ -52,3 +52,14 @@ services:
           geo_longitude: 19.909444
         onezone:
           domain_name: "beta.onedata.org"
+        onepanel:
+          users:
+            "admin1":
+              password: "password"
+              role: "admin"
+            "admin2":
+              password: "password"
+              role: "admin"
+            "user1":
+              password: "password"
+              role: "regular"
