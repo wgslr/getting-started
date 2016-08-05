@@ -3,6 +3,7 @@ version: '2.0'
 services:
   node1.oneprovider.localhost:
     image: onedata/oneprovider:3.0.0-RC1
+    hostname: node1.oneprovider.localhost
     volumes:
       - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
       - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
@@ -37,14 +38,3 @@ services:
           geo_longitude: 19.909444
         onezone:
           domain_name: "${ZONE_FQDN}" # OR IP ADDRESS
-        onepanel:
-          users:
-            "admin1":
-              password: "password"
-              role: "admin"
-            #"admin2":
-            #  password: "password"
-            #  role: "admin"
-            #"user1":
-            #  password: "password"
-            #  role: "regular"

@@ -13,7 +13,7 @@ AUTH_PATH="${REPO_ROOT}${AUTH_CONF}"
 HOSTNAME=$(hostname -s)
 
 PROVIDER_SERVICE_NAME="node1.oneprovider.localhost"
-ZONE_SERVICE_NAME="node1.zone.localhost"
+ZONE_SERVICE_NAME="node1.onezone.localhost"
 
 
 DEBUG=0;
@@ -161,13 +161,13 @@ main() {
               usage
               exit 0
               ;;
-          --onezone)      
+          --zone)      
               service="onezone"
               ;;
-          --oneprovider)       
+          --provider)       
               service="oneprovider"
               ;;
-          --oneprovider-data-dir)       
+          --provider-data-dir)       
               oneprovider_data_dir=$2
               shift
               ;;
@@ -181,7 +181,7 @@ main() {
           --debug)
               DEBUG=1
               ;;      
-          --onezone_ip)
+          --zone_ip)
               ZONE_DOMAIN_NAME=$2
               shift
               ;;
