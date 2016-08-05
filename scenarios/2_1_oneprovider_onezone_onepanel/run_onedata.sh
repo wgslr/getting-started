@@ -1,4 +1,11 @@
 #!/bin/bash
-# POSIX
 
-../../bin/run_onedata.sh $@
+
+
+source ../../bin/run_onedata.sh 
+
+clean_scenario() {
+	: # pass
+}
+
+main "$@"

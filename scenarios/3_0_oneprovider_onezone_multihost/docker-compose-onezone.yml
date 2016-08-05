@@ -1,12 +1,14 @@
 version: '2.0'
 
 services:
-  node1.oneprovider.onedata.example.com:
-    image: onedata/oneprovider:3.0.0-RC1
-    hostname: node1.oneprovider.onedata.example.com
+  node1.onezone.localhost:
+    image: onedata/onezone:3.0.0-RC2
+    hostname: node1.onezone.localhost
+    # dns: 8.8.8.8 # uncomment if container can't ping any domain
+    container_name: onezone-1
     volumes:
-        - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
-        - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
+        - "${AUTH_PATH}:/volumes/persistency/var/lib/oz_worker/auth.config"
+        - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
         - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
       - "53:53"
@@ -24,9 +26,9 @@ services:
       - "9443:9443"
     environment:
       ONEPANEL_BATCH_MODE: "true"
-      ONEPROVIDER_CONFIG: |
+      ONEZONE_CONFIG: |
         cluster:
-          domain_name: "oneprovider.onedata.example.com"
+          domain_name: "onezone.localhost"
           nodes:
             n1:
               hostname: "node1"
@@ -40,26 +42,13 @@ services:
           database:
             nodes:
               - "n1"
-          storage:
-            NFS:
-              type: "POSIX"
-              mount_point: "/volumes/storage"
-        oneprovider:
-          register: true
-          name: "example"
-          redirection_point: "https://90.147.170.174" # Change to IP or hostname of your machine!
-          geo_latitude: 50.068968
-          geo_longitude: 19.909444
         onezone:
-          domain_name: "beta.onedata.org"
+          name: "example"
         onepanel:
           users:
-            "admin1":
+            "admin":
               password: "password"
               role: "admin"
-            "admin2":
-              password: "password"
-              role: "admin"
-            "user1":
+            "user":
               password: "password"
               role: "regular"
