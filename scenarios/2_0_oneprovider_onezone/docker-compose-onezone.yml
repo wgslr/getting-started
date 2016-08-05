@@ -1,9 +1,8 @@
 version: '2.0'
 
 services:
-  node1.onezone.onedata.example.com:
+  node1.onezone.localhost:
     image: onedata/onezone:3.0.0-RC1
-    hostname: node1.onezone.onedata.example.com
     volumes:
         - "${AUTH_PATH}:/volumes/persistency/var/lib/oz_worker/auth.config"
         - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
@@ -12,7 +11,7 @@ services:
       ONEPANEL_BATCH_MODE: "true"
       ONEZONE_CONFIG: |
         cluster:
-          domain_name: "onezone.onedata.example.com"
+          domain_name: "onezone.localhost"
           nodes:
             n1:
               hostname: "node1"
@@ -33,9 +32,9 @@ services:
             "admin1":
               password: "password"
               role: "admin"
-            "admin2":
-              password: "password"
-              role: "admin"
-            "user1":
-              password: "password"
-              role: "regular"
+            #"admin2":
+            #  password: "password"
+            #  role: "admin"
+            #"user1":
+            #  password: "password"
+            #  role: "regular"

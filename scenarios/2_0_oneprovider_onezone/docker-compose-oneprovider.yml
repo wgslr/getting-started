@@ -1,20 +1,17 @@
 version: '2.0'
 
 services:
-  node1.oneprovider.onedata.example.com:
+  node1.oneprovider.localhost:
     image: onedata/oneprovider:3.0.0-RC1
-    hostname: node1.oneprovider.onedata.example.com
     volumes:
       - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
       - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
       - "/var/run/docker.sock:/var/run/docker.sock"
-    external_links:
-      - "node1.onezone.onedata.example.com:onedata.example.com"  
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEPROVIDER_CONFIG: |
         cluster:
-          domain_name: "oneprovider.onedata.example.com"
+          domain_name: "oneprovider.localhost"
           nodes:
             n1:
               hostname: "node1"
@@ -35,19 +32,19 @@ services:
         oneprovider:
           register: true
           name: "example"
-          redirection_point: "https://node1.oneprovider.onedata.example.com"
+          redirection_point: "https://${PROVIDER_FQDN}" # OR IP ADDRESS
           geo_latitude: 50.068968
           geo_longitude: 19.909444
         onezone:
-          domain_name: "onedata.example.com"
+          domain_name: "${ZONE_FQDN}" # OR IP ADDRESS
         onepanel:
           users:
             "admin1":
               password: "password"
               role: "admin"
-            "admin2":
-              password: "password"
-              role: "admin"
-            "user1":
-              password: "password"
-              role: "regular"
+            #"admin2":
+            #  password: "password"
+            #  role: "admin"
+            #"user1":
+            #  password: "password"
+            #  role: "regular"

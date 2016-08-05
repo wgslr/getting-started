@@ -9,6 +9,13 @@ ONEPROVIDER_APP_CONFIG_PATH="${REPO_ROOT}${ONEPROVIDER_APP_CONFIG}"
 SPACES_DIR="${PWD}/myspaces/"
 AUTH_CONF="bin/config/auth.conf"
 AUTH_PATH="${REPO_ROOT}${AUTH_CONF}"
+
+HOSTNAME=$(hostname -s)
+
+PROVIDER_SERVICE_NAME="node1.oneprovider.localhost"
+ZONE_SERVICE_NAME="node1.zone.localhost"
+
+
 DEBUG=0;
 
 docker_compose_sh="docker-compose"
@@ -37,7 +44,7 @@ BEGINING===="
       REPLY=${BASH_REMATCH[4]}
     done
     printf "%s\n" "$REPLY"
-  done < "$compose_file_name"
+  done < "${compose_file_name}"
   echo "====END"
 }
 
@@ -52,13 +59,16 @@ ${0##*/} --oneprovider -n2 --oneprovider-data-dir \"/mnt/super_fast_and_big_stor
 will start a second node of oneprovider service.
 
 Options:
-  -h, --help              display this help and exit
-  --onezone               starts onezone service
-  --onezone_ip            ip or hostname of onezone service
-  --oneprovider           starts oneprovider service
-  --oneprovider-data-dir  a directory where provider will store users raw data
-  -n, --node              a node number to start, default value is 1
-  --clean                 clean all onezone, oneprivder and oneclient configuration and data files - provided all docker containers using them have been shutdown"
+  -h, --help           display this help and exit
+  --zone               starts onezone service
+  --zone_ip            ip or hostname of onezone service
+  --provider           starts oneprovider service
+  --provider-dn        domain name for oneprovider      
+  --provider-fqdn      FQDN for oneprovider      
+  --zone-fqdn          FQDN for onezone
+  --provider-data-dir  a directory where provider will store users raw data
+  -n, --node           a node number to start, default value is 1
+  --clean              clean all onezone, oneprivder and oneclient configuration and data files - provided all docker containers using them have been shutdown"
   exit 0
 }
 
@@ -102,13 +112,13 @@ handle_onezone() {
     print_docker_compose_file "$compose_file_name"
   else 
     docker_compose_sh_local() {
-      AUTH_PATH=$AUTH_PATH ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh} "$@"
+      ZONE_DOMAIN_NAME=$ZONE_DOMAIN_NAME PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME AUTH_PATH=$AUTH_PATH ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh} "$@"
     }
   fi
   
   batch_mode_check "onezone" "$compose_file_name"
   docker_compose_sh_local -f "$compose_file_name" pull
-  docker_compose_sh_local -f "$compose_file_name" up "node${n}.${service}.onedata.example.com"
+  docker_compose_sh_local -f "$compose_file_name" up "${ZONE_SERVICE_NAME}"
 } 
 
 handle_oneprovider() {
@@ -121,22 +131,21 @@ handle_oneprovider() {
   mkdir -p "$oneprovider_data_dir"
 
 
-
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH="$ONEPROVIDER_APP_CONFIG_PATH" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR " ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" "${docker_compose_sh}" "$@"
+      echo PROVIDER_DOMAIN_NAME=$PROVIDER_DOMAIN_NAME PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH="$ONEPROVIDER_APP_CONFIG_PATH" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR " ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" "${docker_compose_sh}" "$@"
     }
     docker_compose_sh_local="echo ${docker_compose_sh_local}"
     print_docker_compose_file "$compose_file_name"
   else
     docker_compose_sh_local() {
-      ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH="$ONEPROVIDER_APP_CONFIG_PATH" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR"  ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" "${docker_compose_sh}" "$@"
+      PROVIDER_DOMAIN_NAME=$PROVIDER_DOMAIN_NAME PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH="$ONEPROVIDER_APP_CONFIG_PATH" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR"  ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" "${docker_compose_sh}" "$@"
     }
   fi
 
   batch_mode_check "oneprovider" "$compose_file_name"
   docker_compose_sh_local -f "$compose_file_name" pull
-  docker_compose_sh_local -f "$compose_file_name" up "node${n}.${service}.onedata.example.com"
+  docker_compose_sh_local -f "$compose_file_name" up "${PROVIDER_SERVICE_NAME}"
 } 
 
 main() {
@@ -173,7 +182,19 @@ main() {
               DEBUG=1
               ;;      
           --onezone_ip)
-              onezone_ip=$2
+              ZONE_DOMAIN_NAME=$2
+              shift
+              ;;
+          --zone-fqdn)
+              ZONE_FQDN=$2
+              shift
+              ;;
+          --provider-dn)
+              PROVIDER_DOMAIN_NAME=$2
+              shift
+              ;;
+          --provider-fqdn)
+              PROVIDER_FQDN=$2
               shift
               ;;
           -?*)
@@ -186,6 +207,7 @@ main() {
       esac
       shift
   done
+
 
   if [[ $clean -eq 1 ]]; then
     clean
