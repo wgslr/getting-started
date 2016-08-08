@@ -77,6 +77,7 @@ clean() {
   rm -rf "$ONEPROVIDER_CONFIG_DIR"
   rm -rf "$ONEPROVIDER_DATA_DIR"
   rm -rf "$SPACES_DIR"
+  clean_scenario
 }
 
 batch_mode_check() {
