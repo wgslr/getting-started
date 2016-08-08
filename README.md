@@ -1,6 +1,6 @@
 # Onedata Quickstart Scenarios
 
-This repository contains a few scenarios for quickly and easily getting started with administration and management of Onedata distributed data management platform. If you're new to Onedata please have a look at the introductory information in our [documentation](https://onedata.org/docs/doc/getting_started/what_is_onedata.html).
+This repository contains a few scenarios for quickly and easily getting started with of Onedata distributed data management platform. The scenarios are intedned for administrators who want to get familiar with Onedata. If you're new to Onedata please have a look at the introductory information in our [documentation](https://onedata.org/docs/doc/getting_started/what_is_onedata.html).
 
 Scenarios vary in complexity: beginning with simple, preconfigured demos and ending with highly advanced multi-cluster setups. The scenarios are implemented using preconfigured Docker images, and can be quickly deployed and tested.
 
