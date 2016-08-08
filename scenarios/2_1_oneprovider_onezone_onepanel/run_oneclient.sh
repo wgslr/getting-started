@@ -1,4 +1,5 @@
 #!/bin/bash
-# POSIX
 
-../../bin/run_oneclient.sh $@
+source ../../bin/run_oneclient.sh 
+
+main "$@"

@@ -1,4 +1,5 @@
 #!/bin/bash
-# POSIX
 
-../../bin/run_onedata.sh $@
+source ../../bin/run_onedata.sh
+
+main "$@"

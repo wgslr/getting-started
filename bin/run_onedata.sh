@@ -145,6 +145,11 @@ handle_oneprovider() {
 } 
 
 main() {
+
+  if (( ! $# )); then
+    usage
+  fi
+
   local oneprovider_data_dir=$ONEPROVIDER_DATA_DIR
   local n=1
   local service
@@ -224,12 +229,6 @@ main() {
     debug
     exit 0
   fi
-  
-  
 }
 
-if (( $# )); then
-  main "$@"
-else
-  usage
-fi
+
