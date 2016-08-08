@@ -8,6 +8,9 @@ services:
         - "${AUTH_PATH}:/volumes/persistency/var/lib/oz_worker/auth.config"
         - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
         - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - scenario2
+
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEZONE_CONFIG: |
@@ -39,3 +42,6 @@ services:
             #"user1":
             #  password: "password"
             #  role: "regular"
+
+networks:
+  scenario2:
