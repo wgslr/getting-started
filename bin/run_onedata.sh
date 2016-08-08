@@ -12,10 +12,6 @@ AUTH_PATH="${REPO_ROOT}${AUTH_CONF}"
 
 HOSTNAME=$(hostname -s)
 
-PROVIDER_SERVICE_NAME="node1.oneprovider.localhost"
-ZONE_SERVICE_NAME="node1.onezone.localhost"
-
-
 DEBUG=0;
 
 docker_compose_sh="docker-compose"
@@ -118,7 +114,7 @@ handle_onezone() {
   
   batch_mode_check "onezone" "$compose_file_name"
   docker_compose_sh_local -f "$compose_file_name" pull
-  docker_compose_sh_local -f "$compose_file_name" up "${ZONE_SERVICE_NAME}"
+  docker_compose_sh_local -f "$compose_file_name" up 
 } 
 
 handle_oneprovider() {
@@ -145,7 +141,7 @@ handle_oneprovider() {
 
   batch_mode_check "oneprovider" "$compose_file_name"
   docker_compose_sh_local -f "$compose_file_name" pull
-  docker_compose_sh_local -f "$compose_file_name" up "${PROVIDER_SERVICE_NAME}"
+  docker_compose_sh_local -f "$compose_file_name" up
 } 
 
 main() {

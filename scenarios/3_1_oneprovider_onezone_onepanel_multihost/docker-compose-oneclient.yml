@@ -1,0 +1,10 @@
+version: '2.0'
+
+services:
+  oneclient:
+    image: onedata/oneclient:3.0.0-RC1
+    privileged: true
+    environment:
+      PROVIDER_HOSTNAME: $PROVIDER_HOSTNAME
+      ONECLIENT_AUTHORIZATION_TOKEN: $ONECLIENT_AUTHORIZATION_TOKEN
+      NO_CHECK_CERTIFICATE: 'true'
