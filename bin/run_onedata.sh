@@ -14,7 +14,7 @@ HOSTNAME=$(hostname -s)
 
 DEBUG=0;
 
-docker_compose_sh="docker-compose"
+docker_compose_sh=("docker-compose" "-p" "${SCENARIO_NAME}")
 
 # Error handling.
 # $1 - error string
@@ -130,13 +130,13 @@ handle_oneprovider() {
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo PROVIDER_DOMAIN_NAME=$PROVIDER_DOMAIN_NAME PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH="$ONEPROVIDER_APP_CONFIG_PATH" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR " ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" "${docker_compose_sh}" "$@"
+      echo PROVIDER_DOMAIN_NAME=$PROVIDER_DOMAIN_NAME PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH="$ONEPROVIDER_APP_CONFIG_PATH" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR " ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
     }
     docker_compose_sh_local="echo ${docker_compose_sh_local}"
     print_docker_compose_file "$compose_file_name"
   else
     docker_compose_sh_local() {
-      PROVIDER_DOMAIN_NAME=$PROVIDER_DOMAIN_NAME PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH="$ONEPROVIDER_APP_CONFIG_PATH" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR"  ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" "${docker_compose_sh}" "$@"
+      PROVIDER_DOMAIN_NAME=$PROVIDER_DOMAIN_NAME PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH="$ONEPROVIDER_APP_CONFIG_PATH" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR"  ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
     }
   fi
 
