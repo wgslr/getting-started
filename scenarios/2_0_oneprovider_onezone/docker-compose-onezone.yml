@@ -5,7 +5,6 @@ services:
     image: onedata/onezone:3.0.0-RC2
     hostname: node1.onezone.localhost
     volumes:
-        - "${AUTH_PATH}:/volumes/persistency/var/lib/oz_worker/auth.config"
         - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
         - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
