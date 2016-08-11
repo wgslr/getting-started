@@ -4,8 +4,6 @@ REPO_ROOT="${PWD//getting-started*}getting-started/"
 ONEZONE_CONFIG_DIR="${PWD}/config_onezone/"
 ONEPROVIDER_CONFIG_DIR="${PWD}/config_oneprovider/"
 ONEPROVIDER_DATA_DIR="${PWD}/oneprovider_data/"
-ONEPROVIDER_APP_CONFIG="bin/config/app.config"
-ONEPROVIDER_APP_CONFIG_PATH="${REPO_ROOT}${ONEPROVIDER_APP_CONFIG}"
 SPACES_DIR="${PWD}/myspaces/"
 AUTH_CONF="bin/config/auth.conf"
 AUTH_PATH="${REPO_ROOT}${AUTH_CONF}"
@@ -15,6 +13,11 @@ HOSTNAME=$(hostname -s)
 DEBUG=0;
 
 docker_compose_sh=("docker-compose" "-p" "${SCENARIO_NAME}")
+
+GEO_LATITUDE="50.068968"
+GEO_LONGITUDE="19.909444"
+
+ZONE_FQDN="beta.onedata.org"
 
 # Error handling.
 # $1 - error string
@@ -46,26 +49,30 @@ BEGINING===="
 
 # As the name suggests
 usage() {
-  echo "Usage: ${0##*/}  [-h] [ --onezone  | --oneprovider ] [ --oneprovider-data-dir ] [ --onezone_ip ] [ -n  | --node ]
+  echo "Usage: ${0##*/}  [-h] [ --zone  | --provider ] [ --clean ] [ --debug ]
 
-This script starts Onedata components:
+Onezone usage: ${0##*/} --zone 
+Oneprovider usage: ${0##*/} --provider [ --provider-fqdn <fqdn> ] [ --zone-fqdn <fqdn> ] [ --provider-data-dir ] [ --set-lat-long ]
 
 Example usage:
-${0##*/} --oneprovider -n2 --oneprovider-data-dir \"/mnt/super_fast_and_big_storage/\"
-will start a second node of oneprovider service.
+${0##*/} --oneprovider --provider-fqdn 'myonedataprovider.tk' --zone-fqdn 'myonezone.tk' --provider-data-dir '/mnt/super_fast_and_big_storage/' --provider-conf-dir '/etc/oneprovider/'
 
 Options:
   -h, --help           display this help and exit
   --zone               starts onezone service
-  --zone_ip            ip or hostname of onezone service
   --provider           starts oneprovider service
-  --provider-dn        domain name for oneprovider      
   --provider-fqdn      FQDN for oneprovider      
-  --zone-fqdn          FQDN for onezone
+  --zone-fqdn          FQDN for onezone (defaults to beta.onedata.org)
   --provider-data-dir  a directory where provider will store users raw data
-  -n, --node           a node number to start, default value is 1
+  --provider-conf-dir  directory where provider will configuration its files
+  --set-lat-log        sets latitude and longitude from reegeoip.net service based on your public ip's
   --clean              clean all onezone, oneprivder and oneclient configuration and data files - provided all docker containers using them have been shutdown"
   exit 0
+}
+
+get_log_lat(){
+  ip="$(curl http://ipinfo.io/ip)"
+  read GEO_LATITUDE GEO_LONGITUDE <<< $(curl freegeoip.net/xml/"$ip" | grep -E "Latitude|Longitude" | cut -d '>' -f 2 | cut -d '<' -f 1)
 }
 
 debug() {
@@ -121,8 +128,7 @@ handle_onezone() {
 handle_oneprovider() {
   local n=$1
   local compose_file_name=$2
-  local onezone_ip=$3
-  local oneprovider_data_dir=$4
+  local oneprovider_data_dir=$3
 
   mkdir -p "$ONEPROVIDER_CONFIG_DIR"
   mkdir -p "$oneprovider_data_dir"
@@ -130,13 +136,13 @@ handle_oneprovider() {
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo PROVIDER_DOMAIN_NAME=$PROVIDER_DOMAIN_NAME PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH="$ONEPROVIDER_APP_CONFIG_PATH" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR " ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
+      echo GEO_LATITUDE=$GEO_LATITUDE LONG=$GEO_LONGITUDE PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
     }
     docker_compose_sh_local="echo ${docker_compose_sh_local}"
     print_docker_compose_file "$compose_file_name"
   else
     docker_compose_sh_local() {
-      PROVIDER_DOMAIN_NAME=$PROVIDER_DOMAIN_NAME PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME ONEZONE_IP="$onezone_ip" ONEPROVIDER_APP_CONFIG_PATH="$ONEPROVIDER_APP_CONFIG_PATH" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR"  ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
+      GEO_LATITUDE=$GEO_LATITUDE GEO_LONGITUDE=$GEO_LONGITUDE PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR"  ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
     }
   fi
 
@@ -156,6 +162,7 @@ main() {
   local service
   local onezone_ip=""
   local clean=0
+  local get_log_lat_flag=0
 
   while (( $# )); do
       case $1 in
@@ -173,8 +180,8 @@ main() {
               oneprovider_data_dir=$2
               shift
               ;;
-          -n|--node)    
-              n=$2
+          --provider-conf-dir)       
+              ONEPROVIDER_CONFIG_DIR=$2
               shift
               ;;
           --clean)    
@@ -183,21 +190,16 @@ main() {
           --debug)
               DEBUG=1
               ;;      
-          --zone_ip)
-              ZONE_DOMAIN_NAME=$2
-              shift
-              ;;
           --zone-fqdn)
               ZONE_FQDN=$2
-              shift
-              ;;
-          --provider-dn)
-              PROVIDER_DOMAIN_NAME=$2
               shift
               ;;
           --provider-fqdn)
               PROVIDER_FQDN=$2
               shift
+              ;;
+          --set-lat-long)
+              get_log_lat_flag=1
               ;;
           -?*)
               printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
@@ -216,6 +218,10 @@ main() {
     exit 0
   fi
 
+  if [[ $get_log_lat_flag -eq 1 ]]; then
+    get_log_lat
+  fi
+
   local compose_file_name="docker-compose-${service}.yml"
 
   if [[ $service == "onezone" ]]; then
@@ -223,7 +229,7 @@ main() {
   fi
 
   if [[ $service == "oneprovider" ]]; then
-    handle_oneprovider "$n" "$compose_file_name" "$onezone_ip" "$oneprovider_data_dir"
+    handle_oneprovider "$n" "$compose_file_name" "$oneprovider_data_dir"
   fi
 
   if [[ $clean -eq 1 ]]; then

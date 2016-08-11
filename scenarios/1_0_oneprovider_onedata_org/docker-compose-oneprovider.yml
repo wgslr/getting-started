@@ -48,7 +48,7 @@ services:
           register: true
           name: "example"
           redirection_point: "https://${PROVIDER_FQDN}" # OR IP ADDRESS
-          geo_latitude: 50.068968
-          geo_longitude: 19.909444
+          geo_latitude: ${GEO_LATITUDE}
+          geo_longitude: ${GEO_LONGITUDE}
         onezone:
-          domain_name: "onedata.org" # or beta.onedata.org
+          domain_name: "${ZONE_FQDN}" # OR IP ADDRESS

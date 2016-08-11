@@ -4,8 +4,6 @@ services:
   node1.oneprovider.localhost:
     image: onedata/oneprovider:3.0.0-RC1
     hostname: node1.oneprovider.localhost
-    external_links:
-      - "node1.onezone.onedata.example.com:onedata.example.com"
     volumes:
         - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
         - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"

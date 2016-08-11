@@ -47,9 +47,6 @@ services:
             "admin1":
               password: "password"
               role: "admin"
-            #"admin2":
-            #  password: "password"
-            #  role: "admin"
-            #"user1":
-            #  password: "password"
-            #  role: "regular"
+            "user1":
+              password: "password"
+              role: "regular"
