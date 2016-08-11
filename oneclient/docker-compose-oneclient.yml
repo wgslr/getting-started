@@ -4,6 +4,8 @@ services:
   oneclient:
     image: onedata/oneclient:3.0.0-beta8
     privileged: true
+    volumes:
+      - ${MOUNT_POINT}:/mnt/oneclient
     environment:
       PROVIDER_HOSTNAME: $PROVIDER_HOSTNAME
       ONECLIENT_AUTHORIZATION_TOKEN: $ONECLIENT_AUTHORIZATION_TOKEN
