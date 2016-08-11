@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.oneprovider.localhost:
-    image: onedata/oneprovider:3.0.0-RC1
+    image: onedata/oneprovider:3.0.0-RC2
     hostname: node1.oneprovider.localhost
     volumes:
         - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"

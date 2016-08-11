@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Scenario has to be defined before the source
-SCENARIO_NAME='2x0oneprovideronezone'
+SCENARIO_NAME='20oneprovideronezone'
 
 source ../../bin/run_onedata.sh 
 

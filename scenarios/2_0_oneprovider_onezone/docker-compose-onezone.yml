@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.onezone.localhost:
-    image: onedata/onezone:3.0.0-RC1
+    image: onedata/onezone:3.0.0-RC2
     hostname: node1.onezone.localhost
     volumes:
         - "${AUTH_PATH}:/volumes/persistency/var/lib/oz_worker/auth.config"
@@ -35,12 +35,9 @@ services:
             "admin1":
               password: "password"
               role: "admin"
-            #"admin2":
-            #  password: "password"
-            #  role: "admin"
-            #"user1":
-            #  password: "password"
-            #  role: "regular"
+            "user1":
+              password: "password"
+              role: "regular"
 
 networks:
   scenario2:

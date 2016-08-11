@@ -5,18 +5,18 @@ ONEZONE_CONFIG_DIR="${PWD}/config_onezone/"
 ONEPROVIDER_CONFIG_DIR="${PWD}/config_oneprovider/"
 ONEPROVIDER_DATA_DIR="${PWD}/oneprovider_data/"
 SPACES_DIR="${PWD}/myspaces/"
-AUTH_CONF="bin/config/auth.conf"
-AUTH_PATH="${REPO_ROOT}${AUTH_CONF}"
-
-HOSTNAME=$(hostname -s)
+#AUTH_CONF="bin/config/auth.conf"
+#AUTH_PATH="${REPO_ROOT}${AUTH_CONF}"
 
 DEBUG=0;
 
 docker_compose_sh=("docker-compose" "-p" "${SCENARIO_NAME}")
 
+#Default coordinates
 GEO_LATITUDE="50.068968"
 GEO_LONGITUDE="19.909444"
 
+#Default Onezone
 ZONE_FQDN="beta.onedata.org"
 
 # Error handling.
@@ -55,7 +55,7 @@ Onezone usage: ${0##*/} --zone
 Oneprovider usage: ${0##*/} --provider [ --provider-fqdn <fqdn> ] [ --zone-fqdn <fqdn> ] [ --provider-data-dir ] [ --set-lat-long ]
 
 Example usage:
-${0##*/} --oneprovider --provider-fqdn 'myonedataprovider.tk' --zone-fqdn 'myonezone.tk' --provider-data-dir '/mnt/super_fast_and_big_storage/' --provider-conf-dir '/etc/oneprovider/'
+${0##*/} --oneprovider --provider-fqdn 'myonedataprovider.tk' --zone-fqdn 'myonezone.tk' --provider-data-dir '/mnt/super_fast_big_storage/' --provider-conf-dir '/etc/oneprovider/'
 
 Options:
   -h, --help           display this help and exit
@@ -116,7 +116,7 @@ handle_onezone() {
     print_docker_compose_file "$compose_file_name"
   else 
     docker_compose_sh_local() {
-      ZONE_DOMAIN_NAME=$ZONE_DOMAIN_NAME PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME AUTH_PATH=$AUTH_PATH ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh} "$@"
+      ZONE_DOMAIN_NAME=$ZONE_DOMAIN_NAME PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN AUTH_PATH=$AUTH_PATH ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh} "$@"
     }
   fi
   
@@ -136,13 +136,13 @@ handle_oneprovider() {
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo GEO_LATITUDE=$GEO_LATITUDE LONG=$GEO_LONGITUDE PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
+      echo GEO_LATITUDE=$GEO_LATITUDE LONG=$GEO_LONGITUDE PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
     }
     docker_compose_sh_local="echo ${docker_compose_sh_local}"
     print_docker_compose_file "$compose_file_name"
   else
     docker_compose_sh_local() {
-      GEO_LATITUDE=$GEO_LATITUDE GEO_LONGITUDE=$GEO_LONGITUDE PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN HOSTNAME=$HOSTNAME ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR"  ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
+      GEO_LATITUDE=$GEO_LATITUDE GEO_LONGITUDE=$GEO_LONGITUDE PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR"  ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
     }
   fi
 
@@ -160,7 +160,6 @@ main() {
   local oneprovider_data_dir=$ONEPROVIDER_DATA_DIR
   local n=1
   local service
-  local onezone_ip=""
   local clean=0
   local get_log_lat_flag=0
 
