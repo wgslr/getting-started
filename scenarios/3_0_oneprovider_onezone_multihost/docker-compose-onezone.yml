@@ -4,6 +4,7 @@ services:
   node1.onezone.localhost:
     image: onedata/onezone:3.0.0-RC2
     hostname: node1.onezone.localhost
+    container_name: onezone-1
     volumes:
         - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
         - "/var/run/docker.sock:/var/run/docker.sock"
@@ -43,9 +44,9 @@ services:
           name: "example"
         onepanel:
           users:
-            "admin1":
+            "admin":
               password: "password"
               role: "admin"
-            "user1":
+            "user":
               password: "password"
               role: "regular"

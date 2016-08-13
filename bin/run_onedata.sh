@@ -84,6 +84,14 @@ clean() {
   rm -rf "$ONEPROVIDER_CONFIG_DIR"
   rm -rf "$ONEPROVIDER_DATA_DIR"
   rm -rf "$SPACES_DIR"
+
+  if (docker rm -f 'onezone-1' > /dev/null) ; then
+    echo Removed onezone container onezone-1.
+  fi
+
+  [[ $(docker rm -f 'oneprovider-1' > /dev/null ) ]] && echo removed || echo "no"
+
+
   clean_scenario
 }
 
