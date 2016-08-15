@@ -86,22 +86,30 @@ clean() {
   
   # Make sure only root can run our script
   if [ "$(whoami)" != root ]; then
-   echo "This script must be run as root" 1>&2
+   echo "This script must be run as root!" 1>&2
    exit 1
   fi
 
   [[ $(git status --porcelain "$ZONE_COMPOSE_FILE") != ""  ]] && echo "Warrning the file $ZONE_COMPOSE_FILE has changed, the cleaning procedure may not work!"
   [[ $(git status --porcelain "$PROVIDER_COMPOSE_FILE") != ""  ]] && echo "Warrning the file $PROVIDER_COMPOSE_FILE has changed, the cleaning procedure may not work!"
  
-  echo "Cleaning provider and/or zone config"
+  echo "Removing provider and/or zone config dirs..."
   rm -rf "${ONEZONE_CONFIG_DIR}/*" 
   rm -rf "${ONEPROVIDER_CONFIG_DIR}/*" 
   
 
-  echo "Cleaning provider data dir"
+  echo "Removing provider data dir..."
   rm -rf "$ONEPROVIDER_DATA_DIR/*" 
   
-  
+  echo "Removing Onedata containers..."
+  if (docker rm -f 'onezone-1' > /dev/null) ; then
+    echo Removed onezone container onezone-1.
+  fi
+
+  if (docker rm -f 'oneprovider-1' > /dev/null) ; then
+    echo Removed onezone container onezone-1.
+  fi
+
   echo "This is the output of 'docker ps -a' command, please make sure that there are no onedata containers listed!"
   docker ps -a
 
