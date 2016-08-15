@@ -1,6 +1,6 @@
 # Onedata Quickstart Scenarios
 
-This repository contains a few scenarios for quickly and easily getting started with of Onedata distributed data management platform. The scenarios are intedned for administrators who want to get familiar with Onedata. If you're new to Onedata please have a look at the introductory information in our [documentation](https://onedata.org/docs/doc/getting_started/what_is_onedata.html).
+This repository contains a few scenarios for quickly and easily getting started with of Onedata distributed data management platform. The scenarios are intended for administrators who want to get familiar with Onedata. If you're new to Onedata please have a look at the introductory information in our [documentation](https://onedata.org/docs/doc/getting_started/what_is_onedata.html).
 
 Scenarios vary in complexity: beginning with simple, preconfigured demos and ending with highly advanced multi-cluster setups. The scenarios are implemented using preconfigured Docker images, and can be quickly deployed and tested.
 
@@ -38,7 +38,7 @@ If you are new to Onedata please start with scenario 2.0.
 
 2. Depending on the scenario, you might need to create an account on [beta.onedata.org](https://beta.onedata.org).
 
-3. Most scenrios require that your machine has a public ip address assigned to it with a number of [open ports](#ports) open and/or registered domain name to configure working OpenId login and make https green. Only scenarios 2.0 and 2.1 are designed to work on localhost. 
+3. Most scenarios require that your machine has a public ip address assigned to it with a number of [open ports](#ports) open and/or registered domain name to configure working OpenId login and make *https* green. Only scenarios 2.0 and 2.1 are designed to work on localhost. 
 
 ## Setup
 
@@ -94,7 +94,7 @@ In order to setup and run your Onedata deployment run:
 ./run_onedata.sh --oneprovider # In 2nd terminal window
 ```
 
-The installation output will provide you with Docker container ip addresses for Onezone and Oneprovider. Detailed information on accessing and using Onedata services can be found [here](#accessing). In order to test your installation please follow [these](#testing) instrcutions.
+The installation output will provide you with Docker container ip addresses for Onezone and Oneprovider. Detailed information on accessing and using Onedata services can be found [here](#accessing). In order to test your installation please follow [these](#testing) instructions.
 
 <!--
 Currently, Onedata supports only **OpenID** protocol to authenticate users. In order for authentication to work on an isolated machine, you need to add few entries in `/etc/hosts`. Please refer to this [section](#ecthosts).
@@ -156,7 +156,7 @@ both running on a different machines.
 
 You need to make sure that [those ports](#[ports]) are accessible between those machines.
 
-This scenario is similar to scenario 3.0. You are adviced to try complete scenario 3.0 before continuing. The only difference is that we did not provide template configuration. So after executing those commands:
+This scenario is similar to scenario 3.0. You are advised to try complete scenario 3.0 before continuing. The only difference is that we did not provide template configuration. So after executing those commands:
 
 ```bash
 ./run_onedata.sh --zone      # On first machine
@@ -165,7 +165,7 @@ This scenario is similar to scenario 3.0. You are adviced to try complete scenar
 
 You will need to use Onedata web administration tool - Onepanel - to setup Onezone and Oneprovider. You can do that by accessing Onepanel as explained [here](#onepanel). 
 
-Detailed information on accessing and using Onedata services can be found [here](#accessing). In order to test your installation please follow [these](#testing) instrcutions.
+Detailed information on accessing and using Onedata services can be found [here](#accessing). In order to test your installation please follow [these](#testing) instructions.
 
 <a name="configuration"></a>
 ## Configuration Tips
@@ -202,7 +202,7 @@ https://<oneprovider machine or container ip>:9443 # for oneprovider
 
 Onepanel plays important function in Oneprovider, as administrators can use it to support users spaces.
 
-The default credentails for accessign onepanel are:
+The default credentials for accessing Onepanel are:
 
 ```
 user: admin
@@ -242,14 +242,14 @@ password: password
 ### Testing your installation
 The basic test of your installatin involves:
 
-1. [loging into Onezone](https://onedata.org/docs/doc/getting_started/user_onedata_101.html)
-2. getting Space Support token for your home space 
-3. loging into Oneprovider managment interface, see [accessing onedata services](#accessing)
-4. using a token to support your home space, see [space support](https://onedata.org/docs/doc/administering_onedata/provider_space_support.html)
+1. [longing into Onezone](https://onedata.org/docs/doc/getting_started/user_onedata_101.html)
+2. getting Space support token for your home space 
+3. loging into Oneprovider management interface, see [accessing onedata services](#accessing)
+4. using a token to support your home space, see [space support](https://beta.onedata.org/docs/doc/administering_onedata/provider_space_support.html)
 5. accessing your space in Onezone
 6. uploading a file to your space
 
-For more detailed description on, how to performs those steps please refer to official [documentation](https://onedata.org/docs/index.html).
+For more detailed description on, how to performs those steps please refer to official [documentation](https://beta.onedata.org/docs/index.html).
 
 <a name="openid"></a>
 ### Fixing HTTPS and OpenID authorization
@@ -260,7 +260,7 @@ Onedata uses *OpenID* to authenticate with users. However to use that feature yo
 
 From every *OpenID* provider you will get a pair of `(app_id, app_secret)`. We prepared an [example config](bin/config/auth.conf.example) for you, where you need to replace those values. 
 
-After creating your onw `auth.conf` file you need to add a line in `volumes` section in your `docker-compose-onezone.yml`. Here is en example:
+After creating your own `auth.conf` file you need to add a line in `volumes` section in your `docker-compose-onezone.yml`. Here is en example:
 
 ```
 services:
@@ -276,16 +276,21 @@ services:
 After that you can navigate to a domain you registered for you Onezone instance and login with *OpenID* providers you registered your domain with.
 
 
+<a name="tkdomain"></a>
+### Domain Registration
+
+In all scenarios except 2.0 and 2.1, you may want to have your Oneprovider/Onedata installations accessible under public domain to leverage *https* and *OpenID*. We recommend that for the purpose of testing you register your onw *.tk* domain. Such domain can be easily acquired from e.g. `http://www.dot.tk/en/index.html`. Make this domain point to ip address of your Onezone/Oneprovider machines. 
+
 <a name="customize"></a>
 ### Customizing your installation
 
 #### Customizing data and config directories locations
-In all scenarios Onezoe and Oneprovier services typicaly have two docker volumes exported mounted to host filesystem.
+In all scenarios Onezoe and Oneprovier services typically have two docker volumes exported mounted to host filesystem.
 
 - `/volumes/persistency` - where configuration is stored
 - `/volumes/storage` - where Oneprovider stores users' data
 
-Above directorries are present in docker container and are by default mounted under paths:
+Above directories are present in docker container and are by default mounted under paths:
 - `./config_onezone` for Onezone configuration 
 - `./config_oneprovider`for Oneprovider configuration 
 - `./oneprovider_data` for Oneprovider users' data 
@@ -294,7 +299,7 @@ You can modify them directly in docker-compose files or by using a special flags
 - `--provider-data-dir` to set directory where provider will store users raw data
 - `--provider-conf-dir` to set a directory where provider will configuration its files
  
-Additionaly we provider a `--set-lat-log` that tries to deduce the lattitude and longtitude of you machine. Those coordinates are used in Onezoen to display your provider on a world map. This flag works with all scenarios except those that use Onepanel for installation process (2.1 and 3.1).
+Additionally we provider a `--set-lat-log` that tries to deduce the latitude and longitude of you machine. Those coordinates are used in Onezone to display your provider on a world map. This flag works with all scenarios except those that use Onepanel for installation process (2.1 and 3.1).
 
 Example do advance setup of Oneprovider:
 
@@ -302,32 +307,15 @@ Example do advance setup of Oneprovider:
 onedata_run.sh  --oneprovider --provider-fqdn 'myonedataprovider.tk' --zone-fqdn 'myonezone.tk' --provider-data-dir '/mnt/super_fast_big_storage/' --provider-conf-dir '/etc/oneprovider/' --set-lat-log
 ```
 
-#### Customizing domain of your service
-In all scenarios and well as in internals of `onedata_run.sh` script we use a domain `onedata.example.com`. If you would like to change it, you do not need to modify the `docker-compose-*.yml` files.
-
-Ignore the fact that Onezone and Oneprovider are started using domain `onedata.example.com`. After they are started edit the /etc/hosts file on your VM to map IP of the docker container where Oneprovider or Onezone are running to the domain of your choosing. Example
-
-```bash
-# $ cat /etc/hosts
-127.0.0.1	localhost
-<ip_of_onezone_container> onezone.ki.agh.edu.pl
-```
-
-Next you need to pair the VM ip address with domain name `onezone.ki.agh.edu.pl`. That's all. 
-
 <a name="cleaning"></a>
 ### Cleaning your installation
-Onezone and Oneprovider use mount two docker volumes on the host machine. In order to clear your installation (eg. after faild atempt to start the service) you need to remove all contant of those volumes. If you did not alter `docker-compose-*.yml` files this can be done with:
+Onezone and Oneprovider use mount two docker volumes on the host machine. In order to clear your installation (eg. after failed atempt to start the service) you need to remove all contant of those volumes. If you did not alter `docker-compose-*.yml` files nor specified any flags that change the location of default firectories this can be done with:
 
 ```bash
 sudo run_onedata.sh --clean # Docker changes ownership of mounted directories to root, that's why you need use sudo or to run it as a root
 ```
 
-Also make sure that you have no dandling Onedata containers in your Docker Engine. You can check that using:
-
-```bash
-docker ps -a
-```
+If you did used `run_onedata.sh` with flags such as `--provider-conf-dir` or `--provider-data-dir` add them as well, so the cleaning mechanism knows which directories to delete. 
 
 <a name="using"></a>
 ## Using Onedata
@@ -343,7 +331,7 @@ In [oneclient](oneclient) directory you will find [run_oneclient.sh](oneclient/r
 Example invocation:
 
 ```bash
-./run_oneclient.sh --provider node1.onezone.onedata.example.com --token '_Us_MYaSD80YgPpcKfVSLP-Mz3TIqmN1q1vb3qFJ'
+./run_oneclient.sh --provider myprovider.tk --token '_Us_MYaSD80YgPpcKfVSLP-Mz3TIqmN1q1vb3qFJ' --mount-point '/mnt/data'
 ```
 
 For more information on oneclient refer to Onedata  [documentation](https://onedata.org/documentation).

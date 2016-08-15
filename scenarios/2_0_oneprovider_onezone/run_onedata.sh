@@ -10,6 +10,7 @@ source ../../bin/run_onedata.sh
 SCENARIO_DOCKER_NETWORK_NAME="scenario2"
 
 clean_scenario() {
+	echo "Removing dedicated docker network for scenario 2: \"${SCENARIO_NAME}_${SCENARIO_DOCKER_NETWORK_NAME}\""
 	docker network rm "${SCENARIO_NAME}_${SCENARIO_DOCKER_NETWORK_NAME}"
 }
 

@@ -7,6 +7,8 @@ ONEPROVIDER_DATA_DIR="${PWD}/oneprovider_data/"
 SPACES_DIR="${PWD}/myspaces/"
 #AUTH_CONF="bin/config/auth.conf"
 #AUTH_PATH="${REPO_ROOT}${AUTH_CONF}"
+ZONE_COMPOSE_FILE="docker-compose-onezone.yml"
+PROVIDER_COMPOSE_FILE="docker-compose-oneprovider.yml"
 
 DEBUG=0;
 
@@ -67,6 +69,7 @@ Options:
   --provider-conf-dir  directory where provider will configuration its files
   --set-lat-log        sets latitude and longitude from reegeoip.net service based on your public ip's
   --clean              clean all onezone, oneprivder and oneclient configuration and data files - provided all docker containers using them have been shutdown"
+  --debug              write to STDOUT the docker-compose config and commands that would be executed
   exit 0
 }
 
@@ -80,19 +83,29 @@ debug() {
 }
 
 clean() {
-  rm -rf "$ONEZONE_CONFIG_DIR"
-  rm -rf "$ONEPROVIDER_CONFIG_DIR"
-  rm -rf "$ONEPROVIDER_DATA_DIR"
-  rm -rf "$SPACES_DIR"
-
-  if (docker rm -f 'onezone-1' > /dev/null) ; then
-    echo Removed onezone container onezone-1.
+  
+  # Make sure only root can run our script
+  if [ "$(whoami)" != root ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
   fi
 
-  [[ $(docker rm -f 'oneprovider-1' > /dev/null ) ]] && echo removed || echo "no"
+  [[ $(git status --porcelain "$ZONE_COMPOSE_FILE") != ""  ]] && echo "Warrning the file $ZONE_COMPOSE_FILE has changed, the cleaning procedure may not work!"
+  [[ $(git status --porcelain "$PROVIDER_COMPOSE_FILE") != ""  ]] && echo "Warrning the file $PROVIDER_COMPOSE_FILE has changed, the cleaning procedure may not work!"
+ 
+  echo "Cleaning provider and/or zone config"
+  rm -rf "${ONEZONE_CONFIG_DIR}/*" 
+  rm -rf "${ONEPROVIDER_CONFIG_DIR}/*" 
+  
 
+  echo "Cleaning provider data dir"
+  rm -rf "$ONEPROVIDER_DATA_DIR/*" 
+  
+  
+  echo "This is the output of 'docker ps -a' command, please make sure that there are no onedata containers listed!"
+  docker ps -a
 
-  clean_scenario
+  #clean_scenario
 }
 
 batch_mode_check() {

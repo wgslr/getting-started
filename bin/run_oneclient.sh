@@ -23,17 +23,18 @@ export ONECLIENT_AUTHORIZATION_TOKEN='_Us_MYaSD80YgPpcKfVSLP-Mz3TIqmN1q1vb3qFJ'
 ${0##*/} --provider 'node1.oneprovider.onedata.example.com'
 
 Options:
-  -h, --help       display this help and exit
-  -t, --token      authorization token
-  -p, --provider   ip or hostname of provider you want to connect to
-                   Default value: 'node1.oneprovider.onedata.example.com'"
+  -h, --help         display this help and exit
+  -t, --token        authorization token
+  -p, --provider     ip or hostname of provider you want to connect to
+  -m, --mount-point  a directory where you what docker to mount your spaces. 
+                     WARNING: the content of this directory will be mounted as a root user.
   exit 0
 }
 
 
 main() {
   local token
-  local provider='node1.oneprovider.localhost'
+  local provider=
   local mount_point=$SPACES_DIR
 
   if [ ! -z "$ONECLIENT_AUTHORIZATION_TOKEN" ]; then
