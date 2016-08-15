@@ -113,7 +113,7 @@ clean() {
   echo "This is the output of 'docker ps -a' command, please make sure that there are no onedata containers listed!"
   docker ps -a
 
-  #clean_scenario
+  clean_scenario
 }
 
 batch_mode_check() {
