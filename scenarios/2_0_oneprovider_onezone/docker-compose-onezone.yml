@@ -6,6 +6,7 @@ services:
     hostname: node1.onezone.localhost
     container_name: onezone-1
     volumes:
+        - "${AUTH_PATH}:/volumes/persistency/var/lib/oz_worker/auth.config"
         - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
         - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
