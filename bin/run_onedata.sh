@@ -82,24 +82,38 @@ debug() {
   set -o posix ; set
 }
 
+check_if_clean() {
+
+  [[ -d "$ONEZONE_CONFIG_DIR" ]] && return 1
+  [[ -d "$ONEPROVIDER_CONFIG_DIR" ]] && return 1
+  [[ -d "$ONEPROVIDER_DATA_DIR" ]] && return 1
+ 
+  [[ $(docker ps -afq 'name=onezone') != "" ]] && return 1
+  [[ $(docker ps -afq 'name=oneprovider') != "" ]] && return 1
+    
+  return 0
+}
+
 clean() {
   
+  echo "The cleaning procedure will need to run commands useing sudo, in order to remove volumes created by docker. Please provide a password if needed."
   # Make sure only root can run our script
-  if [ "$(whoami)" != root ]; then
-   echo "This script must be run as root!" 1>&2
-   exit 1
-  fi
+  
+  #if [ "$(whoami)" != root ]; then
+  # echo "This script must be run as root!" 1>&2
+  # exit 1
+  #fi
 
   [[ $(git status --porcelain "$ZONE_COMPOSE_FILE") != ""  ]] && echo "Warrning the file $ZONE_COMPOSE_FILE has changed, the cleaning procedure may not work!"
   [[ $(git status --porcelain "$PROVIDER_COMPOSE_FILE") != ""  ]] && echo "Warrning the file $PROVIDER_COMPOSE_FILE has changed, the cleaning procedure may not work!"
  
   echo "Removing provider and/or zone config dirs..."
-  rm -rf "${ONEZONE_CONFIG_DIR}" 
-  rm -rf "${ONEPROVIDER_CONFIG_DIR}" 
+  sudo rm -rf "${ONEZONE_CONFIG_DIR}" 
+  sddo rm -rf "${ONEPROVIDER_CONFIG_DIR}" 
   
 
   echo "Removing provider data dir..."
-  rm -rf "${ONEPROVIDER_DATA_DIR}" 
+  sudo rm -rf "${ONEPROVIDER_DATA_DIR}" 
   
   echo "Removing Onedata containers..."
   if (docker rm -f 'onezone-1' > /dev/null) ; then
@@ -240,6 +254,16 @@ main() {
       shift
   done
 
+  check_if_clean
+  if [[ $? -eq 1 ]]; then
+    echo "We detected old configuration files, data or docker containers.
+If you are want to start new cean Onedata service, this might cause the service to fail.
+Would you like to keep your previous deployment data or start from a scratch?[y/n]"
+    read agree_to_clean
+    if [[ $agree_to_clean == 'y' ]]; then
+      clean
+    fi
+  fi
 
   if [[ $clean -eq 1 ]]; then
     clean
