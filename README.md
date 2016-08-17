@@ -19,8 +19,8 @@ Scenarios are divided into 2 groups:
 
 ### Advanced scenarios designed to run on multiple machines:
 
-- [3.0](#s30): Oneprovider with Onezone on separate machines, ready to be configured with onepanel <br \>
-    **Sources:** [scenarios/3_0_oneprovider_onezone_onepanel_multihost/](scenarios/3_0_oneprovider_onezone_multihost/)
+- [3.0](#s30): Oneprovider with Onezone on separate machines <br \>
+    **Sources:** [scenarios/3_0_oneprovider_onezone_multihost/](scenarios/3_0_oneprovider_onezone_multihost/)
 
 - [3.1](#s31): Oneprovider with Onezone on separate machines, ready to be configured with onepanel <br \>
     **Sources:** [scenarios/3_0_oneprovider_onezone_onepanel_multihost/](scenarios/3_1_oneprovider_onezone_onepanel_multihost/)
