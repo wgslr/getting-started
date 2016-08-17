@@ -256,9 +256,8 @@ main() {
 
   check_if_clean
   if [[ $? -eq 1 ]]; then
-    echo "We detected old configuration files, data or docker containers.
-If you are want to start new cean Onedata service, this might cause the service to fail.
-Would you like to keep your previous deployment data or start from a scratch?[y/n]"
+    echo "We detected configuration files, data and docker containers from a previous Onedata deployment. 
+Would you like to keep them (y) or start a new deployment (n)?"
     read agree_to_clean
     if [[ $agree_to_clean == 'y' ]]; then
       clean
