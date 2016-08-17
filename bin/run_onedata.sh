@@ -67,7 +67,7 @@ Options:
   --zone-fqdn          FQDN for onezone (defaults to beta.onedata.org)
   --provider-data-dir  a directory where provider will store users raw data
   --provider-conf-dir  directory where provider will configuration its files
-  --set-lat-log        sets latitude and longitude from reegeoip.net service based on your public ip's
+  --set-lat-long        sets latitude and longitude from reegeoip.net service based on your public ip's
   --clean              clean all onezone, oneprivder and oneclient configuration and data files - provided all docker containers using them have been shutdown
   --debug              write to STDOUT the docker-compose config and commands that would be executed"
   exit 0
