@@ -109,7 +109,7 @@ clean() {
  
   echo "Removing provider and/or zone config dirs..."
   sudo rm -rf "${ONEZONE_CONFIG_DIR}" 
-  sddo rm -rf "${ONEPROVIDER_CONFIG_DIR}" 
+  sudo rm -rf "${ONEPROVIDER_CONFIG_DIR}" 
   
 
   echo "Removing provider data dir..."

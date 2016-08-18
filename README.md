@@ -11,7 +11,7 @@ Scenarios are divided into 2 groups:
 ### Entry level scenarios designed to run on `localhost` or a single virtual machine:
 
 - [1.0](#s10): pre-configured Oneprovider that connects to [beta.onedata.org](https://beta.onedata.org) zone (public ip required) <br \>
-    **Sources:** [scenarios/1_0_oneprovider_onedata_org/](scenarios/1_0_oneprovider_onedata_org/)
+    **Sources:** [scenarios/1_0_oneprovider_beta_onedata_org/](scenarios/1_0_oneprovider_beta_onedata_org/)
 - [2.0](#s20): pre-configured Oneprovider with pre-configured Onezone <br \>
     **Sources:** [scenarios/2_0_oneprovider_onezone/](scenarios/2_0_oneprovider_onezone/)
 - [2.1](#s21): Oneprovider with Onezone ready to be configured with Onepanel <br \>
@@ -320,7 +320,7 @@ If you did used `run_onedata.sh` with flags such as `--provider-conf-dir` or `--
 <a name="using"></a>
 ## Using Onedata
 
-In each scenario you will deploy a Oneprovider which can be used to support your space. If you are not familiar with the concept of Spaces read the Overview and Space support sections in the [documentation](https://https://onedata.org/documentation). After supporting your space you will be able to access them using a web-interface or Oneclient.
+In each scenario you will deploy a Oneprovider which can be used to support your space. If you are not familiar with the concept of Spaces read the Overview and Space support sections in the [documentation](https://https://onedata.org/docs). After supporting your space you will be able to access them using a web-interface or Oneclient.
 
 #### With Web interface
 Refer to the documentation of the web interface for further instructions.
@@ -334,5 +334,5 @@ Example invocation:
 ./run_oneclient.sh --provider myprovider.tk --token '_Us_MYaSD80YgPpcKfVSLP-Mz3TIqmN1q1vb3qFJ' --mount-point '/mnt/data'
 ```
 
-For more information on oneclient refer to Onedata  [documentation](https://onedata.org/documentation).
+For more information on oneclient refer to Onedata  [documentation](https://beta.onedata.org/docs).
 
