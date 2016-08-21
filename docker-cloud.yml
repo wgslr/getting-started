@@ -1,0 +1,105 @@
+zonedc:
+  image: onedata/onezone:3.0.0-RC2
+  hostname: zone.dc
+  volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  ports:
+    - '53:53'
+    - '53:53/udp'
+    - '80:80'
+    - '443:443'
+    - '5555:5555'
+    - '5556:5556'
+    - '6665:6665'
+    - '6666:6666'
+    - '7443:7443'
+    - '8443:8443'
+    - '8876:8876'
+    - '8877:8877'
+    - '9443:9443'
+  environment:
+    ONEPANEL_BATCH_MODE: "true"
+    ONEZONE_CONFIG: |
+      cluster:
+        domain_name: "dc"
+        nodes:
+          n1:
+            hostname: "zone"
+        manager:
+          default_node: "n1"
+          nodes:
+            - "n1"
+        worker:
+          nodes:
+            - "n1"
+        database:
+          nodes:
+            - "n1"
+      onezone:
+        name: "Zone on DC"
+      onepanel:
+        users:
+          "admin":
+            password: "password"
+            role: "admin"
+          "user":
+            password: "password"
+            role: "regular"
+
+
+providerdc:
+  image: onedata/oneprovider:3.0.0-RC2
+  hostname: provider.dc
+  command: >
+    bash -c 'echo "Waiting for Onezone ($$ZONEDC_PORT_80_TCP_ADDR) to start on
+    port 80..." ; while : ; do (echo > /dev/tcp/$ZONEDC_PORT_80_TCP_ADDR/80)
+    >/dev/null 2>&1 ; result=$$?; if [[ $$result -eq 0 ]] ; then break ; fi ; done
+    ; echo "Port 80 reachable" ; /root/run.py'
+  volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  ports:
+    - '53:53'
+    - '53:53/udp'
+    - '80:80'
+    - '443:443'
+    - '5555:5555'
+    - '5556:5556'
+    - '6665:6665'
+    - '6666:6666'
+    - '7443:7443'
+    - '8443:8443'
+    - '8876:8876'
+    - '8877:8877'
+    - '9443:9443'
+  links:
+    - zonedc
+  environment:
+    ONEPANEL_BATCH_MODE: "true"
+    ONEPROVIDER_CONFIG: |
+      cluster:
+        domain_name: "dc"
+        nodes:
+          n1:
+            hostname: "provider"
+        manager:
+          default_node: "n1"
+          nodes:
+            - "n1"
+        worker:
+          nodes:
+            - "n1"
+        database:
+          nodes:
+            - "n1"
+        storage:
+          NFS:
+            type: "POSIX"
+            mount_point: "/volumes/storage"
+      oneprovider:
+        register: true
+        name: "Provider on DC"
+        redirection_point: "https://providerdc" # OR IP ADDRESS
+        geo_latitude: 50.068968
+        geo_longitude: 19.909444
+      onezone:
+        domain_name: "zonedc" # OR IP ADDRESS
