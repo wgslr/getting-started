@@ -7,9 +7,9 @@ services:
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
     container_name: onezone-1
     volumes:
-        - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
+        - "${ONEZONE_CONFIG_DIR}:/volumes/persistence"
         - "/var/run/docker.sock:/var/run/docker.sock"
-        #- "${AUTH_PATH}:/volumes/persistency/var/lib/oz_worker/auth.config"
+        #- "${AUTH_PATH}:/volumes/persistence/var/lib/oz_worker/auth.config"
     ports:
       - "53:53"
       - "53:53/udp"

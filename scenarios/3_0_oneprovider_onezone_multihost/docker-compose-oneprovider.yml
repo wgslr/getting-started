@@ -7,7 +7,7 @@ services:
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
     container_name: oneprovider-1
     volumes:
-        - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistency"
+        - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistence"
         - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
         - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
@@ -28,29 +28,38 @@ services:
       ONEPANEL_BATCH_MODE: "true"
       ONEPROVIDER_CONFIG: |
         cluster:
-          domain_name: "oneprovider.localhost"
+          domainName: "oneprovider.localhost"
+          autoDeploy: true
           nodes:
             n1:
               hostname: "node1"
-          manager:
-            default_node: "n1"
+          managers:
+            mainNode: "n1"
             nodes:
               - "n1"
-          worker:
+          workers:
             nodes:
               - "n1"
-          database:
+          databases:
             nodes:
               - "n1"
-          storage:
+          storages:
             NFS:
-              type: "POSIX"
-              mount_point: "/volumes/storage"
+              type: "posix"
+              mountPoint: "/volumes/storage"
         oneprovider:
           register: true
-          name: "example"
-          redirection_point: "https://${PROVIDER_FQDN}" # OR IP ADDRESS
-          geo_latitude: ${GEO_LATITUDE}
-          geo_longitude: ${GEO_LONGITUDE}
+          name: "Example"
+          redirectionPoint: "https://${PROVIDER_FQDN}" # OR IP ADDRESS
+          geoLatitude: ${GEO_LATITUDE}
+          geoLongitude: ${GEO_LONGITUDE}
         onezone:
-          domain_name: "${ZONE_FQDN}" # OR IP ADDRESS
+          domainName: "${ZONE_FQDN}" # OR IP ADDRESS
+        onepanel:
+          users:
+            "admin":
+              password: "Password1"
+              userRole: "admin"
+            "user":
+              password: "Password2"
+              userRole: "regular"

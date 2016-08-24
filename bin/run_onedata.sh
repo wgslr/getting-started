@@ -57,7 +57,7 @@ Onezone usage: ${0##*/} --zone
 Oneprovider usage: ${0##*/} --provider [ --provider-fqdn <fqdn> ] [ --zone-fqdn <fqdn> ] [ --provider-data-dir ] [ --set-lat-long ]
 
 Example usage:
-${0##*/} --oneprovider --provider-fqdn 'myonedataprovider.tk' --zone-fqdn 'myonezone.tk' --provider-data-dir '/mnt/super_fast_big_storage/' --provider-conf-dir '/etc/oneprovider/'
+${0##*/} --provider --provider-fqdn 'myonedataprovider.tk' --zone-fqdn 'myonezone.tk' --provider-data-dir '/mnt/super_fast_big_storage/' --provider-conf-dir '/etc/oneprovider/'
 
 Options:
   -h, --help           display this help and exit
@@ -67,7 +67,7 @@ Options:
   --zone-fqdn          FQDN for onezone (defaults to beta.onedata.org)
   --provider-data-dir  a directory where provider will store users raw data
   --provider-conf-dir  directory where provider will configuration its files
-  --set-lat-long        sets latitude and longitude from reegeoip.net service based on your public ip's
+  --set-lat-long       sets latitude and longitude from reegeoip.net service based on your public ip's
   --clean              clean all onezone, oneprivder and oneclient configuration and data files - provided all docker containers using them have been shutdown
   --debug              write to STDOUT the docker-compose config and commands that would be executed"
   exit 0
@@ -88,15 +88,15 @@ check_if_clean() {
   [[ -d "$ONEPROVIDER_CONFIG_DIR" ]] && return 1
   [[ -d "$ONEPROVIDER_DATA_DIR" ]] && return 1
  
-  [[ $(docker ps -afq 'name=onezone') != "" ]] && return 1
-  [[ $(docker ps -afq 'name=oneprovider') != "" ]] && return 1
+  [[ $(docker ps -aqf 'name=onezone') != "" ]] && return 1
+  [[ $(docker ps -aqf 'name=oneprovider') != "" ]] && return 1
     
   return 0
 }
 
 clean() {
   
-  echo "The cleaning procedure will need to run commands useing sudo, in order to remove volumes created by docker. Please provide a password if needed."
+  echo "The cleaning procedure will need to run commands using sudo, in order to remove volumes created by docker. Please provide a password if needed."
   # Make sure only root can run our script
   
   #if [ "$(whoami)" != root ]; then
@@ -116,11 +116,11 @@ clean() {
   sudo rm -rf "${ONEPROVIDER_DATA_DIR}" 
   
   echo "Removing Onedata containers..."
-  if (docker rm -f 'onezone-1' > /dev/null) ; then
+  if (docker rm -vf 'onezone-1' 2>/dev/null) ; then
     echo Removed onezone container onezone-1.
   fi
 
-  if (docker rm -f 'oneprovider-1' > /dev/null) ; then
+  if (docker rm -vf 'oneprovider-1' 2>/dev/null) ; then
     echo Removed onezone container onezone-1.
   fi
 
@@ -259,7 +259,7 @@ main() {
     echo "We detected configuration files, data and docker containers from a previous Onedata deployment. 
 Would you like to keep them (y) or start a new deployment (n)?"
     read agree_to_clean
-    if [[ $agree_to_clean == 'y' ]]; then
+    if [[ $agree_to_clean == 'n' ]]; then
       clean
     fi
   fi
