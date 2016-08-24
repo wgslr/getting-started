@@ -6,25 +6,31 @@ If you're new to Onedata please have a look at the introductory information in o
 
 Scenarios vary in complexity: beginning with simple, preconfigured demos and ending with advanced multi-cluster setups. The scenarios are implemented using preconfigured [Docker images](https://hub.docker.com/u/onedata/), and can be quickly deployed and tested.
 
-We plan to add more scenarios in the future, if you can't find a scenario that addresses your specific requirements please create an [issue](https://github.com/onedata/onedata/issues).
+We plan to add more scenarios in the future, if you can't find a scenario that addresses your specific requirements please create an [issue](https://github.com/onedata/onedata/issues). If you experience any problems or have questions you welcome to visit our support [channel](https://www.hipchat.com/g3ST0Aaci).
 
 Scenarios are divided into 2 groups:
 
 ### Entry level scenarios designed to run on a `localhost` or a single virtual machine:
 
+#### Oneprovider setup
+
 - [1.0](#s10): pre-configured Oneprovider that connects to [beta.onedata.org](https://beta.onedata.org) zone (public IP required) <br \>
     **Sources:** [scenarios/1_0_oneprovider_beta_onedata_org/](scenarios/1_0_oneprovider_beta_onedata_org/)
+
+#### Onezone and Oneprovider setup
+
 - [2.0](#s20): pre-configured Oneprovider with pre-configured Onezone <br \>
     **Sources:** [scenarios/2_0_oneprovider_onezone/](scenarios/2_0_oneprovider_onezone/)
-- [2.1](#s21): Oneprovider with Onezone ready to be configured with Onepanel <br \>
+    
+- [2.1](#s21): manual configuration of Oneprovider and Onezone <br \>
     **Sources:** [scenarios/2_1_oneprovider_onezone_onepanel/](scenarios/2_1_oneprovider_onezone_onepanel/)
 
-### Advanced scenarios designed to run on multiple machines:
+### Advanced Onezone and Oneprovider scenarios designed to run on separate machines:
 
 - [3.0](#s30): Oneprovider with Onezone on separate machines <br \>
     **Sources:** [scenarios/3_0_oneprovider_onezone_multihost/](scenarios/3_0_oneprovider_onezone_multihost/)
 
-- [3.1](#s31): Oneprovider with Onezone on separate machines, ready to be configured with onepanel <br \>
+- [3.1](#s31): manual configuration of Oneprovider and Onezone on separate machines <br \>
     **Sources:** [scenarios/3_0_oneprovider_onezone_onepanel_multihost/](scenarios/3_1_oneprovider_onezone_onepanel_multihost/)
 
 If you are new to Onedata please start with scenario 2.0. 
@@ -57,6 +63,16 @@ After completing each scenario, you are encouraged to test your installation acc
 
 In this scenario you will run a demo of single node pre-configured Oneprovider instance that will register at [beta.onedata.org](https://beta.onedata.org)zone. The configuration template is stored in the [docker-compose-oneprovider.yml](scenarios/1_0_oneprovider_onedata_org/docker-compose-oneprovider.yml) file and Oneprovider will be automatically installed based on these settings.
 
+~~~
+ ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─           ┌ ─ ─ ─ ─ ─ ─ ┬ ─ ┬ ─ ─
+  Onezone:              │           Oneprovider           │
+ │beta.onedata.org     ◀ ─ ─ ─ ─ ─ ┼▶            │   │
+                        │           ─ ─ ─ ─ ─ ─ ─         │
+ │                                 │    Docker Engine│
+                        │           ─ ─ ─ ─ ─ ─ ─ ─ ─  VM1│
+ └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─           └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
+~~~
+
 You will require a machine with a public IP address and a number of [open ports](#ports) to communicate with [beta.onedata.org](https://beta.onedata.org).
 
 In order to setup and deploy your Oneprovider and connect it to [beta.onedata.org](https://beta.onedata.org) simply run:
@@ -84,6 +100,16 @@ In this scenario you will run a demo of a fully functional, isolated Onedata dep
 - a single node pre-configured Oneprovider instance
 
 both running on a single machine.
+
+~~~
+ ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┬ ─ ─ ─ ─ ─ ─ ┬ ─ ┬ ─ ┐
+      │   │      Onezone│           Oneprovider
+ │                     ◀ ─ ─ ─ ─ ─ ┼▶            │   │   │
+      │   └ ─ ─ ─ ─ ─ ─ ┘           ─ ─ ─ ─ ─ ─ ─
+ │     Docker Engine                                 │   │
+  VM1 └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
+ └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
+~~~
 
 The configuration templates are placed in the [docker-compose-oneprovider.yml](scenarios/2_0_oneprovider_onezone/docker-compose-oneprovider.yml) and [docker-compose-onezone.yml](scenarios/2_0_oneprovider_onezone/docker-compose-onezone.yml) files respectively. Oneprovider and Onezone will be automatically installed based on these configuration files.
 
@@ -141,6 +167,16 @@ In this scenario you will run a demo of a fully functional isolated onedata depl
 - a single node Oneprovider instance
 
 both running on different machines.
+
+~~~
+ ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─           ┌ ─ ─ ─ ─ ─ ─ ┬ ─ ┬ ─ ─
+      │   │      Onezone│           Oneprovider           │
+ │                     ◀ ─ ─ ─ ─ ─ ┼▶            │   │
+      │   └ ─ ─ ─ ─ ─ ─ ┤           ─ ─ ─ ─ ─ ─ ─         │
+ │     Docker Engine               │    Docker Engine│
+  VM1 └ ─ ─ ─ ─ ─ ─ ─ ─ ┤           ─ ─ ─ ─ ─ ─ ─ ─ ─  VM2│
+ └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─           └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
+~~~
 
 The configuration templates are placed in the [docker-compose-oneprovider.yml](scenarios/3_0_oneprovider_onezone/docker-compose-oneprovider.yml) and [docker-compose-onezone.yml](scenarios/3_0_oneprovider_onezone/docker-compose-onezone.yml) files respectively. Oneprovider and Onezone will be automatically installed based on these configuration files.
 
@@ -333,13 +369,9 @@ Example execution of Oneprovider with all options:
 
 <a name="cleaning"></a>
 ### Cleaning your installation
-Onezone and Oneprovider mount 2 Docker volumes on the host machine. In order to clear your installation (eg. after failed atempt to start the service) you need to remove all contents of those volumes. If you did not alter `docker-compose-*.yml` files nor specified any flags that change the location of default directories this can be done with:
+`run_onedata.sh` tries to inform you if there are any leftocer configuration or data that might interfere with setting up a fresh Onezone or Oneprovider service. If for some your installation fails, before filing an issue please try to manually remove all contents of those volumes that Oneprovider/Onezone service use.  
 
-```bash
-sudo run_onedata.sh --clean # Docker changes ownership of mounted directories to root, that's why you need use sudo or to run it as a root
-```
-
-If you did use `run_onedata.sh` with flags such as `--provider-conf-dir` or `--provider-data-dir` add them as well, so the clean up function knows which directories to delete. 
+If you did not use `run_onedata.sh` with flags such as `--provider-conf-dir` or `--provider-data-dir`, hence relying od default directories the `git status`command should assist you with removing all unnecessary files. If all fails please delete this repo and clone it again. 
 
 <a name="using"></a>
 ## Using Onedata
