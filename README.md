@@ -21,7 +21,7 @@ Scenarios are divided into 2 groups:
 
 - [2.0](#s20): pre-configured Oneprovider with pre-configured Onezone <br \>
     **Sources:** [scenarios/2_0_oneprovider_onezone/](scenarios/2_0_oneprovider_onezone/)
-    
+
 - [2.1](#s21): manual configuration of Oneprovider and Onezone <br \>
     **Sources:** [scenarios/2_1_oneprovider_onezone_onepanel/](scenarios/2_1_oneprovider_onezone_onepanel/)
 
@@ -314,6 +314,12 @@ For more detailed description on how to perform these steps please refer to our 
 
 <a name="openid"></a>
 ### Fixing HTTPS and OpenID authorization
+
+#### HTTPS and Certificates setup
+
+TODO. For now please refer to [documentation](https://onedata.org/docs/doc/administering_onedata/ssl_certificate_management.html).
+
+#### OpenID configuration
 
 Onedata uses *OpenID* to authenticate with users. However to use that feature you need to:
 - register your own domain (if you don't have one, see a [short guide](#tkdomain) how to get free domains)
