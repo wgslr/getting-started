@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.oneprovider.localhost:
-    image: onedata/oneprovider:3.0.0-RC3
+    image: onedata/oneprovider:${PROV_TAG}
     hostname: node1.oneprovider.localhost
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
     container_name: oneprovider-1
@@ -24,33 +24,5 @@ services:
       - "8876:8876"
       - "8877:8877"
       - "9443:9443"
-    environment:
-      ONEPANEL_BATCH_MODE: "true"
-      ONEPROVIDER_CONFIG: |
-        cluster:
-          domain_name: "oneprovider.localhost"
-          nodes:
-            n1:
-              hostname: "node1"
-          manager:
-            default_node: "n1"
-            nodes:
-              - "n1"
-          worker:
-            nodes:
-              - "n1"
-          database:
-            nodes:
-              - "n1"
-          storage:
-            NFS:
-              type: "POSIX"
-              mount_point: "/volumes/storage"
-        oneprovider:
-          register: true
-          name: "example"
-          redirection_point: "https://${PROVIDER_FQDN}" # OR IP ADDRESS
-          geo_latitude: ${GEO_LATITUDE}
-          geo_longitude: ${GEO_LONGITUDE}
-        onezone:
-          domain_name: "${ZONE_FQDN}" # OR IP ADDRESS
+    env_file: scenario30.env
+     

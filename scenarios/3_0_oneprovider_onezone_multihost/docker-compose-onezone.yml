@@ -2,14 +2,14 @@ version: '2.0'
 
 services:
   node1.onezone.localhost:
-    image: onedata/onezone:3.0.0-RC3
+    image: onedata/onezone:${TAG}
     hostname: node1.onezone.localhost
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
     container_name: onezone-1
     volumes:
-        - "${AUTH_PATH}:/volumes/persistency/var/lib/oz_worker/auth.config"
         - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
         - "/var/run/docker.sock:/var/run/docker.sock"
+        #- "${AUTH_PATH}:/volumes/persistency/var/lib/oz_worker/auth.config"
     ports:
       - "53:53"
       - "53:53/udp"
@@ -24,31 +24,5 @@ services:
       - "8876:8876"
       - "8877:8877"
       - "9443:9443"
-    environment:
-      ONEPANEL_BATCH_MODE: "true"
-      ONEZONE_CONFIG: |
-        cluster:
-          domain_name: "onezone.localhost"
-          nodes:
-            n1:
-              hostname: "node1"
-          manager:
-            default_node: "n1"
-            nodes:
-              - "n1"
-          worker:
-            nodes:
-              - "n1"
-          database:
-            nodes:
-              - "n1"
-        onezone:
-          name: "example"
-        onepanel:
-          users:
-            "admin":
-              password: "password"
-              role: "admin"
-            "user":
-              password: "password"
-              role: "regular"
+    env_file: scenario30.env
+  
