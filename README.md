@@ -335,8 +335,8 @@ services:
     image: onedata/onezone:some_version
     hostname: node1.onezone.localhost
     volumes:
-        - "<absolute path to your auth.config>:/volumes/persistency/var/lib/oz_worker/auth.config" # this line was added
-        - "${ONEZONE_CONFIG_DIR}:/volumes/persistency"
+        - "<absolute path to your auth.config>:/volumes/persistence/var/lib/oz_worker/auth.config" # this line was added
+        - "${ONEZONE_CONFIG_DIR}:/volumes/persistence"
         - "/var/run/docker.sock:/var/run/docker.sock"
 ```
 
@@ -353,7 +353,7 @@ In all scenarios except 2.0 and 2.1, you may want to have your Oneprovider/Oneda
 
 #### Customizing data and config directories locations
 In all scenarios Onezone and Oneprovier services typically have two Docker volumes exported mounted to the host filesystem:
-- `/volumes/persistency` - where Onedata configuration is stored
+- `/volumes/persistence` - where Onedata configuration is stored
 - `/volumes/storage` - where Oneprovider stores users' data
 
 Above directories are present in Docker container and are by default mounted under the following paths:
