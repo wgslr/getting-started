@@ -10,3 +10,9 @@ services:
         - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistence"
         - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
         - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - scenario2
+
+
+networks:
+  scenario2:

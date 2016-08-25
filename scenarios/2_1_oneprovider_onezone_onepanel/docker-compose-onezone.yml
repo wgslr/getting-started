@@ -10,3 +10,9 @@ services:
         # - "${AUTH_PATH}:/volumes/persistence/var/lib/oz_worker/auth.config"
         - "${ONEZONE_CONFIG_DIR}:/volumes/persistence"
         - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - scenario2
+
+
+networks:
+  scenario2:
