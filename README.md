@@ -120,13 +120,13 @@ To access those services, you will need to able to reach those containers from D
 In order to setup and run your Onedata deployment start Onezone service first:
 
 ```bash
-./run_onedata.sh --onezone     # In 1st terminal window
+./run_onedata.sh --zone     # In 1st terminal window
 ```
 
 wait until it completes successfully, and then start Oneprovider service:
 
 ```bash
-./run_onedata.sh --oneprovider # In 2nd terminal window
+./run_onedata.sh --provider # In 2nd terminal window
 ```
 
 The installation output will provide you with Docker container IP addresses for Onezone and Oneprovider. Detailed information on accessing and using Onedata services can be found [here](#accessing). In order to test your installation please follow [these](#testing) instructions.
@@ -144,13 +144,13 @@ This scenario is similar to scenario 2.0. You are adviced to try complete scenar
 
 Start Onezone service first:
 ```bash
-./run_onedata.sh --onezone      # In 1st terminal window
+./run_onedata.sh --zone      # In 1st terminal window
 ```
 
 wait until it finishes successfully, and then run the Oneprovider service:
 
 ```bash
-./run_onedata.sh --oneprovider  # In 2nd terminal window
+./run_onedata.sh --provider  # In 2nd terminal window
 ```
 
 You will need to use Onedata web administration tool - Onepanel - to setup Onezone and Oneprovider. You can do that by accessing Onepanel as explained [here](#onepanel).
@@ -370,7 +370,7 @@ Additionally we provide a `--set-lat-log` that tries to deduce the latitude and 
 Example execution of Oneprovider with all options:
 
 ```bash
-./onedata_run.sh  --oneprovider --provider-fqdn 'myonedataprovider.tk' --zone-fqdn 'myonezone.tk' --provider-data-dir '/mnt/super_fast_big_storage/' --provider-conf-dir '/etc/oneprovider/' --set-lat-log
+./onedata_run.sh  --provider --provider-fqdn 'myonedataprovider.tk' --zone-fqdn 'myonezone.tk' --provider-data-dir '/mnt/super_fast_big_storage/' --provider-conf-dir '/etc/oneprovider/' --set-lat-log
 ```
 
 <a name="cleaning"></a>
