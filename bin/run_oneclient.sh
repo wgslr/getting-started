@@ -1,8 +1,6 @@
 #!/bin/bash
 # POSIX
 
-SPACES_DIR="${PWD}/Spaces/"
-
 # Error handling.
 # $1 - error string
 die() {
@@ -26,8 +24,7 @@ Options:
   -h, --help         display this help and exit
   -t, --token        authorization token
   -p, --provider     ip or hostname of provider you want to connect to
-  -m, --mount-point  a directory where you what docker to mount your spaces. 
-                     WARNING: the content of this directory will be mounted as a root user."
+
   exit 0
 }
 
@@ -82,16 +79,9 @@ main() {
     echo "No provider supplied. Assuming \"localhost\"."
     provider="localhost"
   fi
-
-  if [ -z "$mount_point" ]; then
-    echo "No mount point supplied. Using \"./Spaces\" directory."
-    mount_point=$SPACES_DIR
-  fi
-
-  mkdir -p $mount_point
   
   service='oneclient'
-  ONECLIENT_AUTHORIZATION_TOKEN=$token MOUNT_POINT=$mount_point PROVIDER_HOSTNAME=$provider docker-compose -f "docker-compose-${service}.yml" up "oneclient"
+  ONECLIENT_AUTHORIZATION_TOKEN=$token PROVIDER_HOSTNAME=$provider docker-compose -f "docker-compose-${service}.yml" up "oneclient"
   
 }
 
