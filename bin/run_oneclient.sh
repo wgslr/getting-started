@@ -80,7 +80,7 @@ main() {
   fi
   
   service='oneclient'
-  ONECLIENT_AUTHORIZATION_TOKEN=$token PROVIDER_HOSTNAME=$provider docker-compose -f "docker-compose-${service}.yml" up "oneclient"
+  ONECLIENT_AUTHORIZATION_TOKEN=$token PROVIDER_HOSTNAME=$provider docker-compose -f "docker-compose-${service}.yml" up -d "oneclient"
   
 }
 
