@@ -296,7 +296,7 @@ Use a basic authentication method to login into Onezone if you haven't configure
 
 ```
 user: admin
-password: password
+password: Password1
 ```
 
 <a name="testing"></a>
