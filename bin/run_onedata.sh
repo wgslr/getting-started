@@ -69,13 +69,14 @@ Options:
   --provider-conf-dir  directory where provider will configuration its files
   --set-lat-long       sets latitude and longitude from reegeoip.net service based on your public ip's
   --clean              clean all onezone, oneprivder and oneclient configuration and data files - provided all docker containers using them have been shutdown
-  --debug              write to STDOUT the docker-compose config and commands that would be executed"
+  --debug              write to STDOUT the docker-compose config and commands that would be executed
+  --detach             run container in background and print container name"
   exit 0
 }
 
 get_log_lat(){
   ip="$(curl http://ipinfo.io/ip)"
-  read GEO_LATITUDE GEO_LONGITUDE <<< $(curl freegeoip.net/xml/"$ip" | grep -E "Latitude|Longitude" | cut -d '>' -f 2 | cut -d '<' -f 1)
+  read -r GEO_LATITUDE GEO_LONGITUDE <<< $(curl freegeoip.net/xml/"$ip" | grep -E "Latitude|Longitude" | cut -d '>' -f 2 | cut -d '<' -f 1)
 }
 
 debug() {
@@ -149,29 +150,32 @@ batch_mode_check() {
 handle_onezone() {
   local n=$1
   local compose_file_name=$2
+  local compose_up_opts=$3
+
   mkdir -p "$ONEZONE_CONFIG_DIR"
 
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo AUTH_PATH="$AUTH_PATH" ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh} "$@"
+      echo ZONE_DOMAIN_NAME="$ZONE_DOMAIN_NAME" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" AUTH_PATH="$AUTH_PATH" ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh[*]} "$@"
     }
     print_docker_compose_file "$compose_file_name"
   else 
     docker_compose_sh_local() {
-      ZONE_DOMAIN_NAME=$ZONE_DOMAIN_NAME PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN AUTH_PATH=$AUTH_PATH ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh} "$@"
+      ZONE_DOMAIN_NAME="$ZONE_DOMAIN_NAME" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" AUTH_PATH="$AUTH_PATH" ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh[*]} "$@"
     }
   fi
   
   batch_mode_check "onezone" "$compose_file_name"
   docker_compose_sh_local -f "$compose_file_name" pull
-  docker_compose_sh_local -f "$compose_file_name" up 
+  docker_compose_sh_local -f "$compose_file_name" up $compose_up_opts
 } 
 
 handle_oneprovider() {
   local n=$1
   local compose_file_name=$2
   local oneprovider_data_dir=$3
+  local compose_up_opts=$4
 
   mkdir -p "$ONEPROVIDER_CONFIG_DIR"
   mkdir -p "$oneprovider_data_dir"
@@ -179,19 +183,19 @@ handle_oneprovider() {
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo GEO_LATITUDE=$GEO_LATITUDE LONG=$GEO_LONGITUDE PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
+      echo GEO_LATITUDE="$GEO_LATITUDE" LONG="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
     }
     docker_compose_sh_local="echo ${docker_compose_sh_local}"
     print_docker_compose_file "$compose_file_name"
   else
     docker_compose_sh_local() {
-      GEO_LATITUDE=$GEO_LATITUDE GEO_LONGITUDE=$GEO_LONGITUDE PROVIDER_FQDN=$PROVIDER_FQDN ZONE_FQDN=$ZONE_FQDN ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR"  ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
+      GEO_LATITUDE="$GEO_LATITUDE" LONG="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
     }
   fi
 
   batch_mode_check "oneprovider" "$compose_file_name"
   docker_compose_sh_local -f "$compose_file_name" pull
-  docker_compose_sh_local -f "$compose_file_name" up
+  docker_compose_sh_local -f "$compose_file_name" up $compose_up_opts
 } 
 
 main() {
@@ -205,6 +209,7 @@ main() {
   local service
   local clean=0
   local get_log_lat_flag=0
+  local compose_up_opts
 
   while (( $# )); do
       case $1 in
@@ -243,6 +248,9 @@ main() {
           --set-lat-long)
               get_log_lat_flag=1
               ;;
+          --detach)
+              compose_up_opts="-d"
+              ;;
           -?*)
               printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
               exit 1
@@ -258,7 +266,7 @@ main() {
   if [[ $? -eq 1 ]]; then
     echo "We detected configuration files, data and docker containers from a previous Onedata deployment. 
 Would you like to keep them (y) or start a new deployment (n)?"
-    read agree_to_clean
+    read -r agree_to_clean
     if [[ $agree_to_clean == 'n' ]]; then
       clean
     fi
@@ -276,11 +284,11 @@ Would you like to keep them (y) or start a new deployment (n)?"
   local compose_file_name="docker-compose-${service}.yml"
 
   if [[ $service == "onezone" ]]; then
-    handle_onezone "$n" "$compose_file_name"
+    handle_onezone "$n" "$compose_file_name" "$compose_up_opts"
   fi
 
   if [[ $service == "oneprovider" ]]; then
-    handle_oneprovider "$n" "$compose_file_name" "$oneprovider_data_dir"
+    handle_oneprovider "$n" "$compose_file_name" "$oneprovider_data_dir" "$compose_up_opts"
   fi
 
   if [[ $clean -eq 1 ]]; then
