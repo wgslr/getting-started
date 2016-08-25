@@ -183,13 +183,13 @@ handle_oneprovider() {
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo GEO_LATITUDE="$GEO_LATITUDE" LONG="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
+      echo GEO_LATITUDE="$GEO_LATITUDE" GEO_LONGITUDE="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
     }
     docker_compose_sh_local="echo ${docker_compose_sh_local}"
     print_docker_compose_file "$compose_file_name"
   else
     docker_compose_sh_local() {
-      GEO_LATITUDE="$GEO_LATITUDE" LONG="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
+      GEO_LATITUDE="$GEO_LATITUDE" GEO_LONGITUDE="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
     }
   fi
 
