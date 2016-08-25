@@ -393,7 +393,7 @@ In [oneclient](https://onedata.org/docs/doc/using_onedata/oneclient.html) direct
 Example invocation:
 
 ```bash
-./run_oneclient.sh --provider myprovider.tk --token '_Us_MYaSD80YgPpcKfVSLP-Mz3TIqmN1q1vb3qFJ' --mount-point '/mnt/data'
+./run_oneclient.sh --provider myprovider.tk --token '_Us_MYaSD80YgPpcKfVSLP-Mz3TIqmN1q1vb3qFJ'
 ```
 
 
