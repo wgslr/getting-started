@@ -1,6 +1,8 @@
 #!/bin/bash
 # POSIX
 
+SPACES_DIR="${PWD}/Spaces/"
+
 # Error handling.
 # $1 - error string
 die() {
@@ -24,6 +26,8 @@ Options:
   -h, --help         display this help and exit
   -t, --token        authorization token
   -p, --provider     ip or hostname of provider you want to connect to
+  -m, --mount-point  a directory where you what docker to mount your spaces
+                     WARNING: the content of this directory will be mounted as a root.
   -d, --detach       run container in background and print container name"
   exit 0
 }
@@ -79,13 +83,25 @@ main() {
     die "no authorization token supplied. See --help option."
   fi
 
+  if [ -z "$mount_point" ]; then    
+    echo "No mount point supplied. Using \"./Spaces\" directory."   
+    mount_point=$SPACES_DIR   
+  fi
+
   if [ -z "$provider" ]; then
     echo "No provider supplied. Assuming \"localhost\"."
     provider="localhost"
   fi
   
+  # Setting up shared mount for Spaces volume
+  mkdir "$mount_point"
+  sudo mount -o bind "$mount_point" "$mount_point"
+  sudo mount --make-shared "$mount_point"
+
+  echo "After you exit the container you need to manually run: sudo umount \"$mount_point\""
+
   service='oneclient'
-  ONECLIENT_AUTHORIZATION_TOKEN=$token PROVIDER_HOSTNAME=$provider docker-compose -f "docker-compose-${service}.yml" up ${compose_up_opts} "oneclient"
+  MOUNT_POINT=$mount_point ONECLIENT_AUTHORIZATION_TOKEN=$token PROVIDER_HOSTNAME=$provider docker-compose -f "docker-compose-${service}.yml" up ${compose_up_opts} "oneclient"
   
 }
 
