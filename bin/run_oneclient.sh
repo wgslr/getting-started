@@ -10,7 +10,7 @@ die() {
 
 # As the name suggests
 usage() {
-  echo "Usage: ${0##*/}  [-h] [ --onezone  | --oneprovider ] [ -n  | --node ]
+  echo "Usage: ${0##*/}  [-h] --token <token hash> --provider <provider ip> 
 
 This script starts Oneclient components:
 
@@ -23,8 +23,7 @@ ${0##*/} --provider 'node1.oneprovider.onedata.example.com'
 Options:
   -h, --help         display this help and exit
   -t, --token        authorization token
-  -p, --provider     ip or hostname of provider you want to connect to
-
+  -p, --provider     ip or hostname of provider you want to connect to"
   exit 0
 }
 
