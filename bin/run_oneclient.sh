@@ -23,7 +23,8 @@ ${0##*/} --provider 'node1.oneprovider.onedata.example.com'
 Options:
   -h, --help         display this help and exit
   -t, --token        authorization token
-  -p, --provider     ip or hostname of provider you want to connect to"
+  -p, --provider     ip or hostname of provider you want to connect to
+  -d, --detach       run container in background and print container name"
   exit 0
 }
 
@@ -32,6 +33,7 @@ main() {
   local token
   local provider
   local mount_point
+  local compose_up_opts=""
 
   if [ ! -z "$ONECLIENT_AUTHORIZATION_TOKEN" ]; then
     token=$ONECLIENT_AUTHORIZATION_TOKEN
@@ -59,6 +61,9 @@ main() {
               mount_point=$2
               shift
               ;;
+          -d | --detach)
+              compose_up_opts="$compose_up_opts -d"
+              ;;
           -?*)
               printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
               exit 1
@@ -80,7 +85,7 @@ main() {
   fi
   
   service='oneclient'
-  ONECLIENT_AUTHORIZATION_TOKEN=$token PROVIDER_HOSTNAME=$provider docker-compose -f "docker-compose-${service}.yml" up -d "oneclient"
+  ONECLIENT_AUTHORIZATION_TOKEN=$token PROVIDER_HOSTNAME=$provider docker-compose -f "docker-compose-${service}.yml" up ${compose_up_opts} "oneclient"
   
 }
 

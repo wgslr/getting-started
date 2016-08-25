@@ -69,7 +69,8 @@ Options:
   --provider-conf-dir  directory where provider will configuration its files
   --set-lat-long       sets latitude and longitude from reegeoip.net service based on your public ip's
   --clean              clean all onezone, oneprivder and oneclient configuration and data files - provided all docker containers using them have been shutdown
-  --debug              write to STDOUT the docker-compose config and commands that would be executed"
+  --debug              write to STDOUT the docker-compose config and commands that would be executed
+  --detach             run container in background and print container name"
   exit 0
 }
 
@@ -149,6 +150,8 @@ batch_mode_check() {
 handle_onezone() {
   local n=$1
   local compose_file_name=$2
+  local compose_up_opts=$3
+
   mkdir -p "$ONEZONE_CONFIG_DIR"
 
 
@@ -165,13 +168,14 @@ handle_onezone() {
   
   batch_mode_check "onezone" "$compose_file_name"
   docker_compose_sh_local -f "$compose_file_name" pull
-  docker_compose_sh_local -f "$compose_file_name" up 
+  docker_compose_sh_local -f "$compose_file_name" up ${compose_up_opts}
 } 
 
 handle_oneprovider() {
   local n=$1
   local compose_file_name=$2
   local oneprovider_data_dir=$3
+  local compose_up_opts=$4
 
   mkdir -p "$ONEPROVIDER_CONFIG_DIR"
   mkdir -p "$oneprovider_data_dir"
@@ -191,7 +195,7 @@ handle_oneprovider() {
 
   batch_mode_check "oneprovider" "$compose_file_name"
   docker_compose_sh_local -f "$compose_file_name" pull
-  docker_compose_sh_local -f "$compose_file_name" up
+  docker_compose_sh_local -f "$compose_file_name" up "$compose_up_opts"
 } 
 
 main() {
@@ -205,6 +209,7 @@ main() {
   local service
   local clean=0
   local get_log_lat_flag=0
+  local compose_up_opts=""
 
   while (( $# )); do
       case $1 in
@@ -243,6 +248,9 @@ main() {
           --set-lat-long)
               get_log_lat_flag=1
               ;;
+          --detach)
+              compose_up_opts="$compose_up_opts -d"
+              ;;
           -?*)
               printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
               exit 1
@@ -276,11 +284,11 @@ Would you like to keep them (y) or start a new deployment (n)?"
   local compose_file_name="docker-compose-${service}.yml"
 
   if [[ $service == "onezone" ]]; then
-    handle_onezone "$n" "$compose_file_name"
+    handle_onezone "$n" "$compose_file_name" "$compose_up_opts"
   fi
 
   if [[ $service == "oneprovider" ]]; then
-    handle_oneprovider "$n" "$compose_file_name" "$oneprovider_data_dir"
+    handle_oneprovider "$n" "$compose_file_name" "$oneprovider_data_dir" "$compose_up_opts"
   fi
 
   if [[ $clean -eq 1 ]]; then
