@@ -1,6 +1,8 @@
 #!/bin/bash
 # POSIX
 
+SPACES_DIR="${PWD}/Spaces/"
+
 # Error handling.
 # $1 - error string
 die() {
@@ -21,17 +23,19 @@ export ONECLIENT_AUTHORIZATION_TOKEN='_Us_MYaSD80YgPpcKfVSLP-Mz3TIqmN1q1vb3qFJ'
 ${0##*/} --provider 'node1.oneprovider.onedata.example.com'
 
 Options:
-  -h, --help       display this help and exit
-  -t, --token      authorization token
-  -p, --provider   ip or hostname of provider you want to connect to
-                   Default value: 'node1.oneprovider.onedata.example.com'"
+  -h, --help         display this help and exit
+  -t, --token        authorization token
+  -p, --provider     ip or hostname of provider you want to connect to
+  -m, --mount-point  a directory where you what docker to mount your spaces. 
+                     WARNING: the content of this directory will be mounted as a root user."
   exit 0
 }
 
 
 main() {
   local token
-  local provider='node1.oneprovider.onedata.example.com'
+  local provider
+  local mount_point
 
   if [ ! -z "$ONECLIENT_AUTHORIZATION_TOKEN" ]; then
     token=$ONECLIENT_AUTHORIZATION_TOKEN
@@ -41,18 +45,22 @@ main() {
     provider=$PROVIDER_HOSTNAME
   fi
 
-  while [[ $# > 0 ]]; do
+  while (( $# )); do
       case $1 in
           -h|-\?|--help)   # Call a "usage" function to display a synopsis, then exit.
               usage
               exit 0
               ;;
-          -t | --token)       # specify scenari number
+          -t | --token)       
               token=$2
               shift
               ;;
-          -p | --provider)       # specify scenari number
+          -p | --provider)      
               provider=$2
+              shift
+              ;;
+          -m | --mount-point)       
+              mount_point=$2
               shift
               ;;
           -?*)
@@ -70,10 +78,20 @@ main() {
     die "no authorization token supplied. See --help option."
   fi
 
+  if [ -z "$provider" ]; then
+    echo "No provider supplied. Assuming \"localhost\"."
+    provider="localhost"
+  fi
+
+  if [ -z "$mount_point" ]; then
+    echo "No mount point supplied. Using \"./Spaces\" directory."
+    mount_point=$SPACES_DIR
+  fi
+
+  mkdir -p $mount_point
+  
   service='oneclient'
-  ONECLIENT_AUTHORIZATION_TOKEN=$token PROVIDER_HOSTNAME=$provider docker-compose -f "docker-compose-${service}.yml" up "oneclient"
+  ONECLIENT_AUTHORIZATION_TOKEN=$token MOUNT_POINT=$mount_point PROVIDER_HOSTNAME=$provider docker-compose -f "docker-compose-${service}.yml" up "oneclient"
   
 }
 
-
-main "$@"

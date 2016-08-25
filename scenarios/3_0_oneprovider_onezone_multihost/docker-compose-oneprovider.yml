@@ -7,11 +7,23 @@ services:
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
     container_name: oneprovider-1
     volumes:
-      - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistence"
-      - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    networks:
-      - scenario2
+        - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistence"
+        - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
+        - "/var/run/docker.sock:/var/run/docker.sock"
+    ports:
+      - "53:53"
+      - "53:53/udp"
+      - "443:443"
+      - "80:80"
+      - "5555:5555"
+      - "5556:5556"
+      - "6665:6665"
+      - "6666:6666"
+      - "7443:7443"
+      - "8443:8443"
+      - "8876:8876"
+      - "8877:8877"
+      - "9443:9443"
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEPROVIDER_CONFIG: |
@@ -38,11 +50,11 @@ services:
         oneprovider:
           register: true
           name: "Example"
-          redirectionPoint: "https://node1.oneprovider.localhost" # OR DOCKER IP ADDRESS
+          redirectionPoint: "https://${PROVIDER_FQDN}" # OR IP ADDRESS
           geoLatitude: ${GEO_LATITUDE}
           geoLongitude: ${GEO_LONGITUDE}
         onezone:
-          domainName: "node1.onezone.localhost" # OR DOCKER IP ADDRESS
+          domainName: "${ZONE_FQDN}" # OR IP ADDRESS
         onepanel:
           users:
             "admin":
@@ -51,6 +63,3 @@ services:
             "user":
               password: "Password2"
               userRole: "regular"
-
-networks:
-  scenario2:

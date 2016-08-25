@@ -7,12 +7,23 @@ services:
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
     container_name: onezone-1
     volumes:
+        # - "${AUTH_PATH}:/volumes/persistence/var/lib/oz_worker/auth.config"
         - "${ONEZONE_CONFIG_DIR}:/volumes/persistence"
         - "/var/run/docker.sock:/var/run/docker.sock"
-        #- "${AUTH_PATH}:/volumes/persistence/var/lib/oz_worker/auth.config"
-
-    networks:
-      - scenario2
+    ports:
+      - "53:53"
+      - "53:53/udp"
+      - "443:443"
+      - "80:80"
+      - "5555:5555"
+      - "5556:5556"
+      - "6665:6665"
+      - "6666:6666"
+      - "7443:7443"
+      - "8443:8443"
+      - "8876:8876"
+      - "8877:8877"
+      - "9443:9443"
     environment:
       ONEPANEL_BATCH_MODE: "true"
       ONEZONE_CONFIG: |
@@ -43,6 +54,3 @@ services:
             "user":
               password: "Password2"
               userRole: "regular"
-
-networks:
-  scenario2:
