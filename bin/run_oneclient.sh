@@ -1,7 +1,7 @@
 #!/bin/bash
 # POSIX
 
-SPACES_DIR="${PWD}/myspaces/"
+SPACES_DIR="${PWD}/Spaces/"
 
 # Error handling.
 # $1 - error string
@@ -27,15 +27,15 @@ Options:
   -t, --token        authorization token
   -p, --provider     ip or hostname of provider you want to connect to
   -m, --mount-point  a directory where you what docker to mount your spaces. 
-                     WARNING: the content of this directory will be mounted as a root user.
+                     WARNING: the content of this directory will be mounted as a root user."
   exit 0
 }
 
 
 main() {
   local token
-  local provider=
-  local mount_point=$SPACES_DIR
+  local provider
+  local mount_point
 
   if [ ! -z "$ONECLIENT_AUTHORIZATION_TOKEN" ]; then
     token=$ONECLIENT_AUTHORIZATION_TOKEN
@@ -78,8 +78,14 @@ main() {
     die "no authorization token supplied. See --help option."
   fi
 
-  if [ -z "$token" ]; then
-    die "no authorization token supplied. See --help option."
+  if [ -z "$provider" ]; then
+    echo "No provider supplied. Assuming \"localhost\"."
+    provider="localhost"
+  fi
+
+  if [ -z "$mount_point" ]; then
+    echo "No mount point supplied. Using \"./Spaces\" directory."
+    mount_point=$SPACES_DIR
   fi
 
   mkdir -p $mount_point
@@ -89,5 +95,3 @@ main() {
   
 }
 
-
-main "$@"
