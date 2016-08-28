@@ -21,6 +21,24 @@ GEO_LONGITUDE="19.909444"
 #Default Onezone
 ZONE_FQDN="beta.onedata.org"
 
+#Compose file configurations
+DOCKER_COMPOSE_COMMON_DIR="$REPO_ROOT/docker-compose-common/"
+## Zone
+ZONE_BASE_CONF="$DOCKER_COMPOSE_COMMON_DIR/docker-compose-zone.base.yml"
+ZONE_PORTS_CONF="$DOCKER_COMPOSE_COMMON_DIR/docker-compose-zone.ports.yml"
+ZONE_BATCH_CONF="$DOCKER_COMPOSE_COMMON_DIR/docker-compose-zone.batch.yml"
+## Provider
+PROV_BASE_CONF="$DOCKER_COMPOSE_COMMON_DIR/docker-compose-provider.base.yml"
+PROV_PORTS_CONF="$DOCKER_COMPOSE_COMMON_DIR/docker-compose-provider.ports.yml"
+PROV_BATCH_CONF="$DOCKER_COMPOSE_COMMON_DIR/docker-compose-provider.batch.yml"
+## Client
+CLIENT_BASE_CONF="$DOCKER_COMPOSE_COMMON_DIR/docker-compose-client.batch.yml"
+
+# Composes to merge
+PROVIDER_COMPOSE_FILES=($ZONE_BASE_CONF)
+ZONE_COMPOSE_FILES=($PROV_BASE_CONF)
+CLIENT_COMPOSE_FILES=($CLIENT_BASE_CONF)
+
 # Error handling.
 # $1 - error string
 die() {
@@ -194,8 +212,8 @@ handle_oneprovider() {
   fi
 
   batch_mode_check "oneprovider" "$compose_file_name"
-  docker_compose_sh_local -f "$compose_file_name" pull
-  docker_compose_sh_local -f "$compose_file_name" up $compose_up_opts
+  docker_compose_sh_local ${PROVIDER_COMPOSE_FILES[@]/#/-f } pull
+  docker_compose_sh_local ${PROVIDER_COMPOSE_FILES[@]/#/-f } up $compose_up_opts
 } 
 
 main() {
@@ -295,6 +313,7 @@ Would you like to keep them (y) or start a new deployment (n)?"
     debug
     exit 0
   fi
+
 }
 
 
