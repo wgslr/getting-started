@@ -79,24 +79,34 @@ main() {
       shift
   done
 
-  if [ -z "$token" ]; then
+  if [[ -z "$token" ]]; then
     die "no authorization token supplied. See --help option."
   fi
 
-  if [ -z "$mount_point" ]; then    
-    echo "No mount point supplied. Using \"./Spaces\" directory."   
-    mount_point=$SPACES_DIR   
+  if [[ ! -z "$mount_point" ]]; then     
+    echo "WARRNING: --mount-point is an experimental feature!
+  We highly recommend installing packaged version of Oneclient, see:
+  https://onedata.org/docs/doc/getting_started/downloading_onedata.html
+  If yo still want to try it please be aware of a few compromises:
+  - the script will need to perform mount commands with sudo, you will be asked for you password
+  - the Spaces dir is mounted on a host files system with root:root permissions
+  - you need to execute \"sudo su\" TWICE in order umount and remove it
+Do you want to continue with --mount-point experimental feature (y) or exit (n)?"
+    read -r agree_to_mount_point
+    if [[ $agree_to_mount_point == 'y' ]]; then
+       # Setting up shared mount for Spaces volume
+       mkdir "$mount_point"
+       sudo mount -o bind "$mount_point" "$mount_point"
+       sudo mount --make-shared "$mount_point"
+    fi
   fi
 
-  if [ -z "$provider" ]; then
+  if [[ -z "$provider" ]]; then
     echo "No provider supplied. Assuming \"localhost\"."
     provider="localhost"
   fi
   
-  # Setting up shared mount for Spaces volume
-  mkdir "$mount_point"
-  sudo mount -o bind "$mount_point" "$mount_point"
-  sudo mount --make-shared "$mount_point"
+ 
 
   echo "After you exit the container you need to manually run: sudo umount \"$mount_point\""
 
