@@ -1,0 +1,35 @@
+version: '2.0'
+
+services:
+  node1.onezone.localhost:
+    environment:
+      ONEPANEL_BATCH_MODE: "true"
+      ONEZONE_CONFIG: |
+        cluster:
+          domainName: "onezone.localhost"
+          autoDeploy: true
+          nodes:
+            n1:
+              hostname: "node1"
+          managers:
+            mainNode: "n1"
+            nodes:
+              - "n1"
+          workers:
+            nodes:
+              - "n1"
+          databases:
+            nodes:
+              - "n1"
+        onezone:
+          name: "Example"
+          domainName: "onezone.localhost"
+        onepanel:
+          users:
+            "admin":
+              password: "Password1"
+              userRole: "admin"
+            "user":
+              password: "Password2"
+              userRole: "regular"
+
