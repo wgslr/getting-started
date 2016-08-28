@@ -1,0 +1,43 @@
+version: '2.0'
+
+services:
+  node1.oneprovider.localhost: 
+    environment:
+      ONEPANEL_BATCH_MODE: "true"
+      ONEPROVIDER_CONFIG: |
+        cluster:
+          domainName: "oneprovider.localhost"
+          autoDeploy: true
+          nodes:
+            n1:
+              hostname: "node1"
+          managers:
+            mainNode: "n1"
+            nodes:
+              - "n1"
+          workers:
+            nodes:
+              - "n1"
+          databases:
+            nodes:
+              - "n1"
+          storages:
+            NFS:
+              type: "posix"
+              mountPoint: "/volumes/storage"
+        oneprovider:
+          register: true
+          name: "Example"
+          redirectionPoint: "https://${PROVIDER_FQDN}" # OR IP ADDRESS
+          geoLatitude: ${GEO_LATITUDE}
+          geoLongitude: ${GEO_LONGITUDE}
+        onezone:
+          domainName: "${ZONE_FQDN}" # OR IP ADDRESS
+        onepanel:
+          users:
+            "admin":
+              password: "Password1"
+              userRole: "admin"
+            "user":
+              password: "Password2"
+              userRole: "regular"
