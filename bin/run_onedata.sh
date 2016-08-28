@@ -35,8 +35,8 @@ PROV_BATCH_CONF="$DOCKER_COMPOSE_COMMON_DIR/docker-compose-provider.batch.yml"
 CLIENT_BASE_CONF="$DOCKER_COMPOSE_COMMON_DIR/docker-compose-client.batch.yml"
 
 # Composes to merge
-PROVIDER_COMPOSE_FILES=($ZONE_BASE_CONF)
-ZONE_COMPOSE_FILES=($PROV_BASE_CONF)
+PROVIDER_COMPOSE_FILES=($PROV_BASE_CONF)
+ZONE_COMPOSE_FILES=($ZONE_BASE_CONF)
 CLIENT_COMPOSE_FILES=($CLIENT_BASE_CONF)
 
 # Error handling.
@@ -175,12 +175,12 @@ handle_onezone() {
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo ZONE_DOMAIN_NAME="$ZONE_DOMAIN_NAME" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" AUTH_PATH="$AUTH_PATH" ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh[*]} "$@"
+      echo ZONE_DOMAIN_NAME="$ZONE_DOMAIN_NAME" ZONE_FQDN="$ZONE_FQDN" AUTH_PATH="$AUTH_PATH" ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh[*]} "$@"
     }
     print_docker_compose_file "$compose_file_name"
   else 
     docker_compose_sh_local() {
-      ZONE_DOMAIN_NAME="$ZONE_DOMAIN_NAME" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" AUTH_PATH="$AUTH_PATH" ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh[*]} "$@"
+      ZONE_DOMAIN_NAME="$ZONE_DOMAIN_NAME" ZONE_FQDN="$ZONE_FQDN" AUTH_PATH="$AUTH_PATH" ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh[*]} "$@"
     }
   fi
   
