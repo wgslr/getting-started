@@ -1,7 +1,0 @@
-version: '2.0'
-
-services:
-  oneclient:
-    extends:
-      file: ../../compose-common/docker-compose-client.base.yml
-      service: oneclient
