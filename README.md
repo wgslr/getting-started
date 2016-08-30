@@ -78,7 +78,7 @@ You will require a machine with a public IP address and a number of [open ports]
 In order to setup and deploy your Oneprovider and connect it to [beta.onedata.org](https://beta.onedata.org) simply run:
 
 ```bash
-./run_onedata.sh --provider --provider-fqdn <public ip or FQDN of your machine>
+./run_onedata.sh --provider --zone-fqdn beta.onedata.org --provider-fqdn <public ip or FQDN of your machine>
 ```
 
 and wait until it successfully starts.
