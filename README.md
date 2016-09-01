@@ -14,12 +14,12 @@ Scenarios are divided into 2 groups:
 
 #### Oneprovider setup
 
-- [1.0](#s10): pre-configured Oneprovider that connects to [beta.onedata.org](https://beta.onedata.org) zone (public IP required) <br \>
+- [1.0](#s10): preconfigured Oneprovider that connects to [beta.onedata.org](https://beta.onedata.org) zone (public IP required) <br \>
     **Sources:** [scenarios/1_0_oneprovider_beta_onedata_org/](scenarios/1_0_oneprovider_beta_onedata_org/)
 
 #### Onezone and Oneprovider setup
 
-- [2.0](#s20): pre-configured Oneprovider with pre-configured Onezone <br \>
+- [2.0](#s20): preconfigured Oneprovider with preconfigured Onezone <br \>
     **Sources:** [scenarios/2_0_oneprovider_onezone/](scenarios/2_0_oneprovider_onezone/)
 
 - [2.1](#s21): manual configuration of Oneprovider and Onezone <br \>
@@ -61,7 +61,7 @@ After completing each scenario, you are encouraged to test your installation acc
 <a name="s10"></a>
 ### Scenario 1.0
 
-In this scenario you will run a demo of single node pre-configured Oneprovider instance that will register at [beta.onedata.org](https://beta.onedata.org)zone. The configuration template is stored in the [docker-compose-oneprovider.yml](scenarios/1_0_oneprovider_onedata_org/docker-compose-oneprovider.yml) file and Oneprovider will be automatically installed based on these settings.
+In this scenario you will run a demo of single node preconfigured Oneprovider instance that will register at [beta.onedata.org](https://beta.onedata.org)zone. The configuration template is stored in the [docker-compose-oneprovider.yml](scenarios/1_0_oneprovider_onedata_org/docker-compose-oneprovider.yml) file and Oneprovider will be automatically installed based on these settings.
 
 ~~~
  ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─           ┌ ─ ─ ─ ─ ─ ─ ┬ ─ ┬ ─ ─
@@ -96,8 +96,8 @@ For further instructions on using Oneprovider refer to documentation on [beta.on
 ### Scenario 2.0
 
 In this scenario you will run a demo of a fully functional, isolated Onedata deployment that will consist of:
-- a single node pre-configured Onezone instance
-- a single node pre-configured Oneprovider instance
+- a single node preconfigured Onezone instance
+- a single node preconfigured Oneprovider instance
 
 both running on a single machine.
 
@@ -140,7 +140,7 @@ In this scenario you will run a demo of a fully functional isolated Onedata inst
 
 both running on a single machine.
 
-This scenario is similar to scenario 2.0. You are adviced to try complete scenario 2.0 before continuing. The only difference is that we did not provide template configuration. 
+This scenario is similar to scenario 2.0. You are advised to try complete scenario 2.0 before continuing. The only difference is that we did not provide template configuration. 
 
 Start Onezone service first:
 ```bash
@@ -188,13 +188,13 @@ To run Onezone and Oneprovider, start Onezone service on the first machine:
 ./run_onedata.sh --zone
 ```
 
-wait until it finishes sucessfully and then run Oneprovider on the second machine:
+wait until it finishes successfully and then run Oneprovider on the second machine:
 
 ```bash
 ./run_onedata.sh --provider --provider-fqdn <public ip or FQDN of your machine running provider> --zone-fqdn <public ip or FQDN of your machine running zone>
 ```
 
-Detailed information on accessing and using Onedata services can be found [here](#accessing). In order to test your installation please follow [these](#testing) instrcutions.
+Detailed information on accessing and using Onedata services can be found [here](#accessing). In order to test your installation please follow [these](#testing) instructions.
 
 <a name="s31"></a>
 ### Scenario 3.1
@@ -301,7 +301,7 @@ password: Password1
 
 <a name="testing"></a>
 ### Testing your installation
-The basic test of your installatin involves:
+The basic test of your installation involves:
 
 1. [Logging into Onezone](https://onedata.org/docs/doc/getting_started/user_onedata_101.html)
 2. Getting Space support token for your home space 
@@ -352,7 +352,7 @@ In all scenarios except 2.0 and 2.1, you may want to have your Oneprovider/Oneda
 ### Customizing your installation
 
 #### Customizing data and config directories locations
-In all scenarios Onezone and Oneprovier services typically have two Docker volumes exported mounted to the host filesystem:
+In all scenarios Onezone and Oneprovider services typically have two Docker volumes exported mounted to the host file system:
 - `/volumes/persistence` - where Onedata configuration is stored
 - `/volumes/storage` - where Oneprovider stores users' data
 
@@ -375,9 +375,9 @@ Example execution of Oneprovider with all options:
 
 <a name="cleaning"></a>
 ### Cleaning your installation
-`run_onedata.sh` tries to inform you if there are any leftocer configuration or data that might interfere with setting up a fresh Onezone or Oneprovider service. If for some your installation fails, before filing an issue please try to manually remove all contents of those volumes that Oneprovider/Onezone service use.  
+`run_onedata.sh` tries to inform you if there are any leftover configuration or data that might interfere with setting up a fresh Onezone or Oneprovider service. If for some your installation fails, before filing an issue please try to manually remove all contents of those volumes that Oneprovider/Onezone service use.  
 
-If you did not use `run_onedata.sh` with flags such as `--provider-conf-dir` or `--provider-data-dir`, hence relying od default directories the `git status`command should assist you with removing all unnecessary files. If all fails please delete this repo and clone it again. 
+If you did not use `run_onedata.sh` with flags such as `--provider-conf-dir` or `--provider-data-dir`, hence relying on default directories the `git status`command should assist you with removing all unnecessary files. If all fails please delete this repository and clone it again. 
 
 <a name="using"></a>
 ## Using Onedata
