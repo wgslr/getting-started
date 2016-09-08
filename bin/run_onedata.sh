@@ -51,7 +51,7 @@ BEGINING===="
 
 # As the name suggests
 usage() {
-  echo "Usage: ${0##*/}  [-h] [ --zone  | --provider ] [ --clean ] [ --debug ]
+  echo "Usage: ${0##*/}  [-h] [ --zone  | --provider ] [ --(with-|without-)clean ] [ --debug ] 
 
 Onezone usage: ${0##*/} --zone 
 Oneprovider usage: ${0##*/} --provider [ --provider-fqdn <fqdn> ] [ --zone-fqdn <fqdn> ] [ --provider-data-dir ] [ --set-lat-long ]
@@ -69,6 +69,8 @@ Options:
   --provider-conf-dir  directory where provider will configuration its files
   --set-lat-long       sets latitude and longitude from reegeoip.net service based on your public ip's
   --clean              clean all onezone, oneprivder and oneclient configuration and data files - provided all docker containers using them have been shutdown
+  --with-clean         run --clean prior to setting up service
+  --without-clean      prevents running --clean prior to setting up service
   --debug              write to STDOUT the docker-compose config and commands that would be executed
   --detach             run container in background and print container name"
   exit 0
@@ -217,26 +219,32 @@ main() {
               usage
               exit 0
               ;;
-          --zone)      
+          --zone)
               service="onezone"
               ;;
-          --provider)       
+          --provider)
               service="oneprovider"
               ;;
-          --provider-data-dir)       
+          --provider-data-dir)
               oneprovider_data_dir=$2
               shift
               ;;
-          --provider-conf-dir)       
+          --provider-conf-dir)
               ONEPROVIDER_CONFIG_DIR=$2
               shift
               ;;
-          --clean)    
+          --without-clean)
+              keep_old_config='y'
+              ;;
+          --with-clean)
+              keep_old_config='n'
+              ;;
+          --clean)
               clean=1
               ;;
           --debug)
               DEBUG=1
-              ;;      
+              ;;
           --zone-fqdn)
               ZONE_FQDN=$2
               shift
@@ -262,19 +270,22 @@ main() {
       shift
   done
 
-  check_if_clean
-  if [[ $? -eq 1 ]]; then
-    echo "We detected configuration files, data and docker containers from a previous Onedata deployment. 
-Would you like to keep them (y) or start a new deployment (n)?"
-    read -r agree_to_clean
-    if [[ $agree_to_clean == 'n' ]]; then
-      clean
-    fi
-  fi
-
   if [[ $clean -eq 1 ]]; then
     clean
     exit 0
+  fi
+
+  if check_if_clean ; then
+    if [[ -z $keep_old_config ]]; then
+      echo "We detected configuration files, data and docker containers from a previous Onedata deployment. 
+  Would you like to keep them (y) or start a new deployment (n)?"
+      read -r keep_old_config
+    else
+      if [[ $keep_old_config == 'n' ]]; then
+        echo "clean!"
+        clean
+      fi
+    fi
   fi
 
   if [[ $get_log_lat_flag -eq 1 ]]; then
