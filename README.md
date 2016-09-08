@@ -362,16 +362,24 @@ Above directories are present in Docker container and are by default mounted und
 - `./oneprovider_data` for Oneprovider users' data 
 
 You can modify them directly in Docker Compose configuration files or by using special flags of `onedata_run.sh`
+- `--zone-conf-dir` to set directory where zone will store will store configuration files
 - `--provider-data-dir` to set directory where provider will store users raw data
-- `--provider-conf-dir` to set a directory where provider will configuration its files
+- `--provider-conf-dir` to set a directory where provider will store configuration files
  
-Additionally we provide a `--set-lat-log` that tries to deduce the latitude and longitude of you machine. Those coordinates are used in Onezone to display your provider on a world map. This flag works with all scenarios except those that include manual Onepanel configuration process (2.1 and 3.1).
+Additionally we provide a `--set-lat-log` that tries to deduce the latitude and longitude of the machine you run provider on. Those coordinates are used in Onezone to display your provider on a world map. This flag works with all scenarios except those that include manual Onepanel configuration process (2.1 and 3.1).
 
 Example execution of Oneprovider with all options:
 
 ```bash
 ./onedata_run.sh  --provider --provider-fqdn 'myonedataprovider.tk' --zone-fqdn 'myonezone.tk' --provider-data-dir '/mnt/super_fast_big_storage/' --provider-conf-dir '/etc/oneprovider/' --set-lat-log
 ```
+
+Example execution of Onezone with all options:
+
+```bash
+./onedata_run.sh  --zone --zone-conf-dir '/etc/onezone/' 
+```
+
 
 <a name="cleaning"></a>
 ### Cleaning your installation
