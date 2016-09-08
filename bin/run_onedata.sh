@@ -66,7 +66,8 @@ Options:
   --provider-fqdn      FQDN for oneprovider      
   --zone-fqdn          FQDN for onezone (defaults to beta.onedata.org)
   --provider-data-dir  a directory where provider will store users raw data
-  --provider-conf-dir  directory where provider will configuration its files
+  --provider-conf-dir  directory where provider will store configuration its files
+  --zone-conf-dir      directory where zone will store configuration its files
   --set-lat-long       sets latitude and longitude from reegeoip.net service based on your public ip's
   --clean              clean all onezone, oneprivder and oneclient configuration and data files - provided all docker containers using them have been shutdown
   --with-clean         run --clean prior to setting up service
@@ -87,14 +88,14 @@ debug() {
 
 check_if_clean() {
 
-  [[ -d "$ONEZONE_CONFIG_DIR" ]] && return 1
-  [[ -d "$ONEPROVIDER_CONFIG_DIR" ]] && return 1
-  [[ -d "$ONEPROVIDER_DATA_DIR" ]] && return 1
+  [[ -d "$ONEZONE_CONFIG_DIR" ]] && return 0
+  [[ -d "$ONEPROVIDER_CONFIG_DIR" ]] && return 0
+  [[ -d "$ONEPROVIDER_DATA_DIR" ]] && return 0
  
-  [[ $(docker ps -aqf 'name=onezone') != "" ]] && return 1
-  [[ $(docker ps -aqf 'name=oneprovider') != "" ]] && return 1
-    
-  return 0
+  [[ $(docker ps -aqf 'name=onezone') != "" ]] && return 0
+  [[ $(docker ps -aqf 'name=oneprovider') != "" ]] && return 0
+  
+  return 1
 }
 
 clean() {
@@ -222,6 +223,10 @@ main() {
           --zone)
               service="onezone"
               ;;
+          --zone-conf-dir)
+              ONEZONE_CONFIG_DIR=$2
+              shift
+              ;;
           --provider)
               service="oneprovider"
               ;;
@@ -282,7 +287,6 @@ main() {
       read -r keep_old_config
     else
       if [[ $keep_old_config == 'n' ]]; then
-        echo "clean!"
         clean
       fi
     fi
