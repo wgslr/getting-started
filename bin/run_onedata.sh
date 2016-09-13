@@ -86,7 +86,7 @@ debug() {
   set -o posix ; set
 }
 
-check_if_clean() {
+is_clean_needed () {
 
   [[ -d "$ONEZONE_CONFIG_DIR" ]] && return 0
   [[ -d "$ONEPROVIDER_CONFIG_DIR" ]] && return 0
@@ -280,12 +280,11 @@ main() {
     exit 0
   fi
 
-  if check_if_clean ; then
+  if is_clean_needed ; then
     if [[ -z $keep_old_config ]]; then
       echo "We detected configuration files, data and docker containers from a previous Onedata deployment. 
   Would you like to keep them (y) or start a new deployment (n)?"
       read -r keep_old_config
-    else
       if [[ $keep_old_config == 'n' ]]; then
         clean
       fi
