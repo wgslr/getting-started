@@ -2,13 +2,15 @@ version: '2.0'
 
 services:
   node1.oneprovider.localhost:
-    image: onedata/oneprovider:3.0.0-rc4
+    image: onedata/oneprovider:3.0.0-rc5
+    privileged: true
     hostname: node1.oneprovider.localhost
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
     container_name: oneprovider-1
     volumes:
         - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistence"
         - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
+        - "/sys/fs/cgroup:/sys/fs/cgroup"
         - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
       - "53:53"
