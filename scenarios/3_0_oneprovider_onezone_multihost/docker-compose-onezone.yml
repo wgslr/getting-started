@@ -50,9 +50,9 @@ services:
           domainName: "onezone.localhost"
         onepanel:
           users:
-            "admin":
-              password: "Password1"
+            "admin1":
+              password: "password"
               userRole: "admin"
-            "user":
-              password: "Password2"
+            "user1":
+              password: "password"
               userRole: "regular"
