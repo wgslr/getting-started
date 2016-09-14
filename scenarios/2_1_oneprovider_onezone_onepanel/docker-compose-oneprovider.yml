@@ -8,10 +8,16 @@ services:
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
     container_name: oneprovider-1
     volumes:
-        - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistence"
-        - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
         - "/sys/fs/cgroup:/sys/fs/cgroup"
         - "/var/run/docker.sock:/var/run/docker.sock"
+        # configuration persistence
+        - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistence"
+        # data persistence
+        - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
+        # Oneprovider
+        #- "${OP_PRIV_KEY_PATH}:/volumes/persistence/etc/op_panel/certs/key.pem"
+        #- "${OP_CERT_PATH}:/volumes/persistence/etc/op_panel/certs/cert.pem"
+        #- "${OP_CACERT_PATH}:/volumes/persistence/etc/op_panel/certs/cacert.pem"
     networks:
       - scenario2
 
