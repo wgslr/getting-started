@@ -285,9 +285,9 @@ main() {
       echo "We detected configuration files, data and docker containers from a previous Onedata deployment. 
   Would you like to keep them (y) or start a new deployment (n)?"
       read -r keep_old_config
-      if [[ $keep_old_config == 'n' ]]; then
+    fi
+    if [[ $keep_old_config == 'n' ]]; then
         clean
-      fi
     fi
   fi
 
