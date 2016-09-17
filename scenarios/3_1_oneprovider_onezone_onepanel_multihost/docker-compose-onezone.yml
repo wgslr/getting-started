@@ -8,10 +8,17 @@ services:
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
     container_name: onezone-1
     volumes:
-        - "${ONEZONE_CONFIG_DIR}:/volumes/persistence"
         - "/sys/fs/cgroup:/sys/fs/cgroup"
         - "/var/run/docker.sock:/var/run/docker.sock"
+        # configuration persistance
+        - "${ONEZONE_CONFIG_DIR}:/volumes/persistence"
+        # OpenId configuration
         #- "${AUTH_PATH}:/volumes/persistence/var/lib/oz_worker/auth.config"
+        # DNS configuration
+        #- "${DNS_PATH}:/volumes/persistence/var/lib/oz_worker/dns.config"
+        # Onepanel
+        #- "${OZ_PRIV_KEY_PATH}:/volumes/persistence/etc/oz_panel/certs/key.pem"
+        #- "${OZ_CERT_PATH}:/volumes/persistence/etc/oz_panel/certs/cert.pem"
     ports:
       - "53:53"
       - "53:53/udp"
