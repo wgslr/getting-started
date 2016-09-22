@@ -65,9 +65,9 @@ services:
           domainName: "${ZONE_FQDN}" # OR IP ADDRESS
         onepanel:
           users:
-            "admin1":
-              password: "Password1"
+            "admin":
+              password: "password"
               userRole: "admin"
-            "user1":
-              password: "Password2"
+            "user":
+              password: "password"
               userRole: "regular"
