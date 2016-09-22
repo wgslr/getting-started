@@ -1,9 +1,6 @@
 #!/bin/bash
 
 REPO_ROOT="${PWD//getting-started*}getting-started/"
-ONEZONE_CONFIG_DIR="${PWD}/config_onezone/"
-ONEPROVIDER_CONFIG_DIR="${PWD}/config_oneprovider/"
-ONEPROVIDER_DATA_DIR="${PWD}/oneprovider_data/"
 SPACES_DIR="${PWD}/myspaces/"
 AUTH_CONF="bin/config/auth.conf"
 AUTH_PATH="${REPO_ROOT}${AUTH_CONF}"
@@ -14,10 +11,6 @@ DEBUG=0;
 
 docker_compose_sh=("docker-compose" "-p" "${SCENARIO_NAME}")
 
-#Default coordinates
-GEO_LATITUDE="50.068968"
-GEO_LONGITUDE="19.909444"
-
 #Default Onezone
 ZONE_FQDN="beta.onedata.org"
 
@@ -26,6 +19,18 @@ ZONE_FQDN="beta.onedata.org"
 die() {
   echo "${0##*/}: error: $*" >&2
   exit 1
+}
+
+# Get variables from env
+set_defaults_if_not_defined_in_env() {
+   # Default coordinates
+   [[ -z ${GEO_LATITUDE+x} ]] && GEO_LATITUDE="50.068968"
+   [[ -z ${GEO_LONGITUDE+x} ]] && GEO_LONGITUDE="19.909444" 
+
+   # Default paths
+   [[ -z ${ONEPROVIDER_DATA_DIR+x} ]] && ONEPROVIDER_DATA_DIR="${PWD}/oneprovider_data/"
+   [[ -z ${ONEPROVIDER_CONFIG_DIR+x} ]] && ONEPROVIDER_CONFIG_DIR="${PWD}/config_oneprovider/"
+   [[ -z ${ONEZONE_CONFIG_DIR+x} ]] && ONEZONE_CONFIG_DIR="${PWD}/config_onezone/"
 }
 
 print_docker_compose_file() {
@@ -206,6 +211,8 @@ main() {
   if (( ! $# )); then
     usage
   fi
+  
+  set_defaults_if_not_defined_in_env 
 
   local oneprovider_data_dir=$ONEPROVIDER_DATA_DIR
   local n=1
