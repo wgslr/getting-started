@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.onezone.localhost:
-    image: onedata/onezone:3.0.0-rc5
+    image: onedata/onezone:3.0.0-rc6
     privileged: true
     hostname: node1.onezone.localhost
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
@@ -45,11 +45,11 @@ services:
           domainName: "onezone.localhost"
         onepanel:
           users:
-            "admin1":
-              password: "Password1"
+            "admin":
+              password: "password"
               userRole: "admin"
-            "user1":
-              password: "Password2"
+            "user":
+              password: "password"
               userRole: "regular"
 
 networks:

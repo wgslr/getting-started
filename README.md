@@ -371,7 +371,7 @@ Additionally we provide a `--set-lat-log` that tries to deduce the latitude and 
 Example execution of Oneprovider with all options:
 
 ```bash
-./onedata_run.sh  --provider --provider-fqdn 'myonedataprovider.tk' --zone-fqdn 'myonezone.tk' --provider-data-dir '/mnt/super_fast_big_storage/' --provider-conf-dir '/etc/oneprovider/' --set-lat-log
+./onedata_run.sh  --provider --provider-fqdn 'myonedataprovider.tk' --zone-fqdn 'myonezone.tk' --provider-data-dir '/mnt/super_fast_big_storage/' --provider-conf-dir '/etc/oneprovider/' --set-lat-long
 ```
 
 Example execution of Onezone with all options:
