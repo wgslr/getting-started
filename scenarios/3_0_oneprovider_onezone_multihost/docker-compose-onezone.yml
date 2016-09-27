@@ -33,8 +33,6 @@ services:
       - "8877:8877"
       - "9443:9443"
     environment:
-      ONEPANEL_ADMIN_USERNAME: "admin"    # credentials that will be used to start configuration process
-      ONEPANEL_ADMIN_PASSWORD: "password" # defaults to admin, password
       #ONEPANEL_DEBUG_MODE: "true" # prevents container exit on configuration error
       ONEPANEL_BATCH_MODE: "true"
       ONEZONE_CONFIG: |
