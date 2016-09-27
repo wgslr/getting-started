@@ -2,13 +2,11 @@ version: '2.0'
 
 services:
   node1.oneprovider.localhost:
-    image: onedata/oneprovider:3.0.0-rc6
-    privileged: true
+    image: onedata/oneprovider:3.0.0-rc7
     hostname: node1.oneprovider.localhost
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
     container_name: oneprovider-1
     volumes:
-        - "/sys/fs/cgroup:/sys/fs/cgroup"
         - "/var/run/docker.sock:/var/run/docker.sock"
         # configuration persistence
         - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistence"
@@ -33,11 +31,13 @@ services:
       - "8877:8877"
       - "9443:9443"
     environment:
+      ONEPANEL_ADMIN_USERNAME: "admin"    # credentials that will be used to start configuration process
+      ONEPANEL_ADMIN_PASSWORD: "password" # defaults to admin, password
+      #ONEPANEL_DEBUG_MODE: "true" # prevents container exit on configuration error
       ONEPANEL_BATCH_MODE: "true"
       ONEPROVIDER_CONFIG: |
         cluster:
           domainName: "oneprovider.localhost"
-          autoDeploy: true
           nodes:
             n1:
               hostname: "node1"
