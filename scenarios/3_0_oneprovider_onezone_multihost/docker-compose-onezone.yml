@@ -2,13 +2,11 @@ version: '2.0'
 
 services:
   node1.onezone.localhost:
-    image: onedata/onezone:3.0.0-rc6
-    privileged: true
+    image: onedata/onezone:3.0.0-rc7
     hostname: node1.onezone.localhost
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
     container_name: onezone-1
     volumes:
-        - "/sys/fs/cgroup:/sys/fs/cgroup"
         - "/var/run/docker.sock:/var/run/docker.sock"
         # configuration persistance
         - "${ONEZONE_CONFIG_DIR}:/volumes/persistence"
@@ -35,6 +33,7 @@ services:
       - "8877:8877"
       - "9443:9443"
     environment:
+      #ONEPANEL_DEBUG_MODE: "true" # prevents container exit on configuration error
       ONEPANEL_BATCH_MODE: "true"
       ONEZONE_CONFIG: |
         cluster:
