@@ -73,7 +73,7 @@ Options:
   --name               a name of a provider or a zone 
   --zone               starts onezone service
   --provider           starts oneprovider service
-  --provider-fqdn      FQDN for oneprovider      
+  --provider-fqdn      FQDN for oneprovider (not providing this option causes a script to try to guess public ip using http://ipinfo.io/ip service)
   --zone-fqdn          FQDN for onezone (defaults to beta.onedata.org)
   --provider-data-dir  a directory where provider will store users raw data
   --provider-conf-dir  directory where provider will store configuration its files
@@ -311,6 +311,8 @@ main() {
   if [[ $get_log_lat_flag -eq 1 ]]; then
     get_log_lat
   fi
+
+  [[ -z ${PROVIDER_FQDN+x} ]] && PROVIDER_FQDN="$(wget http://ipinfo.io/ip -qO -)"
 
   local compose_file_name="docker-compose-${service}.yml"
 
