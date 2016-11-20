@@ -187,22 +187,21 @@ handle_onezone() {
 handle_oneprovider() {
   local n=$1
   local compose_file_name=$2
-  local oneprovider_data_dir=$3
-  local compose_up_opts=$4
+  local compose_up_opts=$3
 
   mkdir -p "$ONEPROVIDER_CONFIG_DIR"
-  mkdir -p "$oneprovider_data_dir"
+  mkdir -p "$ONEPROVIDER_DATA_DIR"
 
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo PROVIDER_NAME="$PROVIDER_NAME" GEO_LATITUDE="$GEO_LATITUDE" GEO_LONGITUDE="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
+      echo PROVIDER_NAME="$PROVIDER_NAME" GEO_LATITUDE="$GEO_LATITUDE" GEO_LONGITUDE="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$ONEPROVIDER_DATA_DIR" ${docker_compose_sh[*]} "$@"
     }
     docker_compose_sh_local="echo ${docker_compose_sh_local}"
     print_docker_compose_file "$compose_file_name"
   else
     docker_compose_sh_local() {
-      PROVIDER_NAME="$PROVIDER_NAME" GEO_LATITUDE="$GEO_LATITUDE" GEO_LONGITUDE="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
+      PROVIDER_NAME="$PROVIDER_NAME" GEO_LATITUDE="$GEO_LATITUDE" GEO_LONGITUDE="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$ONEPROVIDER_DATA_DIR" ${docker_compose_sh[*]} "$@"
     }
   fi
 
@@ -219,7 +218,6 @@ main() {
   
   set_defaults_if_not_defined_in_env 
 
-  local oneprovider_data_dir=$ONEPROVIDER_DATA_DIR
   local n=1
   local service
   local clean=0
@@ -248,7 +246,7 @@ main() {
               service="oneprovider"
               ;;
           --provider-data-dir)
-              oneprovider_data_dir=$2
+              ONEPROVIDER_DATA_DIR=$2
               shift
               ;;
           --provider-conf-dir)
@@ -321,7 +319,7 @@ main() {
   fi
 
   if [[ $service == "oneprovider" ]]; then
-    handle_oneprovider "$n" "$compose_file_name" "$oneprovider_data_dir" "$compose_up_opts"
+    handle_oneprovider "$n" "$compose_file_name" "$compose_up_opts"
   fi
 
   if [[ $clean -eq 1 ]]; then
