@@ -55,7 +55,7 @@ services:
               mountPoint: "/volumes/storage"
         oneprovider:
           register: true
-          name: "Example"
+          name: "${PROVIDER_NAME}"
           redirectionPoint: "https://${PROVIDER_FQDN}" # OR IP ADDRESS
           geoLatitude: ${GEO_LATITUDE}
           geoLongitude: ${GEO_LONGITUDE}

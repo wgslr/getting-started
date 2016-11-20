@@ -43,7 +43,7 @@ services:
               mountPoint: "/volumes/storage"
         oneprovider:
           register: true
-          name: "Example"
+          name: "${PROVIDER_NAME}"
           redirectionPoint: "https://node1.oneprovider.localhost" # OR DOCKER IP ADDRESS
           geoLatitude: ${GEO_LATITUDE}
           geoLongitude: ${GEO_LONGITUDE}

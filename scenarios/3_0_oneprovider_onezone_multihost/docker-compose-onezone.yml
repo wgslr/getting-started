@@ -53,7 +53,7 @@ services:
             nodes:
               - "n1"
         onezone:
-          name: "Example"
+          name: "${ZONE_NAME}"
           domainName: "onezone.localhost"
         onepanel:
           users:

@@ -31,6 +31,10 @@ set_defaults_if_not_defined_in_env() {
    [[ -z ${ONEPROVIDER_DATA_DIR+x} ]] && ONEPROVIDER_DATA_DIR="${PWD}/oneprovider_data/"
    [[ -z ${ONEPROVIDER_CONFIG_DIR+x} ]] && ONEPROVIDER_CONFIG_DIR="${PWD}/config_oneprovider/"
    [[ -z ${ONEZONE_CONFIG_DIR+x} ]] && ONEZONE_CONFIG_DIR="${PWD}/config_onezone/"
+
+   # Default names for provider and zone
+   [[ -z ${ZONE_NAME+x} ]] && ZONE_NAME="Example Zone"
+   [[ -z ${PROVIDER_NAME+x} ]] && PROVIDER_NAME="Example Provider" 
 }
 
 print_docker_compose_file() {
@@ -66,6 +70,7 @@ ${0##*/} --provider --provider-fqdn 'myonedataprovider.tk' --zone-fqdn 'myonezon
 
 Options:
   -h, --help           display this help and exit
+  --name               a name of a provider or a zone 
   --zone               starts onezone service
   --provider           starts oneprovider service
   --provider-fqdn      FQDN for oneprovider      
@@ -165,12 +170,12 @@ handle_onezone() {
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo ZONE_DOMAIN_NAME="$ZONE_DOMAIN_NAME" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" AUTH_PATH="$AUTH_PATH" ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh[*]} "$@"
+      echo ZONE_NAME="$ZONE_NAME" ZONE_DOMAIN_NAME="$ZONE_DOMAIN_NAME" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" AUTH_PATH="$AUTH_PATH" ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh[*]} "$@"
     }
     print_docker_compose_file "$compose_file_name"
   else 
     docker_compose_sh_local() {
-      ZONE_DOMAIN_NAME="$ZONE_DOMAIN_NAME" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" AUTH_PATH="$AUTH_PATH" ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh[*]} "$@"
+      ZONE_NAME="$ZONE_NAME" ZONE_DOMAIN_NAME="$ZONE_DOMAIN_NAME" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" AUTH_PATH="$AUTH_PATH" ONEZONE_CONFIG_DIR="$ONEZONE_CONFIG_DIR" ${docker_compose_sh[*]} "$@"
     }
   fi
   
@@ -191,13 +196,13 @@ handle_oneprovider() {
 
   if [[ $DEBUG -eq 1 ]]; then
     docker_compose_sh_local() {
-      echo GEO_LATITUDE="$GEO_LATITUDE" GEO_LONGITUDE="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
+      echo PROVIDER_NAME="$PROVIDER_NAME" GEO_LATITUDE="$GEO_LATITUDE" GEO_LONGITUDE="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
     }
     docker_compose_sh_local="echo ${docker_compose_sh_local}"
     print_docker_compose_file "$compose_file_name"
   else
     docker_compose_sh_local() {
-      GEO_LATITUDE="$GEO_LATITUDE" GEO_LONGITUDE="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
+      PROVIDER_NAME="$PROVIDER_NAME" GEO_LATITUDE="$GEO_LATITUDE" GEO_LONGITUDE="$GEO_LONGITUDE" PROVIDER_FQDN="$PROVIDER_FQDN" ZONE_FQDN="$ZONE_FQDN" ONEPROVIDER_CONFIG_DIR="$ONEPROVIDER_CONFIG_DIR" ONEPROVIDER_DATA_DIR="$oneprovider_data_dir" ${docker_compose_sh[*]} "$@"
     }
   fi
 
@@ -226,6 +231,11 @@ main() {
           -h|-\?|--help)   # Call a "usage" function to display a synopsis, then exit.
               usage
               exit 0
+              ;;
+          --name)
+              ZONE_NAME="$2"
+              PROVIDER_NAME="$2"
+              shift
               ;;
           --zone)
               service="onezone"
