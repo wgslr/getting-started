@@ -17,6 +17,8 @@ services:
         # Onepanel
         #- "${OZ_PRIV_KEY_PATH}:/volumes/persistence/etc/oz_panel/certs/key.pem"
         #- "${OZ_CERT_PATH}:/volumes/persistence/etc/oz_panel/certs/cert.pem"
+        #- "${OZ_CACERT_PATH}:/volumes/persistence/etc/oz_panel/cacerts/cacert.pem"
+        #- "${OZ_CACERT_PATH}:/volumes/persistence/etc/oz_worker/cacerts/cacert.pem"
     networks:
       - scenario2
 

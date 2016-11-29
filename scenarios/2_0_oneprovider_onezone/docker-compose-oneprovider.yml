@@ -15,7 +15,8 @@ services:
         # Oneprovider
         #- "${OP_PRIV_KEY_PATH}:/volumes/persistence/etc/op_panel/certs/key.pem"
         #- "${OP_CERT_PATH}:/volumes/persistence/etc/op_panel/certs/cert.pem"
-        #- "${OP_CACERT_PATH}:/volumes/persistence/etc/op_panel/certs/cacert.pem"
+        #- "${OP_CACERT_PATH}:/volumes/persistence/etc/op_panel/cacerts/cacert.pem"
+        #- "${OP_CACERT_PATH}:/volumes/persistence/etc/oz_worker/cacerts/cacert.pem"
     networks:
       - scenario2
     environment:

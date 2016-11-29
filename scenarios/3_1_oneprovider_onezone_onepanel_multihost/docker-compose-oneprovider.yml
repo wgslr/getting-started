@@ -8,16 +8,15 @@ services:
     container_name: oneprovider-1
     volumes:
         - "/var/run/docker.sock:/var/run/docker.sock"
+        # configuration persistence
         - "${ONEPROVIDER_CONFIG_DIR}:/volumes/persistence"
+        # data persistence
         - "${ONEPROVIDER_DATA_DIR}:/volumes/storage"
         # Oneprovider
-        #- "${OP_WEB_PEM_PATH}":/etc/op_worker/certs/onedataServerWeb.pem
-        #- "${OP_FUSE_PEM_PATH}":/etc/op_worker/certs/onedataServerFuse.pem
-        #- "${OP_FUSE_CA_PEM_PATH}":/etc/cacerts/grpCA.pem
-        # Onepanel
         #- "${OP_PRIV_KEY_PATH}:/volumes/persistence/etc/op_panel/certs/key.pem"
         #- "${OP_CERT_PATH}:/volumes/persistence/etc/op_panel/certs/cert.pem"
-        #- "${OP_CACERT_PATH}:/volumes/persistence/etc/op_panel/certs/cacert.pem"
+        #- "${OP_CACERT_PATH}:/volumes/persistence/etc/op_panel/cacerts/cacert.pem"
+        #- "${OP_CACERT_PATH}:/volumes/persistence/etc/op_worker/cacerts/cacert.pem"
     ports:
       - "53:53"
       - "53:53/udp"
