@@ -178,7 +178,7 @@ both running on different machines.
  └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─           └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
 ~~~
 
-The configuration templates are placed in the [docker-compose-oneprovider.yml](scenarios/3_0_oneprovider_onezone/docker-compose-oneprovider.yml) and [docker-compose-onezone.yml](scenarios/3_0_oneprovider_onezone/docker-compose-onezone.yml) files respectively. Oneprovider and Onezone will be automatically installed based on these configuration files.
+The configuration templates are placed in the [docker-compose-oneprovider.yml](scenarios/3_0_oneprovider_onezone_multihost/docker-compose-oneprovider.yml) and [docker-compose-onezone.yml](scenarios/3_0_oneprovider_onezone_multihost/docker-compose-onezone.yml) files respectively. Oneprovider and Onezone will be automatically installed based on these configuration files.
 
 You need to make sure that [those ports](#[ports]) are accessible between these machines.
 
