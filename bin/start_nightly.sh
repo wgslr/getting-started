@@ -8,10 +8,14 @@ start_onezone() {
   local name=$1
   local fqdn=$2
   echo "Starting Onezone"
+  # Uncomment certificate volumes
+  sed -i "/OZ_PRIV_KEY_PATH/s/^\(\s*\)#/\1/" docker-compose-onezone.yml
+  sed -i "/OZ_CERT_PATH/s/^\(\s*\)#/\1/" docker-compose-onezone.yml
+  sed -i "/OZ_CACERT_PATH/s/^\(\s*\)#/\1/" docker-compose-onezone.yml
   OZ_PRIV_KEY_PATH="/volumes/letsencrypt/etc/live/${fqdn}/privkey.pem" \
   OZ_CERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/cert.pem" \
   OZ_CACERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/chain.pem" \
-  ./run_onedata.sh --zone --name "$1"
+  ./run_onedata.sh --zone --name "$1" --with-clean
 }
 
 start_oneprovider() {
@@ -19,10 +23,14 @@ start_oneprovider() {
   local fqdn=$2
   local onezone_address=$3
   echo "Starting Oneprovider"
+  # Uncomment certificate volumes
+  sed -i "/OP_PRIV_KEY_PATH/s/^\(\s*\)#/\1/" docker-compose-oneprovider.yml
+  sed -i "/OP_CERT_PATH/s/^\(\s*\)#/\1/" docker-compose-oneprovider.yml
+  sed -i "/OP_CACERT_PATH/s/^\(\s*\)#/\1/" docker-compose-oneprovider.yml
   OP_PRIV_KEY_PATH="/volumes/letsencrypt/etc/live/${MY_DOMAIN}/privkey.pem" \
   OP_CERT_PATH="/volumes/letsencrypt/etc/live/${MY_DOMAIN}/cert.pem" \
   OP_CACERT_PATH="/volumes/letsencrypt/etc/live/${MY_DOMAIN}/chain.pem" \
-  ./run_onedata.sh --provider --name "$name" --zone-fqdn "$onezone_address"  --set-lat-long --provider-fqdn "$fqdn"
+  ./run_onedata.sh --provider --name "$name" --zone-fqdn "$onezone_address"  --set-lat-long --provider-fqdn "$fqdn" --with-clean 
 }
 
 start_oneclient() {
@@ -67,7 +75,7 @@ main() {
               op_for_oc="$2"
               shift
               ;;
-           -?*)
+          -?*)
               printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
               exit 1
               ;;

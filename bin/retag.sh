@@ -2,12 +2,23 @@
 
 # This script is used to update tags in compose files across scenarios and to publish images
 
+docker_tag_exists() {
+    local name="$1"
+    local tag="$2"
+    local token=$(curl -s "https://auth.docker.io/token?service=registry.docker.io&scope=repository:${name}:pull" | cut -d ',' -f 1  | cut -d ":" -f 2 | tr -d '"')
+    curl -s -H "Authorization: Bearer $token" -H "Accept: application/json"  "https://index.docker.io/v2/$name/manifests/$tag" | grep -v 'MANIFEST_UNKNOWN'
+}
+
 publish() {
-	local from="$1"
-	local to="$2"
-	docker pull "$from"
-	docker tag "$from" "$to"
-	docker push "$to"
+  local from="$1"
+  local to="$2"
+  if [[ $(docker_tag_exists "${to%%:*}" "${to##*:}") != "" ]]; then 
+    echo "INFO: Docker image $to exists in docker hub, skipping docker pull and push"
+  else
+    docker pull "$from"
+    docker tag "$from" "$to"
+    docker push "$to"
+  fi
 }
 
 retag() {
@@ -86,7 +97,6 @@ main() {
     [[ ! -z "$OC_FROM" ]] && OC_TO="onedata/oneclient:nightly-$OC_FROM" && OC_FROM="docker.onedata.org/oneclient:$OC_FROM" 
   fi 
 
-  echo "$OC_FROM"
   [[ ! -z "$OZ_FROM" ]] && [[ ! -z "$OZ_TO" ]] && publish "$OZ_FROM" "$OZ_TO"
   [[ ! -z "$OP_FROM" ]] && [[ ! -z "$OP_TO" ]] && publish "$OP_FROM" "$OP_TO"
   [[ ! -z "$OC_FROM" ]] && [[ ! -z "$OC_TO" ]] && publish "$OC_FROM" "$OC_TO"
