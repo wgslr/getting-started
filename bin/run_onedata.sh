@@ -3,7 +3,6 @@
 REPO_ROOT="${PWD//getting-started*}getting-started/"
 SPACES_DIR="${PWD}/myspaces/"
 AUTH_CONF="bin/config/auth.conf"
-AUTH_PATH="${REPO_ROOT}${AUTH_CONF}"
 ZONE_COMPOSE_FILE="docker-compose-onezone.yml"
 PROVIDER_COMPOSE_FILE="docker-compose-oneprovider.yml"
 
@@ -31,6 +30,7 @@ set_defaults_if_not_defined_in_env() {
    [[ -z ${ONEPROVIDER_DATA_DIR+x} ]] && ONEPROVIDER_DATA_DIR="${PWD}/oneprovider_data/"
    [[ -z ${ONEPROVIDER_CONFIG_DIR+x} ]] && ONEPROVIDER_CONFIG_DIR="${PWD}/config_oneprovider/"
    [[ -z ${ONEZONE_CONFIG_DIR+x} ]] && ONEZONE_CONFIG_DIR="${PWD}/config_onezone/"
+   [[ -z ${AUTH_PATH+x} ]] && AUTH_PATH="${REPO_ROOT}${AUTH_CONF}"
 
    # Default names for provider and zone
    [[ -z ${ZONE_NAME+x} ]] && ZONE_NAME="Example Zone"
