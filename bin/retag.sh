@@ -12,7 +12,8 @@ docker_tag_exists() {
 publish() {
   local from="$1"
   local to="$2"
-  if [[ $(docker_tag_exists "${to%%:*}" "${to##*:}") != "" ]]; then 
+  local shold_we_care_if_image_already_on_docker_hub="$3"
+  if [[ "$shold_we_care_if_image_already_on_docker_hub" -eq "0"  ]] && [[ $(docker_tag_exists "${to%%:*}" "${to##*:}") != "" ]]; then 
     echo "INFO: Docker image $to exists in docker hub, skipping docker pull and push"
   else
     docker pull "$from"
@@ -44,6 +45,7 @@ main() {
     usage
   fi
 
+  OVERWRITE_DOCKER_IMAGE=0
   while (( $# )); do
       case $1 in
           -h|-\?|--help)   # Call a "usage" function to display a synopsis, then exit.
@@ -80,7 +82,10 @@ main() {
           --nn)
               NIGHTLY=1
               ;;
-           -?*)
+          --overwrite)
+              OVERWRITE_DOCKER_IMAGE=1
+              ;;
+          -?*)
               printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
               exit 1
               ;;
@@ -97,9 +102,9 @@ main() {
     [[ ! -z "$OC_FROM" ]] && OC_TO="onedata/oneclient:nightly-$OC_FROM" && OC_FROM="docker.onedata.org/oneclient:$OC_FROM" 
   fi 
 
-  [[ ! -z "$OZ_FROM" ]] && [[ ! -z "$OZ_TO" ]] && publish "$OZ_FROM" "$OZ_TO"
-  [[ ! -z "$OP_FROM" ]] && [[ ! -z "$OP_TO" ]] && publish "$OP_FROM" "$OP_TO"
-  [[ ! -z "$OC_FROM" ]] && [[ ! -z "$OC_TO" ]] && publish "$OC_FROM" "$OC_TO"
+  [[ ! -z "$OZ_FROM" ]] && [[ ! -z "$OZ_TO" ]] && publish "$OZ_FROM" "$OZ_TO" "$OVERWRITE_DOCKER_IMAGE"
+  [[ ! -z "$OP_FROM" ]] && [[ ! -z "$OP_TO" ]] && publish "$OP_FROM" "$OP_TO" "$OVERWRITE_DOCKER_IMAGE"
+  [[ ! -z "$OC_FROM" ]] && [[ ! -z "$OC_TO" ]] && publish "$OC_FROM" "$OC_TO" "$OVERWRITE_DOCKER_IMAGE"
 
   if [[ $RETAG -eq 1 ]]; then
     [[ ! -z "$OZ_TO" ]] && retag onezone "$OZ_TO"
