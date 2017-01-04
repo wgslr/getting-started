@@ -33,7 +33,7 @@ start_oneprovider() {
   OP_CERT_PATH="/volumes/letsencrypt/etc/live/${MY_DOMAIN}/cert.pem" \
   OP_CACERT_PATH="/volumes/letsencrypt/etc/live/${MY_DOMAIN}/chain.pem" \
   ./run_onedata.sh --provider --name "$name" --zone-fqdn "$onezone_address"  --set-lat-long --provider-fqdn "$fqdn" --with-clean --detach
-  sh -c 'docker logs oneprovider-1 | { sed "/^Congratulations/ q" && kill $$ ;}'
+  sh -c 'docker logs -f oneprovider-1 | { sed "/^Congratulations/ q" && kill $$ ;}'
   pkill -f "docker logs -f oneprovider-1"
 }
 
