@@ -15,7 +15,8 @@ start_onezone() {
   OZ_PRIV_KEY_PATH="/volumes/letsencrypt/etc/live/${fqdn}/privkey.pem" \
   OZ_CERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/cert.pem" \
   OZ_CACERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/chain.pem" \
-  ./run_onedata.sh --zone --name "$1" --with-clean
+  ./run_onedata.sh --zone --name "a" --with-clean --detach
+  sh -c 'docker logs onezone-1  | tail -f -n +0 --pid=$$  | { sed "/has been successfully started./ q" && kill $$ ;}'
 }
 
 start_oneprovider() {
@@ -30,7 +31,8 @@ start_oneprovider() {
   OP_PRIV_KEY_PATH="/volumes/letsencrypt/etc/live/${MY_DOMAIN}/privkey.pem" \
   OP_CERT_PATH="/volumes/letsencrypt/etc/live/${MY_DOMAIN}/cert.pem" \
   OP_CACERT_PATH="/volumes/letsencrypt/etc/live/${MY_DOMAIN}/chain.pem" \
-  ./run_onedata.sh --provider --name "$name" --zone-fqdn "$onezone_address"  --set-lat-long --provider-fqdn "$fqdn" --with-clean 
+  ./run_onedata.sh --provider --name "$name" --zone-fqdn "$onezone_address"  --set-lat-long --provider-fqdn "$fqdn" --with-clean --detach
+  sh -c 'docker logs oneprovider-1  | tail -f -n +0 --pid=$$  | { sed "/has been successfully started./ q" && kill $$ ;}'
 }
 
 start_oneclient() {
