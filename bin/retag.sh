@@ -105,8 +105,8 @@ main() {
     [[ ! -z "$OZ_TO" ]] && retag onezone "$OZ_TO"
     [[ ! -z "$OP_TO" ]] && retag oneprovider "$OP_TO"
     [[ ! -z "$OC_TO" ]] && retag oneclient "$OC_TO"
-
   fi
+  exit 0
 }
 
 main "$@"
