@@ -12,11 +12,16 @@ start_onezone() {
   sed -i "/OZ_PRIV_KEY_PATH/s/^\(\s*\)#/\1/" docker-compose-onezone.yml
   sed -i "/OZ_CERT_PATH/s/^\(\s*\)#/\1/" docker-compose-onezone.yml
   sed -i "/OZ_CACERT_PATH/s/^\(\s*\)#/\1/" docker-compose-onezone.yml
-  OZ_PRIV_KEY_PATH="/volumes/letsencrypt/etc/live/${fqdn}/privkey.pem" \
-  OZ_CERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/cert.pem" \
-  OZ_CACERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/chain.pem" \
-  nohup ./run_onedata.sh --zone --name "$name" --with-clean &> onezone-nightly.log &
-  timeout 300 sed " / Congratulations/ g" <(tail -f -n +0  onezone-nightly.log)
+  timeout 300 sed " / Congratulations/ q" <( \
+    OZ_PRIV_KEY_PATH="/volumes/letsencrypt/etc/live/${fqdn}/privkey.pem" \
+    OZ_CERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/cert.pem" \
+    OZ_CACERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/chain.pem" \
+    ./run_onedata.sh --zone --name "$name" --with-clean &
+  )
+  #timeout 300 sh -c 'tail -n +0 -F --pid=$$ onezone-nightly.log | { sed "/ Congratulations/ q" && kill $$ ;}' 
+  #timeout 300 sed " / Congratulations/ q" <(tail -f -n +0  onezone-nightly.log)
+  #timeout 300 sed "/Starting oz_panel/ q" <(tail -f -n +0  onezone-nightly.log)
+  echo "Onezone Deployment was successful!"
 }
 
 start_oneprovider() {
@@ -28,11 +33,13 @@ start_oneprovider() {
   sed -i "/OP_PRIV_KEY_PATH/s/^\(\s*\)#/\1/" docker-compose-oneprovider.yml
   sed -i "/OP_CERT_PATH/s/^\(\s*\)#/\1/" docker-compose-oneprovider.yml
   sed -i "/OP_CACERT_PATH/s/^\(\s*\)#/\1/" docker-compose-oneprovider.yml
-  OP_PRIV_KEY_PATH="/volumes/letsencrypt/etc/live/${fqdn}/privkey.pem" \
-  OP_CERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/cert.pem" \
-  OP_CACERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/chain.pem" \
-  nohup ./run_onedata.sh --provider --name "$name" --zone-fqdn "$onezone_address"  --set-lat-long --provider-fqdn "$fqdn" --with-clean &> oneprovider-nightly.log &
-  timeout 300 sed " / Congratulations/ g" <(tail -f -n +0  oneprovider-nightly.log)
+  timeout 300 sed " / Congratulations/ q" <( \
+    OP_PRIV_KEY_PATH="/volumes/letsencrypt/etc/live/${fqdn}/privkey.pem" \
+    OP_CERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/cert.pem" \
+    OP_CACERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/chain.pem" \
+   ./run_onedata.sh --provider --name "$name" --zone-fqdn "$onezone_address"  --set-lat-long --provider-fqdn "$fqdn" --with-clean &
+  )
+  echo "Oneprovider Deployment was successful!"
 }
 
 start_oneclient() {
