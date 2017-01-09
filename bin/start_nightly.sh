@@ -16,7 +16,7 @@ start_onezone() {
   OZ_CERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/cert.pem" \
   OZ_CACERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/chain.pem" \
   nohup ./run_onedata.sh --zone --name "$name" --with-clean &> onezone-nightly.log &
-  sh -c 'tail -n +0 -f onezone-nightly.log | { sed "/ Congratulations/ q" && kill $$ ;}'
+  timeout 300 sed " / Congratulations/ g" <(tail -f -n +0  onezone-nightly.log)
 }
 
 start_oneprovider() {
@@ -31,8 +31,8 @@ start_oneprovider() {
   OP_PRIV_KEY_PATH="/volumes/letsencrypt/etc/live/${fqdn}/privkey.pem" \
   OP_CERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/cert.pem" \
   OP_CACERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/chain.pem" \
-  ./run_onedata.sh --provider --name "$name" --zone-fqdn "$onezone_address"  --set-lat-long --provider-fqdn "$fqdn" --with-clean &> oneprovider-nightly.log &
-  sh -c 'tail -n +0 -f oneprovider-nightly.log | { sed "/ Congratulations/ q" && kill $$ ;}'
+  nohup ./run_onedata.sh --provider --name "$name" --zone-fqdn "$onezone_address"  --set-lat-long --provider-fqdn "$fqdn" --with-clean &> oneprovider-nightly.log &
+  timeout 300 sed " / Congratulations/ g" <(tail -f -n +0  oneprovider-nightly.log)
 }
 
 start_oneclient() {
