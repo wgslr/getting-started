@@ -57,8 +57,8 @@ main() {
     usage
   fi
 
-  default_onezone="in1-mo-onedata.tk"
-  default_oneprovider="in2-mo-onedata.tk"
+  default_onezone="onezone1-dev-onedata.tk"
+  default_oneprovider="oneprovider1-dev-onedata.tk"
   while (( $# )); do
       case $1 in
           -h|-\?|--help)   # Call a "usage" function to display a synopsis, then exit.
