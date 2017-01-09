@@ -15,9 +15,8 @@ start_onezone() {
   OZ_PRIV_KEY_PATH="/volumes/letsencrypt/etc/live/${fqdn}/privkey.pem" \
   OZ_CERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/cert.pem" \
   OZ_CACERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/chain.pem" \
-  ./run_onedata.sh --zone --name "a" --with-clean --detach
-  sh -c 'docker logs -f onezone-1 | { sed "/^Congratulations/ q" && kill $$ ;}'
-  pkill -f "docker logs -f onezone-1"
+  nohup ./run_onedata.sh --zone --name "$name" --with-clean &> onezone-nightly.log &
+  sh -c 'tail -n +0 -f onezone-nightly.log | { sed "/ Congratulations/ q" && kill $$ ;}'
 }
 
 start_oneprovider() {
@@ -32,9 +31,8 @@ start_oneprovider() {
   OP_PRIV_KEY_PATH="/volumes/letsencrypt/etc/live/${fqdn}/privkey.pem" \
   OP_CERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/cert.pem" \
   OP_CACERT_PATH="/volumes/letsencrypt/etc/live/${fqdn}/chain.pem" \
-  ./run_onedata.sh --provider --name "$name" --zone-fqdn "$onezone_address"  --set-lat-long --provider-fqdn "$fqdn" --with-clean --detach
-  sh -c 'docker logs -f oneprovider-1 | { sed "/^Congratulations/ q" && kill $$ ;}'
-  pkill -f "docker logs -f oneprovider-1"
+  ./run_onedata.sh --provider --name "$name" --zone-fqdn "$onezone_address"  --set-lat-long --provider-fqdn "$fqdn" --with-clean &> oneprovider-nightly.log &
+  sh -c 'tail -n +0 -f oneprovider-nightly.log | { sed "/ Congratulations/ q" && kill $$ ;}'
 }
 
 start_oneclient() {
