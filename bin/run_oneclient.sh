@@ -32,7 +32,6 @@ Options:
 main() {
   local token
   local provider
-  local mount_point
   local compose_up_opts=""
 
   if [ ! -z "$ONECLIENT_ACCESS_TOKEN" ]; then
@@ -55,10 +54,6 @@ main() {
               ;;
           -p | --provider)
               provider=$2
-              shift
-              ;;
-          -m | --mount-point)
-              mount_point=$2
               shift
               ;;
           -d | --detach)
