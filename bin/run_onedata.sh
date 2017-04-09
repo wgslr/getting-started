@@ -1,7 +1,6 @@
 #!/bin/bash
 
 REPO_ROOT="${PWD//getting-started*}getting-started/"
-SPACES_DIR="${PWD}/myspaces/"
 AUTH_CONF="bin/config/auth.conf"
 ZONE_COMPOSE_FILE="docker-compose-onezone.yml"
 PROVIDER_COMPOSE_FILE="docker-compose-oneprovider.yml"
