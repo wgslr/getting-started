@@ -69,7 +69,7 @@ main() {
               exit 1
               ;;
           *)
-              die "no option ${flag}"
+              die "no option $1"
               ;;
       esac
       shift
