@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   node1.oneprovider.localhost:
-    image: onedata/oneprovider:3.0.0-rc14
+    image: docker.onedata.org/oneprovider:ID-b46a21cba7
     hostname: node1.oneprovider.localhost
     # dns: 8.8.8.8 # uncomment if container can't ping any domain
     container_name: oneprovider-1
