@@ -34,9 +34,33 @@ retag() {
 	find . -type f -iname "docker-compose-*.yml" -exec grep -aHb --color -E "image:\s+$full_name"  {} \;
 }
 
-usage() {
-	  echo "TODO"
-	  exit 0
+usage() { cat <<EOF
+Usage: ${0##*/}  [-h] [--nn] [--overwrite] [--oz <onezone source tag or image+tag>] [--oz-to <onezone destination tag or image+tag>]
+                 [--op <onezone source tag or image+tag>] [--op-to <onezone destination tag or image+tag>]
+                 [--oc <oneclient source tag or image+tag>] [--oc-to <oneclient destination tag or image+tag>]
+
+Example usage:
+${0##*/} -nn --op "VFS-1" --oc "VFS-2" --retag --overwrite
+${0##*/} --op "docker.onedata.org/oneprovider:VFS-1" --op-to "onedata/oneprovider:nightly-VFS-1" --oc "docker.onedata.org/oneclient:VFS-2" --oc-to "onedata/oneclient:nightly-VFS-2" --retag --overwrite
+
+Those two commands does the same thing: publish and image "docker.onedata.org/oneprovider:VFS-1" to docker hub as "onedata/oneprovider:nightly-VFS-1" and
+and image "docker.onedata.org/oneclient:VFS-2" as "donedata/oneclient:nightly-VFS-2"
+
+Options:
+  -h,--help         print this help message
+  --nn              this flag allows to specify only tag in flags like --oz and --oz-to,
+                    it download images of format "docker.onedata.org/onezone:$OZ_FROM"
+                    and pushes them to "onedata/onezone:nightly-$OZ_FROM"
+                    Think of this flag as a shourtcut.
+  --oz              tag or a full domain name and tag of a source Onezone image
+  --oz-to           tag or a full domain name and tag of a destination Onezone image
+  --op              tag or a full domain name and tag of a source Oneprovider image
+  --op-to           tag or a full domain name and tag of a destination Oneprovider image
+  --oc              tag or a full domain name and tag of a source Oneclient image
+  --oc-to           tag or a full domain name and tag of a destination Oneclient image
+  --retag           replace all old tags in all docker compose files in getting started with a new tag
+  --overwrite       proceed even if image with a tag exists in the docker hub
+EOF
 }
 
 main() {
