@@ -40,7 +40,7 @@ Usage: ${0##*/}  [-h] [--nn] [--overwrite] [--oz <onezone source tag or image+ta
                  [--oc <oneclient source tag or image+tag>] [--oc-to <oneclient destination tag or image+tag>]
 
 Example usage:
-${0##*/} -nn --op "VFS-1" --oc "VFS-2" --retag --overwrite
+${0##*/} --nn --op "VFS-1" --oc "VFS-2" --retag --overwrite
 ${0##*/} --op "docker.onedata.org/oneprovider:VFS-1" --op-to "onedata/oneprovider:nightly-VFS-1" --oc "docker.onedata.org/oneclient:VFS-2" --oc-to "onedata/oneclient:nightly-VFS-2" --retag --overwrite
 
 Those two commands does the same thing: publish and image "docker.onedata.org/oneprovider:VFS-1" to docker hub as "onedata/oneprovider:nightly-VFS-1" and
