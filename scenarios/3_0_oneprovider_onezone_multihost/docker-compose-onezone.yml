@@ -36,6 +36,7 @@ services:
     environment:
       #ONEPANEL_DEBUG_MODE: "true" # prevents container exit on configuration error
       ONEPANEL_BATCH_MODE: "true"
+      ONEPANEL_LOG_LEVEL: "none" # prints logs to stdout (possible values: none, debug, info, error), by default set to info
       ONEZONE_CONFIG: |
         cluster:
           domainName: "onezone.localhost"
