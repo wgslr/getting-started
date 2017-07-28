@@ -93,7 +93,7 @@ main() {
   git tag "$tag"
   git push --tags
 
-  hub pull-request -m "Releasing Onedata $tag. Updated docker image tags to $tags."
+  hub pull-request -m "Releasing Onedata $tag. Updated docker image tags to $tag."
 
   exit 0
 }
