@@ -1,0 +1,36 @@
+version: '2.0'
+
+services:
+  $FQDN:
+    image: onedata/onezone:17.06.0-rc2
+    container_name: onezone-1
+    hostname: $FQDN
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  #    - "/volumes/persistence:/volumes/persistence"
+    ports:
+      - "53:53"
+      - "53:53/udp"
+      - "443:443"
+      - "80:80"
+      - "5555:5555"
+      - "5556:5556"
+      - "6665:6665"
+      - "6666:6666"
+      - "7443:7443"
+      - "8443:8443"
+      - "8876:8876"
+      - "8877:8877"
+      - "9443:9443"
+    extra_hosts:
+      - "onedata00.cloud.plgrid.pl:10.6.224.168"
+      - "onedata01.cloud.plgrid.pl:10.6.224.169"
+      - "zonedb01.cloud.plgrid.pl:10.6.224.187"
+      - "zonedb02.cloud.plgrid.pl:10.6.224.189"
+      - "$FQDN:127.0.0.1"
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1400
