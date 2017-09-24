@@ -1,0 +1,20 @@
+version: '2.0'
+
+services:
+  onezone:
+    image: onedata/onezone:17.06.0-rc2
+    container_name: onezone-1
+    network_mode: host
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "$PWD/persistence:/volumes/persistence"
+      # Certificates
+      - "$PWD/letsencrypt/etc/live/datahub.egi.eu/privkey.pem:/etc/oz_panel/certs/key.pem"
+      - "$PWD/letsencrypt/etc/live/datahub.egi.eu/cert.pem:/etc/oz_panel/certs/cert.pem"
+      - "$PWD/letsencrypt/etc/live/datahub.egi.eu/chain.pem:/etc/oz_panel/cacerts/cacert.pem"
+      - "$PWD/letsencrypt/etc/live/datahub.egi.eu/chain.pem:/etc/oz_worker/cacerts/cacert.pem"
+      # Configs
+      - "$PWD/configs/auth.config:/var/lib/oz_worker/auth.config"
+      - "$PWD/configs/dns.config:/var/lib/oz_worker/dns.config"
+      # Utils
+      - "$PWD/configs/brand-logo.svg:/var/lib/oz_worker/gui_static/assets/images/brand-logo.svg"

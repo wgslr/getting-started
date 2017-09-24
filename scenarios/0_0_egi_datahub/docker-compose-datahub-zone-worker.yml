@@ -1,44 +1,10 @@
 version: '2.0'
 
 services:
-  $FQDN:
-    image: onedata/onezone:17.06.0-rc2
-    container_name: onezone-1
-    network_mode: host
-    hostname: $FQDN
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-  #    - "/volumes/persistence:/volumes/persistence"
-      - "/volumes/letsencrypt/etc/live/datahub.egi.eu/privkey.pem:/etc/oz_panel/certs/key.pem"
-      - "/volumes/letsencrypt/etc/live/datahub.egi.eu/cert.pem:/etc/oz_panel/certs/cert.pem"
-      - "/volumes/letsencrypt/etc/live/datahub.egi.eu/chain.pem:/etc/oz_panel/cacerts/cacert.pem"
-      - "/volumes/letsencrypt/etc/live/datahub.egi.eu/chain.pem:/etc/oz_worker/cacerts/cacert.pem"
-      # Configs
-      - "/volumes/configs/oz_worker/auth.config:/var/lib/oz_worker/auth.config"
-      - "/volumes/configs/oz_worker/dns.config:/var/lib/oz_worker/dns.config"
-      # Utils
-      - "/volumes/configs/oz_worker/brand-logo.svg:/var/lib/oz_worker/gui_static/assets/images/brand-logo.svg"
-
-    ports:
-      - "53:53"
-      - "53:53/udp"
-      - "443:443"
-      - "80:80"
-      - "5555:5555"
-      - "5556:5556"
-      - "6665:6665"
-      - "6666:6666"
-      - "7443:7443"
-      - "8443:8443"
-      - "8876:8876"
-      - "8877:8877"
-      - "9443:9443"
-    extra_hosts:
-      - "onedata00.cloud.plgrid.pl:10.6.224.168"
-      - "onedata01.cloud.plgrid.pl:10.6.224.169"
-      - "zonedb01.cloud.plgrid.pl:10.6.224.187"
-      - "zonedb02.cloud.plgrid.pl:10.6.224.189"
-      - "$FQDN:127.0.0.1"
+  onezone-worker:
+    extends:
+      file: docker-compose-datahub-zone-base.yml
+      service: onezone
 
 networks:
   default:
