@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   onezone:
-    image: onedata/onezone:17.06.0-rc2
+    image: onedata/onezone:17.06.0-rc3
     container_name: onezone-1
     network_mode: host
     volumes:
