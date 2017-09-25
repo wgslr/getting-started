@@ -24,6 +24,7 @@ purge() {
     stop
     DOMAIN_NAME=$DOMAIN_NAME FQDN=$FQDN docker-compose --project-name $PROJECT_NAME -f $YAML_FILE down
     DOMAIN_NAME=$DOMAIN_NAME FQDN=$FQDN docker-compose --project-name $PROJECT_NAME -f $YAML_FILE rm -fsv
+    sudo rm -rf $PWD/persistence 
     start
 }
 
