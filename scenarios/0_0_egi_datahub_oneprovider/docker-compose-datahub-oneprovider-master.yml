@@ -31,6 +31,8 @@ services:
             nodes:
               - "n1"
           databases:
+            serverQuota: 76800
+            bucketQuota: 30000
             nodes:
               - "n2"
               - "n3"
