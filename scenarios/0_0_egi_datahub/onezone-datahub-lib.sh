@@ -16,7 +16,7 @@ restart() {
     start
 }
 restart-and-clean() {
-    stop
+    purge
     start
 }
 
