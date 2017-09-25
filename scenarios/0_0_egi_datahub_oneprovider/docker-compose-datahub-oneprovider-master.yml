@@ -35,7 +35,7 @@ services:
               - "n2"
               - "n3"
           storages:
-            NFS:
+            Sentinel2:
               type: "posix"
               mountPoint: "/data"
               readonly: true
