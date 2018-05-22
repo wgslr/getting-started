@@ -121,12 +121,12 @@ clean() {
   [[ $(git status --porcelain "$PROVIDER_COMPOSE_FILE") != ""  ]] && echo "Warrning the file $PROVIDER_COMPOSE_FILE has changed, the cleaning procedure may not work!"
 
   echo "Removing provider and/or zone config dirs..."
-  sudo rm -rf "${ONEZONE_CONFIG_DIR}"
-  sudo rm -rf "${ONEPROVIDER_CONFIG_DIR}"
+  sudo rm -rf "${ONEZONE_CONFIG_DIR}/*"
+  sudo rm -rf "${ONEPROVIDER_CONFIG_DIR}/*"
 
 
   echo "Removing provider data dir..."
-  sudo rm -rf "${ONEPROVIDER_DATA_DIR}"
+  sudo rm -rf "${ONEPROVIDER_DATA_DIR}/*"
 
   echo "Removing Onedata containers..."
   if (docker rm -vf 'onezone-1' 2>/dev/null) ; then
